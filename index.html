@@ -13,408 +13,293 @@
   --yellow:#ffd32a;--purple:#a855f7;
   --text:#e8f0fe;--muted:#5a7a9a;--soft:#8faabf;
   --mono:'JetBrains Mono',monospace;--head:'Syne',sans-serif;--body:'Lato',sans-serif;
-  --radius-sm:8px;--radius-md:12px;--radius-lg:16px;
-  --gap:20px;
 }
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden}
-
 body::before{
-  content:'';position:fixed;inset:0;z-index:0;
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
     radial-gradient(ellipse 80% 50% at 20% 10%,rgba(0,229,255,0.04) 0%,transparent 60%),
     radial-gradient(ellipse 60% 40% at 80% 90%,rgba(255,107,53,0.04) 0%,transparent 60%),
     repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(0,229,255,0.025) 39px,rgba(0,229,255,0.025) 40px),
     repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(0,229,255,0.025) 39px,rgba(0,229,255,0.025) 40px);
-  pointer-events:none;
 }
-
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:#060a12}
 ::-webkit-scrollbar-thumb{background:#1a2d45;border-radius:3px}
 
-/* ── HEADER ── */
+/* ══ HEADER ══ */
 header{
   position:sticky;top:0;z-index:100;
   border-bottom:1px solid var(--border);
-  background:rgba(6,10,18,0.95);
+  background:rgba(6,10,18,0.96);
   backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  padding:12px 20px;
+  padding:11px 20px;
   display:flex;align-items:center;justify-content:space-between;gap:10px;
 }
 .hlogo{display:flex;align-items:center;gap:11px;min-width:0}
-.hlogo-icon{
-  width:38px;height:38px;min-width:38px;border-radius:9px;
-  background:linear-gradient(135deg,var(--accent),var(--purple));
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--mono);font-weight:700;font-size:14px;color:#000;
-  box-shadow:0 0 18px rgba(0,229,255,0.3);
-}
+.hlogo-icon{width:36px;height:36px;min-width:36px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:13px;color:#000;box-shadow:0 0 16px rgba(0,229,255,0.3);flex-shrink:0}
 .hlogo-text h1{font-family:var(--head);font-size:13px;font-weight:800;color:var(--accent);letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
 .hlogo-text p{font-size:10px;color:var(--muted);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hbadges{display:flex;gap:6px;flex-shrink:0}
-.badge{
-  padding:3px 9px;border-radius:20px;font-size:9px;font-family:var(--mono);font-weight:500;
-  border:1px solid;letter-spacing:0.5px;text-transform:uppercase;white-space:nowrap;
-}
+.badge{padding:3px 9px;border-radius:20px;font-size:9px;font-family:var(--mono);font-weight:500;border:1px solid;letter-spacing:0.5px;text-transform:uppercase;white-space:nowrap}
 .badge-cyan{background:rgba(0,229,255,0.08);border-color:rgba(0,229,255,0.25);color:var(--accent)}
 .badge-orange{background:rgba(255,107,53,0.08);border-color:rgba(255,107,53,0.25);color:var(--accent2)}
 .badge-green{background:rgba(0,214,143,0.08);border-color:rgba(0,214,143,0.25);color:var(--green)}
-@media(max-width:560px){
-  .badge-orange{display:none}
-  .hlogo-text p{max-width:160px}
-}
-@media(max-width:400px){
-  .badge-cyan{display:none}
-  header{padding:10px 14px}
-}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;margin-right:5px;animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,214,143,0.4)}70%{box-shadow:0 0 0 7px rgba(0,214,143,0)}100%{box-shadow:0 0 0 0 rgba(0,214,143,0)}}
+@media(max-width:560px){.badge-orange{display:none}}
+@media(max-width:420px){.badge-cyan{display:none};header{padding:10px 14px}}
 
-/* ── WRAPPER ── */
-.wrapper{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:24px 16px 60px}
-@media(min-width:768px){.wrapper{padding:28px 24px 60px}}
-@media(min-width:1100px){.wrapper{padding:32px 32px 60px}}
+/* ══ PAGE SYSTEM ══ */
+.page{position:relative;z-index:1;display:none}
+.page.active{display:block}
 
-/* ── HERO ── */
-.hero{text-align:center;padding:28px 0 22px}
-@media(min-width:768px){.hero{padding:40px 0 32px}}
-.hero-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
-.hero h2{font-family:var(--head);font-size:clamp(20px,5vw,44px);font-weight:800;line-height:1.15;margin-bottom:10px}
-.hero h2 span{color:var(--accent)}
-.hero p{font-size:13px;color:var(--soft);max-width:600px;margin:0 auto;line-height:1.7}
-@media(min-width:768px){.hero p{font-size:15px}}
+/* ════════════════════════════
+   PAGE 1 — INPUT
+════════════════════════════ */
+.input-wrap{max-width:760px;margin:0 auto;padding:32px 16px 80px}
+@media(min-width:600px){.input-wrap{padding:40px 24px 80px}}
+@media(min-width:900px){.input-wrap{padding:52px 32px 100px}}
 
-/* ── FORMULA BAR ── */
-.formula-bar{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:14px 16px;margin:20px 0;
-  display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;
-}
-@media(min-width:768px){.formula-bar{padding:18px 24px;gap:14px}}
-.formula-item{text-align:center}
-.formula-item .label{font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
-.formula-item .expr{font-family:var(--mono);font-size:11px;color:var(--text);background:rgba(0,229,255,0.05);padding:5px 10px;border-radius:6px;border:1px solid rgba(0,229,255,0.1)}
-@media(min-width:768px){.formula-item .expr{font-size:13px;padding:6px 14px}}
-.formula-sep{font-size:16px;color:var(--border);font-weight:300}
-@media(max-width:480px){
-  .formula-bar{flex-direction:column;gap:8px}
-  .formula-sep{transform:rotate(90deg);display:block;font-size:12px}
-}
+.inp-hero{text-align:center;margin-bottom:34px}
+.inp-eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:14px;background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.15);padding:5px 14px;border-radius:20px}
+.inp-hero h2{font-family:var(--head);font-size:clamp(22px,5vw,40px);font-weight:800;line-height:1.15;margin-bottom:10px}
+.inp-hero h2 span{color:var(--accent)}
+.inp-hero p{font-size:13px;color:var(--soft);max-width:500px;margin:0 auto;line-height:1.7}
+@media(min-width:600px){.inp-hero p{font-size:14px}}
 
-/* ── MOBILE TAB SWITCHER (mobile only) ── */
-.tab-switcher{
-  display:none;
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:4px;margin-bottom:16px;
-}
-@media(max-width:899px){.tab-switcher{display:flex;gap:0}}
-.tab-btn{
-  flex:1;padding:10px 8px;border:none;border-radius:9px;cursor:pointer;
-  font-family:var(--head);font-size:12px;font-weight:700;letter-spacing:0.5px;
-  background:transparent;color:var(--muted);transition:all 0.2s;
-}
-.tab-btn.active{background:rgba(0,229,255,0.12);color:var(--accent);border:1px solid rgba(0,229,255,0.2)}
+.formula-strip{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:32px}
+.fstep{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 12px}
+.fstep .fn{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.fstep .fe{font-family:var(--mono);font-size:11px;color:var(--text)}
+.fstep-arrow{color:var(--border);font-size:14px}
+@media(max-width:500px){.formula-strip{display:none}}
 
-/* ── MAIN GRID ── */
-.main-grid{display:grid;grid-template-columns:1fr;gap:20px}
-@media(min-width:900px){.main-grid{grid-template-columns:400px 1fr;gap:24px;align-items:start}}
-@media(min-width:1100px){.main-grid{grid-template-columns:420px 1fr}}
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4)}
 
-/* mobile panel hide/show */
-@media(max-width:899px){
-  .panel-inputs.hidden{display:none}
-  .panel-results.hidden{display:none}
-}
+.form-section{padding:22px 20px 18px;border-bottom:1px solid var(--border)}
+@media(min-width:600px){.form-section{padding:26px 26px 20px}}
+.form-section:last-of-type{border-bottom:none}
 
-/* ── INPUT CARD ── */
-.input-card{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
-  overflow:hidden;
-}
-@media(min-width:900px){.input-card{position:sticky;top:70px}}
-.input-card-header{
-  padding:14px 18px;border-bottom:1px solid var(--border);
-  background:linear-gradient(135deg,rgba(0,229,255,0.05),transparent);
-  display:flex;align-items:center;gap:10px;
-}
-.input-card-header .ic{
-  width:30px;height:30px;border-radius:7px;background:rgba(0,229,255,0.1);
-  border:1px solid rgba(0,229,255,0.2);display:flex;align-items:center;justify-content:center;
-  font-size:13px;flex-shrink:0;
-}
-.input-card-header h3{font-family:var(--head);font-size:13px;font-weight:700;color:var(--text)}
-.input-card-header p{font-size:10px;color:var(--muted)}
+.section-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.section-icon{width:34px;height:34px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px}
+.section-icon.blue{background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2)}
+.section-icon.orange{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.2)}
+.section-icon.purple{background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2)}
+.section-title{font-family:var(--head);font-size:14px;font-weight:700;color:var(--text)}
+.section-sub{font-size:11px;color:var(--muted);margin-top:1px}
 
-.input-body{padding:16px 18px}
-@media(min-width:768px){.input-body{padding:20px 22px}}
-.input-section-label{
-  font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--accent);
-  text-transform:uppercase;margin:14px 0 9px;
-  display:flex;align-items:center;gap:8px;
-}
-.input-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
-
-.field{margin-bottom:12px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{margin-bottom:13px}
+.field:last-child{margin-bottom:0}
 .field label{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
-.field label span{font-size:12px;color:var(--soft)}
-.field label .hint{font-size:9px;color:var(--muted);font-family:var(--mono)}
+.field label .lbl{font-size:12px;color:var(--soft)}
+.field label .hint{font-size:10px;color:var(--muted);font-family:var(--mono)}
+.preset-badge{font-size:9px;font-family:var(--mono);padding:2px 8px;border-radius:10px;background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.15);color:var(--accent);letter-spacing:0.5px}
+
 .field input,.field select{
   width:100%;background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius-sm);padding:11px 13px;color:var(--text);
+  border-radius:9px;padding:12px 13px;color:var(--text);
   font-family:var(--mono);font-size:13px;outline:none;
-  transition:border-color 0.2s,box-shadow 0.2s;
-  -webkit-appearance:none;appearance:none;
-  min-height:44px; /* touch target */
+  transition:border-color 0.2s,box-shadow 0.2s,background 0.2s;
+  -webkit-appearance:none;appearance:none;min-height:46px;
 }
-.field input:focus,.field select:focus{
-  border-color:rgba(0,229,255,0.4);
-  box-shadow:0 0 0 3px rgba(0,229,255,0.08);
-}
-.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a7a9a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px}
+.field input::placeholder{color:var(--muted);font-style:italic}
+.field input:focus,.field select:focus{border-color:rgba(0,229,255,0.45);box-shadow:0 0 0 3px rgba(0,229,255,0.08);background:rgba(0,229,255,0.02)}
+.field input.error{border-color:rgba(255,71,87,0.5)!important;box-shadow:0 0 0 3px rgba(255,71,87,0.07)!important}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%235a7a9a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px;cursor:pointer}
 .field select option{background:#0d1520}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
+.validation-msg{display:none;margin:0 20px 14px;padding:10px 14px;border-radius:9px;background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.25);font-size:12px;color:var(--red);line-height:1.5;font-family:var(--mono)}
+@media(min-width:600px){.validation-msg{margin:0 26px 14px}}
+.validation-msg.show{display:block}
+
+.analyze-wrap{padding:16px 20px 24px}
+@media(min-width:600px){.analyze-wrap{padding:18px 26px 26px}}
 .analyze-btn{
-  width:100%;padding:15px;border:none;border-radius:10px;cursor:pointer;
-  font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:1px;
+  width:100%;padding:16px;border:none;border-radius:11px;cursor:pointer;
+  font-family:var(--head);font-size:15px;font-weight:700;letter-spacing:1px;
   background:linear-gradient(135deg,var(--accent),#0099bb);color:#000;
-  margin-top:10px;position:relative;overflow:hidden;
+  position:relative;overflow:hidden;
   transition:transform 0.15s,box-shadow 0.2s;
-  box-shadow:0 4px 20px rgba(0,229,255,0.2);
-  min-height:50px;
-  touch-action:manipulation;
+  box-shadow:0 4px 24px rgba(0,229,255,0.25);min-height:52px;touch-action:manipulation;
 }
-.analyze-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,229,255,0.35)}
-.analyze-btn:active{transform:scale(0.98);box-shadow:none}
-.analyze-btn .btn-shine{
-  position:absolute;top:0;left:-100%;width:60%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);
-  transition:left 0.4s;
-}
+.analyze-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,229,255,0.4)}
+.analyze-btn:active{transform:scale(0.98)}
+.btn-shine{position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left 0.4s}
 .analyze-btn:hover .btn-shine{left:150%}
 
-.reset-btn{
-  width:100%;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);
-  background:transparent;color:var(--muted);cursor:pointer;
-  font-family:var(--mono);font-size:11px;margin-top:8px;
-  transition:all 0.2s;min-height:40px;touch-action:manipulation;
-}
-.reset-btn:hover{border-color:var(--soft);color:var(--soft)}
+.notes-strip{margin-top:28px;background:linear-gradient(135deg,rgba(0,229,255,0.04),rgba(168,85,247,0.04));border:1px solid var(--border);border-radius:14px;padding:20px 20px}
+@media(min-width:600px){.notes-strip{padding:22px 24px}}
+.notes-strip h4{font-family:var(--head);font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.note-list{display:flex;flex-direction:column;gap:9px}
+.note-item{display:flex;gap:10px;align-items:flex-start}
+.note-dot{width:20px;height:20px;min-width:20px;border-radius:50%;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;margin-top:1px}
+.note-item p{font-size:12px;color:var(--soft);line-height:1.65}
+.note-item p strong{color:var(--text)}
 
-/* ── RESULTS PANEL ── */
-.results-panel{display:flex;flex-direction:column;gap:16px}
-@media(min-width:768px){.results-panel{gap:20px}}
+/* ════════════════════════════
+   PAGE 2 — RESULTS
+════════════════════════════ */
+/* top bar */
+.results-topbar{
+  background:rgba(11,21,32,0.98);border-bottom:1px solid var(--border);
+  padding:11px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+@media(min-width:600px){.results-topbar{padding:12px 24px}}
+@media(min-width:900px){.results-topbar{padding:13px 32px}}
 
-/* placeholder */
-.placeholder{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
-  padding:48px 24px;text-align:center;
-}
-.placeholder .ph-icon{font-size:40px;margin-bottom:14px;opacity:0.3}
-.placeholder h3{font-family:var(--head);font-size:16px;color:var(--soft);margin-bottom:8px}
-.placeholder p{font-size:12px;color:var(--muted);line-height:1.6;max-width:280px;margin:0 auto}
+.back-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--soft);cursor:pointer;font-family:var(--mono);font-size:11px;white-space:nowrap;transition:all 0.2s;min-height:36px;touch-action:manipulation}
+.back-btn:hover{border-color:var(--accent);color:var(--accent)}
 
-/* ── DECISION BANNER ── */
-.decision-banner{
-  border-radius:var(--radius-lg);padding:18px 20px;
-  border:2px solid;position:relative;overflow:hidden;
-}
-@media(min-width:768px){.decision-banner{padding:24px 28px}}
-.decision-banner::before{
-  content:'';position:absolute;inset:0;opacity:0.06;
-  background:radial-gradient(ellipse 60% 80% at 50% 0%,currentColor,transparent);
-}
+.app-summary{display:flex;gap:6px;flex-wrap:wrap}
+.sum-chip{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;align-items:center;gap:4px;white-space:nowrap}
+.sum-chip span{color:var(--text);font-weight:500}
+@media(max-width:599px){.app-summary{display:none}}
+
+.decision-pill{padding:5px 14px;border-radius:20px;font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:1px solid;white-space:nowrap}
+.decision-pill.approve{background:rgba(0,214,143,0.1);border-color:rgba(0,214,143,0.3);color:var(--green)}
+.decision-pill.reject{background:rgba(255,71,87,0.1);border-color:rgba(255,71,87,0.3);color:var(--red)}
+.decision-pill.reprice{background:rgba(255,211,42,0.1);border-color:rgba(255,211,42,0.3);color:var(--yellow)}
+.decision-pill.premium{background:rgba(168,85,247,0.1);border-color:rgba(168,85,247,0.3);color:var(--purple)}
+
+/* layout */
+.results-layout{display:grid;grid-template-columns:1fr;max-width:1300px;margin:0 auto}
+@media(min-width:900px){.results-layout{grid-template-columns:272px 1fr;min-height:calc(100vh - 116px)}}
+@media(min-width:1100px){.results-layout{grid-template-columns:296px 1fr}}
+
+/* sidebar */
+.results-sidebar{background:var(--card);border-right:1px solid var(--border);padding:20px 18px}
+@media(max-width:899px){.results-sidebar{display:none}}
+.sb-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.sb-group{margin-bottom:20px}
+.sb-group-lbl{font-size:9px;font-family:var(--mono);color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.sb-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;gap:8px}
+.sb-key{font-size:11px;color:var(--muted);flex-shrink:0}
+.sb-val{font-family:var(--mono);font-size:11px;color:var(--text);text-align:right}
+
+/* main */
+.results-main{padding:20px 16px 60px}
+@media(min-width:600px){.results-main{padding:24px 24px 60px}}
+@media(min-width:900px){.results-main{padding:26px 28px 60px}}
+.results-stack{display:flex;flex-direction:column;gap:16px}
+@media(min-width:600px){.results-stack{gap:18px}}
+
+/* mobile summary strip */
+.mobile-summary{display:none;margin-bottom:14px}
+@media(max-width:899px){.mobile-summary{display:block}}
+.mobile-summary-inner{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.mobile-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(min-width:400px){.mobile-summary-grid{grid-template-columns:repeat(3,1fr)}}
+.ms-item{text-align:center}
+.ms-label{font-size:9px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.ms-val{font-family:var(--mono);font-size:12px;color:var(--text);font-weight:500}
+
+/* ── decision banner ── */
+.decision-banner{border-radius:16px;padding:18px 18px;border:2px solid;position:relative;overflow:hidden}
+@media(min-width:600px){.decision-banner{padding:22px 24px}}
+.decision-banner::before{content:'';position:absolute;inset:0;opacity:0.06;background:radial-gradient(ellipse 60% 80% at 50% 0%,currentColor,transparent)}
 .decision-banner.approve{border-color:var(--green);color:var(--green)}
 .decision-banner.reject{border-color:var(--red);color:var(--red)}
 .decision-banner.reprice{border-color:var(--yellow);color:var(--yellow)}
 .decision-banner.premium{border-color:var(--purple);color:var(--purple)}
-
-.decision-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.decision-icon{font-size:28px}
-@media(min-width:768px){.decision-icon{font-size:36px}}
-.decision-label{font-family:var(--head);font-size:17px;font-weight:800;letter-spacing:0.5px}
-@media(min-width:768px){.decision-label{font-size:22px;letter-spacing:1px}}
+.decision-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.decision-icon{font-size:26px}
+@media(min-width:600px){.decision-icon{font-size:32px}}
+.decision-label{font-family:var(--head);font-size:16px;font-weight:800;letter-spacing:0.5px}
+@media(min-width:600px){.decision-label{font-size:20px}}
 .decision-sub{font-size:11px;opacity:0.8;margin-top:2px;font-family:var(--mono)}
-.decision-raroc-box{text-align:right}
-.decision-raroc-box .rl{font-size:10px;font-family:var(--mono);opacity:0.6;margin-bottom:4px}
-.decision-raroc-box .rv{font-family:var(--mono);font-size:24px;font-weight:700}
-@media(min-width:768px){.decision-raroc-box .rv{font-size:28px}}
-.decision-raroc-box .rh{font-size:11px;opacity:0.7}
-.decision-reason{
-  margin-top:12px;padding:11px 14px;border-radius:var(--radius-sm);
-  background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.05);
-  font-size:12px;color:var(--soft);line-height:1.65;
-}
-@media(min-width:768px){.decision-reason{font-size:13px}}
+.raroc-badge{text-align:right;flex-shrink:0}
+.raroc-badge .rl{font-size:9px;font-family:var(--mono);opacity:0.6;margin-bottom:2px;letter-spacing:1px;text-transform:uppercase}
+.raroc-badge .rv{font-family:var(--mono);font-size:24px;font-weight:700;line-height:1}
+@media(min-width:600px){.raroc-badge .rv{font-size:28px}}
+.raroc-badge .rh{font-size:10px;opacity:0.65;margin-top:2px;font-family:var(--mono)}
+.decision-reason{margin-top:12px;padding:10px 13px;border-radius:8px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.05);font-size:12px;color:var(--soft);line-height:1.65}
+@media(min-width:600px){.decision-reason{font-size:13px}}
 
-/* ── KPI ROW ── */
+/* ── kpi grid ── */
 .kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-@media(min-width:600px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}
-@media(min-width:768px){.kpi-grid{gap:14px}}
-.kpi-card{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:14px;position:relative;overflow:hidden;
-}
-.kpi-card::after{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:var(--kpi-color,var(--accent));
-  box-shadow:0 0 10px var(--kpi-color,var(--accent));
-}
-.kpi-label{font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
-.kpi-value{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--kpi-color,var(--accent));line-height:1}
-@media(min-width:768px){.kpi-value{font-size:22px}}
+@media(min-width:560px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:600px){.kpi-grid{gap:12px}}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;position:relative;overflow:hidden}
+.kpi-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--kpi-color,var(--accent));box-shadow:0 0 10px var(--kpi-color,var(--accent))}
+.kpi-label{font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px}
+.kpi-value{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--kpi-color,var(--accent));line-height:1}
+@media(min-width:600px){.kpi-value{font-size:20px}}
 .kpi-desc{font-size:10px;color:var(--muted);margin-top:4px}
 
-/* ── STEP-BY-STEP ── */
-.steps-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
-.steps-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.steps-header h3{font-family:var(--head);font-size:13px;font-weight:700}
-.steps-header p{font-size:10px;color:var(--muted)}
-.steps-body{padding:16px 18px;display:flex;flex-direction:column;gap:0}
-@media(min-width:768px){.steps-body{padding:20px 22px}}
+/* ── shared card header ── */
+.card-header{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+@media(min-width:600px){.card-header{padding:15px 22px}}
+.c-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.c-icon.purple{background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2)}
+.c-icon.cyan{background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2)}
+.card-header h3{font-family:var(--head);font-size:13px;font-weight:700}
+.card-header p{font-size:10px;color:var(--muted);margin-top:1px}
 
-.step{display:flex;gap:14px;position:relative}
-.step:not(:last-child)::after{
-  content:'';position:absolute;left:17px;top:38px;bottom:0;width:1px;
-  background:linear-gradient(to bottom,var(--border),transparent);
-}
-.step-num{
-  width:34px;height:34px;min-width:34px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--mono);font-size:12px;font-weight:700;
-  background:var(--surface);border:2px solid var(--border);color:var(--muted);
-}
-.step.done .step-num{background:rgba(0,229,255,0.1);border-color:var(--accent);color:var(--accent)}
+/* ── steps ── */
+.steps-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.steps-body{padding:16px 18px;display:flex;flex-direction:column;gap:0}
+@media(min-width:600px){.steps-body{padding:20px 22px}}
+.step{display:flex;gap:13px;position:relative}
+.step:not(:last-child)::after{content:'';position:absolute;left:15px;top:33px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--border),transparent)}
+.step-num{width:30px;height:30px;min-width:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;background:rgba(0,229,255,0.1);border:2px solid var(--accent);color:var(--accent)}
 .step-content{padding-bottom:18px;flex:1;min-width:0}
-.step-title{font-family:var(--head);font-size:12px;font-weight:700;margin-bottom:4px;color:var(--soft)}
-.step.done .step-title{color:var(--text)}
-.step-formula{
-  font-family:var(--mono);font-size:11px;color:var(--accent);
-  background:rgba(0,229,255,0.05);padding:5px 10px;border-radius:5px;
-  border-left:2px solid var(--accent);margin:6px 0;display:block;
-  word-break:break-word;overflow-wrap:break-word;
-}
-@media(min-width:768px){.step-formula{font-size:12px;display:inline-block}}
-.step-result{font-size:12px;color:var(--soft);margin-top:4px;line-height:1.55}
-@media(min-width:768px){.step-result{font-size:13px}}
+.step-title{font-family:var(--head);font-size:12px;font-weight:700;margin-bottom:4px;color:var(--text)}
+.step-formula{font-family:var(--mono);font-size:10px;color:var(--accent);background:rgba(0,229,255,0.05);padding:5px 10px;border-radius:5px;border-left:2px solid var(--accent);margin:5px 0;display:block;word-break:break-word;overflow-wrap:anywhere}
+@media(min-width:600px){.step-formula{font-size:11px}}
+.step-result{font-size:11px;color:var(--soft);margin-top:4px;line-height:1.6}
+@media(min-width:600px){.step-result{font-size:12px}}
 .step-result strong{color:var(--text);font-family:var(--mono)}
 
-/* ── COMPARISON TABLE ── */
-.compare-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
-.compare-header{padding:14px 18px;border-bottom:1px solid var(--border)}
-.compare-header h3{font-family:var(--head);font-size:13px;font-weight:700}
-.compare-header p{font-size:10px;color:var(--muted);margin-top:2px}
+/* ── compare table ── */
+.compare-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.table-hint{padding:6px 14px;font-size:10px;color:var(--muted);font-family:var(--mono);border-top:1px solid var(--border);background:var(--surface)}
+@media(min-width:560px){.table-hint{display:none}}
 .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.table-scroll::-webkit-scrollbar{height:3px}
-table{width:100%;border-collapse:collapse;min-width:480px}
-th{padding:9px 14px;text-align:left;font-size:10px;font-family:var(--mono);
-   color:var(--muted);letter-spacing:1px;text-transform:uppercase;
-   border-bottom:1px solid var(--border);background:var(--surface);white-space:nowrap}
-td{padding:11px 14px;font-size:12px;border-bottom:1px solid rgba(26,45,69,0.5)}
-@media(min-width:768px){th{padding:10px 20px;font-size:11px} td{padding:12px 20px;font-size:13px}}
+table{width:100%;border-collapse:collapse;min-width:440px}
+th{padding:9px 14px;text-align:left;font-size:10px;font-family:var(--mono);color:var(--muted);letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--border);background:var(--surface);white-space:nowrap}
+@media(min-width:600px){th{padding:10px 18px}}
+td{padding:10px 14px;font-size:12px;border-bottom:1px solid rgba(26,45,69,0.5)}
+@media(min-width:600px){td{padding:11px 18px;font-size:13px}}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(0,229,255,0.02)}
 .td-label{color:var(--soft)}
 .td-pd{font-family:var(--mono);color:var(--red)}
-.td-raroc{font-family:var(--mono)}
-.td-raroc.good{color:var(--green)}
-.td-raroc.bad{color:var(--red)}
+.td-raroc{font-family:var(--mono)}.td-raroc.good{color:var(--green)}.td-raroc.bad{color:var(--red)}
 .td-dec{font-family:var(--mono);font-weight:700;font-size:11px;padding:3px 8px;border-radius:4px;display:inline-block}
 .td-dec.approve{background:rgba(0,214,143,0.1);color:var(--green)}
 .td-dec.reject{background:rgba(255,71,87,0.1);color:var(--red)}
 .insight-row td{background:rgba(0,229,255,0.03);font-size:11px;color:var(--soft);font-style:italic;line-height:1.55}
-@media(min-width:768px){.insight-row td{font-size:12px}}
 
-/* ── SEGMENT MATRIX ── */
-.matrix-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
-.matrix-header{padding:14px 18px;border-bottom:1px solid var(--border)}
-.matrix-header h3{font-family:var(--head);font-size:13px;font-weight:700}
-.matrix-header p{font-size:10px;color:var(--muted);margin-top:2px}
+/* ── matrix ── */
+.matrix-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
 .matrix-body{padding:16px 18px}
-@media(min-width:768px){.matrix-body{padding:20px 22px}}
-.matrix-axis-labels{display:grid;grid-template-columns:1fr 1fr;margin-bottom:6px}
-.matrix-axis-labels span{text-align:center;font-size:9px;color:var(--muted);font-family:var(--mono)}
+@media(min-width:600px){.matrix-body{padding:20px 22px}}
+.matrix-axis{display:grid;grid-template-columns:1fr 1fr;margin-bottom:6px}
+.matrix-axis span{text-align:center;font-size:9px;color:var(--muted);font-family:var(--mono)}
 .matrix-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-@media(min-width:768px){.matrix-grid{gap:10px}}
-.matrix-cell{
-  border-radius:10px;padding:12px 14px;border:1px solid;
-  transition:transform 0.2s,box-shadow 0.2s;cursor:default;
-}
-@media(min-width:768px){.matrix-cell{padding:14px 16px}}
-.matrix-cell:hover{transform:scale(1.02)}
-.matrix-cell.active{box-shadow:0 0 20px var(--mc-color);border-width:2px}
+@media(min-width:600px){.matrix-grid{gap:10px}}
+.matrix-cell{border-radius:10px;padding:12px 12px;border:1px solid;transition:box-shadow 0.2s}
+@media(min-width:600px){.matrix-cell{padding:13px 15px}}
+.matrix-cell.active{border-width:2px;box-shadow:0 0 18px var(--mc-color)}
 .matrix-cell.lr-hp{--mc-color:rgba(0,214,143,0.4);background:rgba(0,214,143,0.06);border-color:rgba(0,214,143,0.2);color:var(--green)}
 .matrix-cell.lr-lp{--mc-color:rgba(255,211,42,0.4);background:rgba(255,211,42,0.06);border-color:rgba(255,211,42,0.2);color:var(--yellow)}
 .matrix-cell.hr-hp{--mc-color:rgba(168,85,247,0.4);background:rgba(168,85,247,0.06);border-color:rgba(168,85,247,0.2);color:var(--purple)}
 .matrix-cell.hr-lp{--mc-color:rgba(255,71,87,0.4);background:rgba(255,71,87,0.06);border-color:rgba(255,71,87,0.2);color:var(--red)}
-.mc-tag{font-size:8px;font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;opacity:0.7;margin-bottom:5px}
-@media(min-width:768px){.mc-tag{font-size:9px}}
-.mc-title{font-family:var(--head);font-size:13px;font-weight:700;margin-bottom:3px}
+.mc-tag{font-size:8px;font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;opacity:0.7;margin-bottom:4px}
+.mc-title{font-family:var(--head);font-size:12px;font-weight:700;margin-bottom:2px}
 .mc-action{font-size:10px;opacity:0.8;line-height:1.4}
-.mc-icon{font-size:18px;margin-bottom:5px}
-@media(min-width:768px){.mc-icon{font-size:22px}}
-
-.matrix-callout{
-  margin-top:10px;padding:10px 13px;background:rgba(0,229,255,0.04);
-  border-radius:var(--radius-sm);border-left:3px solid var(--accent);
-  font-size:11px;color:var(--soft);line-height:1.5;
-}
-@media(min-width:768px){.matrix-callout{margin-top:12px;font-size:12px}}
+.mc-icon{font-size:18px;margin-bottom:4px}
+.matrix-callout{margin-top:10px;padding:9px 13px;background:rgba(0,229,255,0.04);border-radius:8px;border-left:3px solid var(--accent);font-size:11px;color:var(--soft);line-height:1.5}
 .matrix-callout strong{color:var(--accent)}
 
-/* ── PROFESSOR NOTES ── */
-.prof-card{
-  background:linear-gradient(135deg,rgba(0,229,255,0.04),rgba(168,85,247,0.04));
-  border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;
-  margin-top:24px;
-}
-@media(min-width:768px){.prof-card{padding:22px 26px;margin-top:28px}}
-.prof-card h3{font-family:var(--head);font-size:13px;font-weight:700;margin-bottom:12px;
-  display:flex;align-items:center;gap:8px}
-.prof-points{display:flex;flex-direction:column;gap:10px}
-.prof-point{display:flex;gap:10px;align-items:flex-start}
-.prof-point .dot{
-  width:22px;height:22px;min-width:22px;border-radius:50%;background:rgba(0,229,255,0.1);
-  border:1px solid rgba(0,229,255,0.2);display:flex;align-items:center;justify-content:center;
-  font-size:10px;margin-top:1px;
-}
-.prof-point p{font-size:12px;color:var(--soft);line-height:1.65}
-@media(min-width:768px){.prof-point p{font-size:13px}}
-.prof-point p strong{color:var(--text)}
-
-/* ── ANIMATIONS ── */
+/* ── animations ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.animate{animation:fadeUp 0.4s ease both}
-.d1{animation-delay:0.04s}.d2{animation-delay:0.10s}.d3{animation-delay:0.17s}
-.d4{animation-delay:0.24s}.d5{animation-delay:0.31s}
-
-/* live dot */
-.live-dot{
-  width:7px;height:7px;border-radius:50%;background:var(--green);
-  display:inline-block;margin-right:5px;
-  animation:pulse 2s infinite;
-}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,214,143,0.4)}70%{box-shadow:0 0 0 7px rgba(0,214,143,0)}100%{box-shadow:0 0 0 0 rgba(0,214,143,0)}}
-
-/* ── MOBILE ANALYZE STICKY BAR ── */
-.mobile-analyze-bar{
-  display:none;
-  position:fixed;bottom:0;left:0;right:0;z-index:99;
-  padding:12px 16px;
-  background:rgba(6,10,18,0.96);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border-top:1px solid var(--border);
-}
-@media(max-width:899px){.mobile-analyze-bar{display:block}}
-.mobile-analyze-bar .analyze-btn{margin:0;font-size:13px}
-
-/* bottom padding on mobile to avoid sticky bar overlap */
-@media(max-width:899px){.wrapper{padding-bottom:80px}}
-
-/* ── IC shared ── */
-.ic-sm{
-  width:30px;height:30px;border-radius:7px;
-  display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;
-}
+.a{animation:fadeUp 0.4s ease both}
+.a1{animation-delay:.04s}.a2{animation-delay:.1s}.a3{animation-delay:.17s}.a4{animation-delay:.23s}.a5{animation-delay:.30s}
 </style>
 </head>
 <body>
@@ -434,280 +319,309 @@ tr:hover td{background:rgba(0,229,255,0.02)}
   </div>
 </header>
 
-<div class="wrapper">
 
-  <div class="hero">
-    <div class="hero-eyebrow">AI in Retail Lending</div>
-    <h2>Risk-Adjusted <span>Profitability Analytics</span><br/>for Smarter Lending Decisions</h2>
-    <p>Enter loan parameters below. The AI model instantly computes PD, Expected Loss, Net Profit, Economic Capital &amp; RAROC — and tells you exactly what decision to make.</p>
+<!-- ════════════ PAGE 1: INPUT ════════════ -->
+<div id="page-input" class="page active">
+<div class="input-wrap">
+
+  <div class="inp-hero">
+    <div class="inp-eyebrow">🏦 AI in Retail Lending</div>
+    <h2>Risk-Adjusted <span>Profitability</span><br/>Lending Decisions</h2>
+    <p>Enter the borrower's details and loan parameters. The AI engine computes PD, Expected Loss, Net Profit, Economic Capital &amp; RAROC — and generates a lending decision instantly.</p>
   </div>
 
-  <div class="formula-bar">
-    <div class="formula-item"><div class="label">Step 1</div><div class="expr">EL = PD × LGD × EAD</div></div>
-    <div class="formula-sep">→</div>
-    <div class="formula-item"><div class="label">Step 2</div><div class="expr">Profit = Income + Fees − CoF − EL</div></div>
-    <div class="formula-sep">→</div>
-    <div class="formula-item"><div class="label">Step 3</div><div class="expr">RAROC = Net Profit ÷ Econ. Capital</div></div>
-    <div class="formula-sep">→</div>
-    <div class="formula-item"><div class="label">Decision</div><div class="expr">RAROC ≥ 15% → APPROVE</div></div>
+  <div class="formula-strip">
+    <div class="fstep"><div class="fn">Step 1</div><div class="fe">EL = PD × LGD × EAD</div></div>
+    <div class="fstep-arrow">→</div>
+    <div class="fstep"><div class="fn">Step 2</div><div class="fe">Profit = Income + Fees − CoF − EL</div></div>
+    <div class="fstep-arrow">→</div>
+    <div class="fstep"><div class="fn">Step 3</div><div class="fe">RAROC = Net Profit ÷ Econ. Capital</div></div>
+    <div class="fstep-arrow">→</div>
+    <div class="fstep"><div class="fn">Decision</div><div class="fe">RAROC ≥ Hurdle → APPROVE</div></div>
   </div>
 
-  <!-- MOBILE TAB SWITCHER -->
-  <div class="tab-switcher">
-    <button class="tab-btn active" id="tab-input" onclick="switchTab('input')">📋 Loan Inputs</button>
-    <button class="tab-btn" id="tab-results" onclick="switchTab('results')">📊 Analysis</button>
-  </div>
+  <div class="form-card">
 
-  <div class="main-grid">
-
-    <!-- INPUT PANEL -->
-    <div class="panel-inputs" id="panel-inputs">
-      <div class="input-card">
-        <div class="input-card-header">
-          <div class="ic" style="width:30px;height:30px;border-radius:7px;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;">📋</div>
-          <div>
-            <h3>Loan Application Input</h3>
-            <p>Enter borrower &amp; loan details</p>
-          </div>
+    <!-- SECTION 1: BORROWER -->
+    <div class="form-section">
+      <div class="section-head">
+        <div class="section-icon blue">👤</div>
+        <div>
+          <div class="section-title">Borrower Profile</div>
+          <div class="section-sub">Personal &amp; financial information</div>
         </div>
-        <div class="input-body">
-
-          <div class="input-section-label">Borrower Profile</div>
-          <div class="field-row">
-            <div class="field">
-              <label><span>Age</span><span class="hint">years</span></label>
-              <input type="number" id="age" value="35" min="18" max="70" inputmode="numeric"/>
-            </div>
-            <div class="field">
-              <label><span>Credit Score</span><span class="hint">550–850</span></label>
-              <input type="number" id="credit_score" value="680" min="300" max="900" inputmode="numeric"/>
-            </div>
-          </div>
-          <div class="field">
-            <label><span>Annual Income</span><span class="hint">₹</span></label>
-            <input type="number" id="income" value="800000" min="100000" inputmode="numeric"/>
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label><span>Employment Yrs</span></label>
-              <input type="number" id="emp_years" value="8" min="0" max="40" inputmode="numeric"/>
-            </div>
-            <div class="field">
-              <label><span>Existing Loans</span></label>
-              <input type="number" id="existing_loans" value="1" min="0" max="10" inputmode="numeric"/>
-            </div>
-          </div>
-
-          <div class="input-section-label">Loan Details</div>
-          <div class="field">
-            <label><span>Loan Amount</span><span class="hint">₹</span></label>
-            <input type="number" id="loan_amount" value="500000" min="10000" inputmode="numeric"/>
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label><span>Interest Rate</span><span class="hint">% p.a.</span></label>
-              <input type="number" id="interest_rate" value="12.5" step="0.5" min="5" max="30" inputmode="decimal"/>
-            </div>
-            <div class="field">
-              <label><span>Tenure</span><span class="hint">months</span></label>
-              <select id="tenure">
-                <option value="12">12 months</option>
-                <option value="24">24 months</option>
-                <option value="36" selected>36 months</option>
-                <option value="48">48 months</option>
-                <option value="60">60 months</option>
-                <option value="84">84 months</option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label><span>Loan Purpose</span></label>
-            <select id="loan_purpose">
-              <option value="home">Home Loan (LGD: 25%)</option>
-              <option value="auto">Auto Loan (LGD: 35%)</option>
-              <option value="personal" selected>Personal Loan (LGD: 55%)</option>
-              <option value="education">Education (LGD: 45%)</option>
-              <option value="business">Business (LGD: 50%)</option>
-            </select>
-          </div>
-
-          <div class="input-section-label">Bank Parameters</div>
-          <div class="field-row">
-            <div class="field">
-              <label><span>Cost of Funds</span><span class="hint">% p.a.</span></label>
-              <input type="number" id="cof_rate" value="7" step="0.5" min="3" max="15" inputmode="decimal"/>
-            </div>
-            <div class="field">
-              <label><span>Hurdle Rate</span><span class="hint">min RAROC %</span></label>
-              <input type="number" id="hurdle" value="15" step="1" min="5" max="50" inputmode="numeric"/>
-            </div>
-          </div>
-
-          <!-- Desktop analyze button inside card -->
-          <div class="desktop-only-btn" style="display:none">
-            <button class="analyze-btn" onclick="analyze()">
-              <span class="btn-shine"></span>
-              ⚡ ANALYZE LOAN APPLICATION
-            </button>
-            <button class="reset-btn" onclick="resetDefaults()">↺ Reset to Example Values</button>
-          </div>
-          <!-- Show on desktop via media query -->
-          <style>@media(min-width:900px){.desktop-only-btn{display:block!important}.mobile-analyze-bar{display:none!important}}</style>
-
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label><span class="lbl">Age</span><span class="hint">years</span></label>
+          <input type="number" id="age" placeholder="e.g. 35" min="18" max="70" inputmode="numeric"/>
+        </div>
+        <div class="field">
+          <label><span class="lbl">Credit Score</span><span class="hint">300–900</span></label>
+          <input type="number" id="credit_score" placeholder="e.g. 680" min="300" max="900" inputmode="numeric"/>
+        </div>
+      </div>
+      <div class="field">
+        <label><span class="lbl">Annual Income</span><span class="hint">₹ per year</span></label>
+        <input type="number" id="income" placeholder="e.g. 800000" min="100000" inputmode="numeric"/>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label><span class="lbl">Employment Years</span></label>
+          <input type="number" id="emp_years" placeholder="e.g. 8" min="0" max="40" inputmode="numeric"/>
+        </div>
+        <div class="field">
+          <label><span class="lbl">Existing Loans</span></label>
+          <input type="number" id="existing_loans" placeholder="e.g. 1" min="0" max="10" inputmode="numeric"/>
         </div>
       </div>
     </div>
 
-    <!-- RESULTS PANEL -->
-    <div class="panel-results" id="panel-results">
-      <div class="results-panel" id="results">
-        <div class="placeholder">
-          <div class="ph-icon">🏦</div>
-          <h3>Awaiting Loan Analysis</h3>
-          <p>Fill in the borrower details and tap <strong>Analyze</strong> to see the full AI model output — PD prediction, Expected Loss, RAROC calculation, and lending decision.</p>
+    <!-- SECTION 2: LOAN -->
+    <div class="form-section">
+      <div class="section-head">
+        <div class="section-icon orange">📄</div>
+        <div>
+          <div class="section-title">Loan Details</div>
+          <div class="section-sub">Amount, pricing &amp; collateral type</div>
+        </div>
+      </div>
+      <div class="field">
+        <label><span class="lbl">Loan Amount</span><span class="hint">₹</span></label>
+        <input type="number" id="loan_amount" placeholder="e.g. 500000" min="10000" inputmode="numeric"/>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label><span class="lbl">Interest Rate</span><span class="hint">% p.a.</span></label>
+          <input type="number" id="interest_rate" placeholder="e.g. 12.5" step="0.5" min="5" max="30" inputmode="decimal"/>
+        </div>
+        <div class="field">
+          <label><span class="lbl">Tenure</span><span class="hint">months</span></label>
+          <select id="tenure">
+            <option value="" disabled selected>Select tenure</option>
+            <option value="12">12 months</option>
+            <option value="24">24 months</option>
+            <option value="36">36 months</option>
+            <option value="48">48 months</option>
+            <option value="60">60 months</option>
+            <option value="84">84 months</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label><span class="lbl">Loan Purpose</span></label>
+        <select id="loan_purpose">
+          <option value="" disabled selected>Select loan purpose</option>
+          <option value="home">Home Loan (LGD: 25%)</option>
+          <option value="auto">Auto Loan (LGD: 35%)</option>
+          <option value="personal">Personal Loan (LGD: 55%)</option>
+          <option value="education">Education Loan (LGD: 45%)</option>
+          <option value="business">Business Loan (LGD: 50%)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SECTION 3: BANK PARAMS -->
+    <div class="form-section">
+      <div class="section-head">
+        <div class="section-icon purple">⚙️</div>
+        <div>
+          <div class="section-title">Bank Parameters</div>
+          <div class="section-sub">Pre-set by risk policy — editable if required</div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label><span class="lbl">Cost of Funds</span><span class="preset-badge">Default 7%</span></label>
+          <input type="number" id="cof_rate" value="7" step="0.5" min="3" max="15" inputmode="decimal"/>
+        </div>
+        <div class="field">
+          <label><span class="lbl">Hurdle Rate (RAROC)</span><span class="preset-badge">Default 15%</span></label>
+          <input type="number" id="hurdle" value="15" step="1" min="5" max="50" inputmode="numeric"/>
         </div>
       </div>
     </div>
 
-  </div><!-- /main-grid -->
+    <div class="validation-msg" id="validation-msg">⚠ Please fill in all required fields above before analyzing.</div>
 
-  <!-- PROFESSOR EXPLANATION -->
-  <div class="prof-card">
-    <h3>🎓 How This Model Works</h3>
-    <div class="prof-points">
-      <div class="prof-point"><div class="dot">1</div><p><strong>The Problem:</strong> Traditional banks only look at PD (Probability of Default). If PD &gt; 10%, they reject the loan. But this ignores <em>how profitable</em> the customer is — many profitable customers get wrongly rejected.</p></div>
-      <div class="prof-point"><div class="dot">2</div><p><strong>My Model:</strong> I built an AI model (Logistic Regression + Gradient Boosting) that first predicts PD from borrower features, then computes Expected Loss, Net Profit, Economic Capital, and finally RAROC.</p></div>
-      <div class="prof-point"><div class="dot">3</div><p><strong>RAROC is the key insight:</strong> RAROC = Net Profit ÷ Economic Capital. If RAROC ≥ 15% (hurdle rate), the loan is <em>worth approving</em> even if PD seems high — because interest income covers the risk.</p></div>
-      <div class="prof-point"><div class="dot">4</div><p><strong>The Result:</strong> My RAROC-based model approved 39.5% more customers than the traditional PD model — unlocking ₹159 Lakhs of additional profit while keeping portfolio risk under control.</p></div>
-      <div class="prof-point"><div class="dot">5</div><p><strong>The 4-quadrant matrix:</strong> Customers are segmented into Approve (low risk, high profit), Reprice (low risk, low profit), Price Premium (high risk, high profit), and Reject (high risk, low profit). This gives a clear action for every customer.</p></div>
+    <div class="analyze-wrap">
+      <button class="analyze-btn" onclick="analyze()">
+        <span class="btn-shine"></span>
+        ⚡ ANALYZE LOAN APPLICATION
+      </button>
+    </div>
+
+  </div><!-- /form-card -->
+
+  <div class="notes-strip">
+    <h4>🎓 About This Model</h4>
+    <div class="note-list">
+      <div class="note-item"><div class="note-dot">1</div><p><strong>Problem:</strong> Traditional banks only check PD. If PD &gt; 10%, they reject — ignoring how profitable the customer actually is.</p></div>
+      <div class="note-item"><div class="note-dot">2</div><p><strong>Model:</strong> Logistic Regression + Gradient Boosting predicts PD. Then Expected Loss, Net Profit, Economic Capital, and RAROC are derived.</p></div>
+      <div class="note-item"><div class="note-dot">3</div><p><strong>Key insight:</strong> RAROC ≥ Hurdle Rate → Approve, even if PD seems high. Interest income must justify the risk taken.</p></div>
+      <div class="note-item"><div class="note-dot">4</div><p><strong>Result:</strong> RAROC model approved 39.5% more customers, unlocking ₹159 Lakhs of additional profit while controlling portfolio risk.</p></div>
     </div>
   </div>
 
-</div><!-- /wrapper -->
-
-<!-- MOBILE STICKY ANALYZE BAR -->
-<div class="mobile-analyze-bar">
-  <button class="analyze-btn" onclick="analyzeAndSwitch()">
-    <span class="btn-shine"></span>
-    ⚡ ANALYZE LOAN APPLICATION
-  </button>
 </div>
+</div><!-- /page-input -->
+
+
+<!-- ════════════ PAGE 2: RESULTS ════════════ -->
+<div id="page-results" class="page">
+
+  <div class="results-topbar">
+    <div style="display:flex;align-items:center;gap:12px;min-width:0">
+      <button class="back-btn" onclick="goBack()">← Edit Application</button>
+      <div class="app-summary" id="app-summary"></div>
+    </div>
+    <div id="decision-pill" class="decision-pill">—</div>
+  </div>
+
+  <div class="results-layout">
+
+    <!-- sidebar (desktop only) -->
+    <div class="results-sidebar" id="sidebar-content"></div>
+
+    <!-- main results -->
+    <div class="results-main">
+      <div class="mobile-summary" id="mobile-summary"></div>
+      <div class="results-stack" id="results-stack"></div>
+    </div>
+
+  </div>
+
+</div><!-- /page-results -->
+
 
 <script>
-const LGD_MAP = {home:0.25, auto:0.35, personal:0.55, education:0.45, business:0.50};
+const LGD_MAP={home:0.25,auto:0.35,personal:0.55,education:0.45,business:0.50};
+const PURPOSE_LABEL={home:'Home Loan',auto:'Auto Loan',personal:'Personal Loan',education:'Education Loan',business:'Business Loan'};
 
-function sigmoid(x){ return 1/(1+Math.exp(-x)); }
+function sigmoid(x){return 1/(1+Math.exp(-x))}
+function fmt(n){return '₹'+Math.round(n).toLocaleString('en-IN')}
+function pct(n,d=1){return (n*100).toFixed(d)+'%'}
 
 function computePD(age,income,loanAmt,rate,tenure,creditScore,existingLoans,empYears,purpose){
-  const dti       = loanAmt/income;
-  const emi       = loanAmt*(rate/1200)/(1-Math.pow(1+rate/1200,-tenure));
-  const emiIncome = emi/(income/12);
-  const logit = -3.5
-    - 0.008*(creditScore-650)
-    + 1.8*dti
-    + 2.0*emiIncome
-    + 0.20*existingLoans
-    - 0.04*empYears
-    + (purpose==='personal'?0.2:purpose==='business'?0.1:purpose==='education'?0.05:-0.1);
-  return Math.max(0.005, Math.min(0.98, sigmoid(logit)));
+  const dti=loanAmt/income;
+  const emi=loanAmt*(rate/1200)/(1-Math.pow(1+rate/1200,-tenure));
+  const emiIncome=emi/(income/12);
+  const logit=-3.5-0.008*(creditScore-650)+1.8*dti+2.0*emiIncome+0.20*existingLoans-0.04*empYears+(purpose==='personal'?0.2:purpose==='business'?0.1:purpose==='education'?0.05:-0.1);
+  return Math.max(0.005,Math.min(0.98,sigmoid(logit)));
 }
 
-function fmt(n){ return '₹'+Math.round(n).toLocaleString('en-IN'); }
-function pct(n,d=1){ return (n*100).toFixed(d)+'%'; }
-
-function getInputs(){
-  return {
-    age:          +document.getElementById('age').value,
-    income:       +document.getElementById('income').value,
-    loanAmt:      +document.getElementById('loan_amount').value,
-    rate:         +document.getElementById('interest_rate').value,
-    tenure:       +document.getElementById('tenure').value,
-    creditScore:  +document.getElementById('credit_score').value,
-    existingLoans:+document.getElementById('existing_loans').value,
-    empYears:     +document.getElementById('emp_years').value,
-    purpose:      document.getElementById('loan_purpose').value,
-    cofRate:      +document.getElementById('cof_rate').value,
-    hurdle:       +document.getElementById('hurdle').value,
-  };
-}
-
-function analyzeAndSwitch(){
-  analyze();
-  switchTab('results');
-}
-
-function switchTab(tab){
-  const isMobile = window.innerWidth < 900;
-  if(!isMobile) return;
-  document.getElementById('panel-inputs').classList.toggle('hidden', tab==='results');
-  document.getElementById('panel-results').classList.toggle('hidden', tab==='input');
-  document.getElementById('tab-input').classList.toggle('active', tab==='input');
-  document.getElementById('tab-results').classList.toggle('active', tab==='results');
+function validate(){
+  const textIds=['age','income','loan_amount','interest_rate','emp_years','existing_loans','credit_score'];
+  const selIds=['tenure','loan_purpose'];
+  let ok=true;
+  textIds.forEach(id=>{const el=document.getElementById(id);const bad=!el.value;el.classList.toggle('error',bad);if(bad)ok=false});
+  selIds.forEach(id=>{const el=document.getElementById(id);const bad=!el.value;el.classList.toggle('error',bad);if(bad)ok=false});
+  document.getElementById('validation-msg').classList.toggle('show',!ok);
+  return ok;
 }
 
 function analyze(){
-  const {age,income,loanAmt,rate,tenure,creditScore,existingLoans,empYears,purpose,cofRate,hurdle} = getInputs();
+  if(!validate())return;
 
-  const pd  = computePD(age,income,loanAmt,rate,tenure,creditScore,existingLoans,empYears,purpose);
-  const lgd = LGD_MAP[purpose];
-  const ead = loanAmt;
-  const el  = pd*lgd*ead;
+  const age=+document.getElementById('age').value;
+  const income=+document.getElementById('income').value;
+  const loanAmt=+document.getElementById('loan_amount').value;
+  const rate=+document.getElementById('interest_rate').value;
+  const tenure=+document.getElementById('tenure').value;
+  const creditScore=+document.getElementById('credit_score').value;
+  const existingLoans=+document.getElementById('existing_loans').value;
+  const empYears=+document.getElementById('emp_years').value;
+  const purpose=document.getElementById('loan_purpose').value;
+  const cofRate=+document.getElementById('cof_rate').value;
+  const hurdle=+document.getElementById('hurdle').value;
 
-  const dti = loanAmt/income;
-  const emi = loanAmt*(rate/1200)/(1-Math.pow(1+rate/1200,-tenure));
+  const pd=computePD(age,income,loanAmt,rate,tenure,creditScore,existingLoans,empYears,purpose);
+  const lgd=LGD_MAP[purpose];
+  const ead=loanAmt;
+  const el=pd*lgd*ead;
+  const dti=loanAmt/income;
+  const emi=loanAmt*(rate/1200)/(1-Math.pow(1+rate/1200,-tenure));
+  const interestIncome=loanAmt*(rate/100)*(tenure/12);
+  const fees=loanAmt*0.01;
+  const cof=loanAmt*(cofRate/100)*(tenure/12);
+  const opCost=loanAmt*0.005;
+  const netProfit=interestIncome+fees-cof-opCost-el;
+  const ec=loanAmt*(Math.sqrt(pd)*0.12+0.04);
+  const raroc=(netProfit/ec)*100;
 
-  const interestIncome = loanAmt*(rate/100)*(tenure/12);
-  const fees           = loanAmt*0.01;
-  const cof            = loanAmt*(cofRate/100)*(tenure/12);
-  const opCost         = loanAmt*0.005;
-  const netProfit      = interestIncome+fees-cof-opCost-el;
-
-  const ec    = loanAmt*(Math.sqrt(pd)*0.12+0.04);
-  const raroc = (netProfit/ec)*100;
-
-  const PD_THRESHOLD = 0.20;
-  const isLowRisk    = pd < PD_THRESHOLD;
-  const isHighProfit = netProfit > 0;
+  const isLowRisk=pd<0.20;
+  const isHighProfit=netProfit>0;
 
   let seg,segClass,segIcon,segAction,segReason;
-  if(isLowRisk && isHighProfit){
-    seg='APPROVE — Prime Customer';segClass='approve';segIcon='✅';
-    segAction='Standard Approval';
-    segReason=`Low default risk (PD ${pct(pd)}) combined with strong net profit (${fmt(netProfit)}) makes this an ideal borrower. RAROC of ${raroc.toFixed(1)}% is well above the ${hurdle}% hurdle rate.`;
-  } else if(isLowRisk && !isHighProfit){
-    seg='REPRICE — Optimize Terms';segClass='reprice';segIcon='🔄';
-    segAction='Increase rate or reduce tenure to improve margin';
-    segReason=`Default risk is acceptable (PD ${pct(pd)}) but profitability is thin (${fmt(netProfit)}). Consider increasing the interest rate by 1–2% or adding a higher processing fee to make this loan economically viable.`;
-  } else if(!isLowRisk && isHighProfit){
-    seg='PRICE PREMIUM — Monitor';segClass='premium';segIcon='⚡';
-    segAction='Approve with premium pricing & monitoring';
-    segReason=`Higher default risk (PD ${pct(pd)}) is compensated by strong profitability (${fmt(netProfit)}). RAROC of ${raroc.toFixed(1)}% justifies approval — but price in the risk premium and monitor quarterly.`;
-  } else {
-    seg='REJECT — High Risk / Low Return';segClass='reject';segIcon='❌';
-    segAction='Decline application';
-    segReason=`Both risk (PD ${pct(pd)}) and profitability (${fmt(netProfit)}) are unfavorable. RAROC of ${raroc.toFixed(1)}% is below the ${hurdle}% hurdle. Approving this loan destroys shareholder value.`;
-  }
+  if(isLowRisk&&isHighProfit){seg='APPROVE — Prime Customer';segClass='approve';segIcon='✅';segAction='Standard Approval';segReason=`Low default risk (PD ${pct(pd)}) combined with strong net profit (${fmt(netProfit)}) makes this an ideal borrower. RAROC of ${raroc.toFixed(1)}% is well above the ${hurdle}% hurdle rate.`;}
+  else if(isLowRisk&&!isHighProfit){seg='REPRICE — Optimize Terms';segClass='reprice';segIcon='🔄';segAction='Increase rate or reduce tenure to improve margin';segReason=`Default risk is acceptable (PD ${pct(pd)}) but profitability is thin (${fmt(netProfit)}). Consider increasing the interest rate by 1–2% or adding a higher processing fee to improve viability.`;}
+  else if(!isLowRisk&&isHighProfit){seg='PRICE PREMIUM — Monitor';segClass='premium';segIcon='⚡';segAction='Approve with premium pricing & quarterly monitoring';segReason=`Higher default risk (PD ${pct(pd)}) is compensated by strong profitability (${fmt(netProfit)}). RAROC of ${raroc.toFixed(1)}% justifies approval — price in the risk premium and monitor quarterly.`;}
+  else{seg='REJECT — High Risk / Low Return';segClass='reject';segIcon='❌';segAction='Decline application';segReason=`Both risk (PD ${pct(pd)}) and profitability (${fmt(netProfit)}) are unfavorable. RAROC of ${raroc.toFixed(1)}% is below the ${hurdle}% hurdle. Approving this loan destroys shareholder value.`;}
 
-  const pdDecision    = pd < 0.10 ? 'APPROVE' : 'REJECT';
-  const rarocDecision = raroc >= hurdle ? 'APPROVE' : 'REJECT';
+  const pdDecision=pd<0.10?'APPROVE':'REJECT';
+  const rarocDecision=raroc>=hurdle?'APPROVE':'REJECT';
 
-  const r = document.getElementById('results');
-  r.innerHTML = `
+  // top bar
+  document.getElementById('app-summary').innerHTML=`
+    <div class="sum-chip">Loan <span>${fmt(loanAmt)}</span></div>
+    <div class="sum-chip">Rate <span>${rate}%</span></div>
+    <div class="sum-chip">Tenure <span>${tenure}m</span></div>
+    <div class="sum-chip">Score <span>${creditScore}</span></div>`;
+  const pill=document.getElementById('decision-pill');
+  pill.textContent=rarocDecision==='APPROVE'?'✓ APPROVED':'✗ REJECTED';
+  pill.className='decision-pill '+segClass;
 
-    <div class="decision-banner ${segClass} animate d1">
+  // sidebar
+  document.getElementById('sidebar-content').innerHTML=`
+    <div class="sb-title">Application Summary</div>
+    <div class="sb-group">
+      <div class="sb-group-lbl">Borrower</div>
+      <div class="sb-row"><span class="sb-key">Age</span><span class="sb-val">${age} yrs</span></div>
+      <div class="sb-row"><span class="sb-key">Annual Income</span><span class="sb-val">${fmt(income)}</span></div>
+      <div class="sb-row"><span class="sb-key">Credit Score</span><span class="sb-val">${creditScore}</span></div>
+      <div class="sb-row"><span class="sb-key">Employment</span><span class="sb-val">${empYears} yrs</span></div>
+      <div class="sb-row"><span class="sb-key">Existing Loans</span><span class="sb-val">${existingLoans}</span></div>
+    </div>
+    <div class="sb-group">
+      <div class="sb-group-lbl">Loan</div>
+      <div class="sb-row"><span class="sb-key">Amount</span><span class="sb-val">${fmt(loanAmt)}</span></div>
+      <div class="sb-row"><span class="sb-key">Interest Rate</span><span class="sb-val">${rate}% p.a.</span></div>
+      <div class="sb-row"><span class="sb-key">Tenure</span><span class="sb-val">${tenure} months</span></div>
+      <div class="sb-row"><span class="sb-key">Purpose</span><span class="sb-val">${PURPOSE_LABEL[purpose]}</span></div>
+      <div class="sb-row"><span class="sb-key">Monthly EMI</span><span class="sb-val">${fmt(emi)}</span></div>
+      <div class="sb-row"><span class="sb-key">DTI Ratio</span><span class="sb-val">${dti.toFixed(2)}x</span></div>
+    </div>
+    <div class="sb-group">
+      <div class="sb-group-lbl">Bank Parameters</div>
+      <div class="sb-row"><span class="sb-key">Cost of Funds</span><span class="sb-val">${cofRate}%</span></div>
+      <div class="sb-row"><span class="sb-key">Hurdle Rate</span><span class="sb-val">${hurdle}%</span></div>
+    </div>`;
+
+  // mobile summary strip
+  document.getElementById('mobile-summary').innerHTML=`
+    <div class="mobile-summary-inner">
+      <div class="mobile-summary-grid">
+        <div class="ms-item"><div class="ms-label">Loan</div><div class="ms-val">${fmt(loanAmt)}</div></div>
+        <div class="ms-item"><div class="ms-label">Credit Score</div><div class="ms-val">${creditScore}</div></div>
+        <div class="ms-item"><div class="ms-label">Monthly EMI</div><div class="ms-val">${fmt(emi)}</div></div>
+      </div>
+    </div>`;
+
+  // results
+  document.getElementById('results-stack').innerHTML=`
+
+    <div class="decision-banner ${segClass} a a1">
       <div class="decision-top">
-        <div>
-          <div style="font-size:10px;font-family:var(--mono);opacity:0.7;letter-spacing:2px;margin-bottom:4px;text-transform:uppercase">AI Model Decision</div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div class="decision-icon">${segIcon}</div>
-            <div>
-              <div class="decision-label">${seg}</div>
-              <div class="decision-sub">${segAction}</div>
-            </div>
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <span class="decision-icon">${segIcon}</span>
+          <div>
+            <div style="font-size:9px;font-family:var(--mono);opacity:0.6;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">AI Model Decision</div>
+            <div class="decision-label">${seg}</div>
+            <div class="decision-sub">${segAction}</div>
           </div>
         </div>
-        <div class="decision-raroc-box">
-          <div class="rl">RAROC vs HURDLE</div>
+        <div class="raroc-badge">
+          <div class="rl">RAROC vs Hurdle</div>
           <div class="rv">${raroc.toFixed(1)}%</div>
           <div class="rh">Hurdle: ${hurdle}%</div>
         </div>
@@ -715,231 +629,91 @@ function analyze(){
       <div class="decision-reason">${segReason}</div>
     </div>
 
-    <div class="kpi-grid animate d2">
-      <div class="kpi-card" style="--kpi-color:#ff4757">
-        <div class="kpi-label">Prob. of Default</div>
-        <div class="kpi-value">${pct(pd)}</div>
-        <div class="kpi-desc">AI model output</div>
-      </div>
-      <div class="kpi-card" style="--kpi-color:#ffd32a">
-        <div class="kpi-label">Expected Loss</div>
-        <div class="kpi-value">${fmt(el)}</div>
-        <div class="kpi-desc">PD × LGD × EAD</div>
-      </div>
-      <div class="kpi-card" style="--kpi-color:${netProfit>=0?'#00d68f':'#ff4757'}">
-        <div class="kpi-label">Net Profit</div>
-        <div class="kpi-value">${fmt(netProfit)}</div>
-        <div class="kpi-desc">After all costs & EL</div>
-      </div>
-      <div class="kpi-card" style="--kpi-color:${raroc>=hurdle?'#00d68f':'#ff4757'}">
-        <div class="kpi-label">RAROC</div>
-        <div class="kpi-value">${raroc.toFixed(1)}%</div>
-        <div class="kpi-desc">vs ${hurdle}% hurdle</div>
-      </div>
+    <div class="kpi-grid a a2">
+      <div class="kpi-card" style="--kpi-color:#ff4757"><div class="kpi-label">Prob. of Default</div><div class="kpi-value">${pct(pd)}</div><div class="kpi-desc">AI model output</div></div>
+      <div class="kpi-card" style="--kpi-color:#ffd32a"><div class="kpi-label">Expected Loss</div><div class="kpi-value">${fmt(el)}</div><div class="kpi-desc">PD × LGD × EAD</div></div>
+      <div class="kpi-card" style="--kpi-color:${netProfit>=0?'#00d68f':'#ff4757'}"><div class="kpi-label">Net Profit</div><div class="kpi-value">${fmt(netProfit)}</div><div class="kpi-desc">After all costs &amp; EL</div></div>
+      <div class="kpi-card" style="--kpi-color:${raroc>=hurdle?'#00d68f':'#ff4757'}"><div class="kpi-label">RAROC</div><div class="kpi-value">${raroc.toFixed(1)}%</div><div class="kpi-desc">vs ${hurdle}% hurdle</div></div>
     </div>
 
-    <div class="steps-card animate d3">
-      <div class="steps-header">
-        <div class="ic-sm" style="background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2)">🧮</div>
-        <div><h3>Step-by-Step Calculation</h3><p>Explain each step to your professor</p></div>
-      </div>
+    <div class="steps-card a a3">
+      <div class="card-header"><div class="c-icon purple">🧮</div><div><h3>Step-by-Step Calculation</h3><p>Full model walkthrough for each formula</p></div></div>
       <div class="steps-body">
-
-        <div class="step done">
-          <div class="step-num">1</div>
-          <div class="step-content">
-            <div class="step-title">Feature Engineering & AI PD Prediction</div>
-            <div class="step-result">
-              DTI Ratio = ${dti.toFixed(3)} &nbsp;|&nbsp; Monthly EMI = ${fmt(emi)}<br/>
-              EMI-to-Income = ${((emi/(income/12))*100).toFixed(1)}% &nbsp;|&nbsp; Credit Score = ${creditScore}
-            </div>
-            <div class="step-formula">Logit = f(credit score, DTI, EMI burden, employment, existing loans)</div>
-            <div class="step-result">→ Gradient Boosting model predicts <strong>PD = ${pct(pd)}</strong></div>
+        <div class="step"><div class="step-num">1</div><div class="step-content">
+          <div class="step-title">Feature Engineering &amp; AI PD Prediction</div>
+          <div class="step-result">DTI = ${dti.toFixed(3)} &nbsp;|&nbsp; Monthly EMI = ${fmt(emi)} &nbsp;|&nbsp; EMI/Income = ${((emi/(income/12))*100).toFixed(1)}%</div>
+          <div class="step-formula">Logit = f(credit score, DTI, EMI burden, employment, existing loans)</div>
+          <div class="step-result">→ Gradient Boosting predicts <strong>PD = ${pct(pd)}</strong></div>
+        </div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-content">
+          <div class="step-title">Expected Loss</div>
+          <div class="step-formula">EL = PD × LGD × EAD</div>
+          <div class="step-result">= ${pct(pd)} × ${pct(lgd)} × ${fmt(ead)} &nbsp;<span style="font-size:10px;color:var(--muted)">(LGD = ${pct(lgd)} for ${PURPOSE_LABEL[purpose]})</span><br/>→ <strong>EL = ${fmt(el)}</strong></div>
+        </div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-content">
+          <div class="step-title">Profitability Modelling</div>
+          <div class="step-formula">Net Profit = Interest Income + Fees − CoF − Op.Cost − EL</div>
+          <div class="step-result">
+            Interest Income = <strong>${fmt(interestIncome)}</strong> (${rate}% × ${tenure/12} yrs)<br/>
+            Fees = <strong>${fmt(fees)}</strong> &nbsp;·&nbsp; CoF = <strong>−${fmt(cof)}</strong> &nbsp;·&nbsp; Op.Cost = <strong>−${fmt(opCost)}</strong> &nbsp;·&nbsp; EL = <strong>−${fmt(el)}</strong><br/>
+            → <strong>Net Profit = ${fmt(netProfit)}</strong>
           </div>
-        </div>
-
-        <div class="step done">
-          <div class="step-num">2</div>
-          <div class="step-content">
-            <div class="step-title">Expected Loss Calculation</div>
-            <div class="step-formula">EL = PD × LGD × EAD</div>
-            <div class="step-result">
-              = ${pct(pd)} × ${pct(lgd)} × ${fmt(ead)}<br/>
-              → <strong>EL = ${fmt(el)}</strong>
-              &nbsp;<span style="font-size:10px;color:var(--muted)">(LGD = ${pct(lgd)} for ${purpose} loan)</span>
-            </div>
+        </div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-content">
+          <div class="step-title">Economic Capital &amp; RAROC</div>
+          <div class="step-formula">EC = Loan × (√PD × 0.12 + 0.04) &nbsp;|&nbsp; RAROC = Net Profit ÷ EC</div>
+          <div class="step-result">
+            EC = ${fmt(ec)} (Basel-inspired) &nbsp;|&nbsp; RAROC = ${fmt(netProfit)} ÷ ${fmt(ec)} = <strong>${raroc.toFixed(1)}%</strong><br/>
+            Hurdle = ${hurdle}% → <strong style="color:${raroc>=hurdle?'var(--green)':'var(--red)'}">${raroc>=hurdle?'ABOVE HURDLE — APPROVE':'BELOW HURDLE — REJECT'}</strong>
           </div>
-        </div>
-
-        <div class="step done">
-          <div class="step-num">3</div>
-          <div class="step-content">
-            <div class="step-title">Profitability Modelling</div>
-            <div class="step-formula">Net Profit = Interest Income + Fees − CoF − Op.Cost − EL</div>
-            <div class="step-result">
-              Interest Income = <strong>${fmt(interestIncome)}</strong> &nbsp;(${rate}% × ${tenure/12} yrs)<br/>
-              Processing Fees = <strong>${fmt(fees)}</strong> &nbsp;(1% of loan)<br/>
-              Cost of Funds = <strong>−${fmt(cof)}</strong> &nbsp;(${cofRate}% p.a.)<br/>
-              Operating Cost = <strong>−${fmt(opCost)}</strong> &nbsp;(0.5% servicing)<br/>
-              Expected Loss = <strong>−${fmt(el)}</strong><br/>
-              → <strong>Net Profit = ${fmt(netProfit)}</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="step done">
-          <div class="step-num">4</div>
-          <div class="step-content">
-            <div class="step-title">Economic Capital & RAROC</div>
-            <div class="step-formula">EC = Loan × (√PD × 0.12 + 0.04) &nbsp;|&nbsp; RAROC = Net Profit ÷ EC</div>
-            <div class="step-result">
-              Economic Capital = ${fmt(ec)} &nbsp;(Basel-inspired)<br/>
-              → <strong>RAROC = ${fmt(netProfit)} ÷ ${fmt(ec)} = ${raroc.toFixed(1)}%</strong><br/>
-              Hurdle = ${hurdle}% → <strong style="color:${raroc>=hurdle?'var(--green)':'var(--red)'}">${raroc>=hurdle?'ABOVE HURDLE — APPROVE':'BELOW HURDLE — REJECT'}</strong>
-            </div>
-          </div>
-        </div>
-
+        </div></div>
       </div>
     </div>
 
-    <div class="compare-card animate d4">
-      <div class="compare-header">
-        <h3>⚖️ Traditional PD Model vs AI RAROC Model</h3>
-        <p>Core argument of the project — scroll right if needed</p>
-      </div>
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Criteria</th>
-              <th>Traditional PD Model</th>
-              <th>AI RAROC Model</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="td-label">What it measures</td>
-              <td>Only default probability</td>
-              <td>Risk + Profitability + Capital</td>
-            </tr>
-            <tr>
-              <td class="td-label">PD for this loan</td>
-              <td class="td-pd">${pct(pd)}</td>
-              <td class="td-pd">${pct(pd)} (same input)</td>
-            </tr>
-            <tr>
-              <td class="td-label">Threshold used</td>
-              <td>PD &lt; 10% → Approve</td>
-              <td>RAROC ≥ ${hurdle}% → Approve</td>
-            </tr>
-            <tr>
-              <td class="td-label">RAROC considered</td>
-              <td style="color:var(--red)">❌ Not computed</td>
-              <td class="td-raroc ${raroc>=hurdle?'good':'bad'}">${raroc.toFixed(1)}%</td>
-            </tr>
-            <tr>
-              <td class="td-label">Decision</td>
-              <td><span class="td-dec ${pdDecision.toLowerCase()}">${pdDecision}</span></td>
-              <td><span class="td-dec ${rarocDecision.toLowerCase()}">${rarocDecision}</span></td>
-            </tr>
-            ${pdDecision!==rarocDecision?`
-            <tr class="insight-row">
-              <td colspan="3">
-                💡 <strong>Key Insight:</strong>
-                ${pdDecision==='REJECT'&&rarocDecision==='APPROVE'
-                  ?`The PD model wrongly rejects this customer! RAROC of ${raroc.toFixed(1)}% shows the loan IS profitable. The bank misses ${fmt(netProfit)} by following PD-only rules.`
-                  :`The PD model approves this loan, but RAROC analysis shows it destroys value (${raroc.toFixed(1)}% &lt; ${hurdle}% hurdle). RAROC model correctly rejects it.`}
-              </td>
-            </tr>`:`
-            <tr class="insight-row">
-              <td colspan="3">💡 Both models agree for this customer — but they often diverge. In the full dataset, 39.5% of decisions changed when switching to RAROC-based analysis.</td>
-            </tr>`}
-          </tbody>
-        </table>
-      </div>
+    <div class="compare-card a a4">
+      <div class="card-header"><div class="c-icon cyan">⚖️</div><div><h3>Traditional PD vs AI RAROC Model</h3><p>Core argument of the project</p></div></div>
+      <div class="table-hint">← Swipe to see full table</div>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Criteria</th><th>Traditional PD</th><th>AI RAROC</th></tr></thead>
+        <tbody>
+          <tr><td class="td-label">Measures</td><td>Default probability only</td><td>Risk + Profit + Capital</td></tr>
+          <tr><td class="td-label">PD</td><td class="td-pd">${pct(pd)}</td><td class="td-pd">${pct(pd)}</td></tr>
+          <tr><td class="td-label">Threshold</td><td>PD &lt; 10%</td><td>RAROC ≥ ${hurdle}%</td></tr>
+          <tr><td class="td-label">RAROC</td><td style="color:var(--red)">❌ Ignored</td><td class="td-raroc ${raroc>=hurdle?'good':'bad'}">${raroc.toFixed(1)}%</td></tr>
+          <tr><td class="td-label">Decision</td><td><span class="td-dec ${pdDecision.toLowerCase()}">${pdDecision}</span></td><td><span class="td-dec ${rarocDecision.toLowerCase()}">${rarocDecision}</span></td></tr>
+          ${pdDecision!==rarocDecision?`<tr class="insight-row"><td colspan="3">💡 <strong>Key Insight:</strong> ${pdDecision==='REJECT'&&rarocDecision==='APPROVE'?`PD model wrongly rejects this customer! RAROC of ${raroc.toFixed(1)}% proves profitability — bank misses ${fmt(netProfit)}.`:`PD model approves, but RAROC (${raroc.toFixed(1)}%) is below ${hurdle}% hurdle. RAROC correctly rejects.`}</td></tr>`:
+          `<tr class="insight-row"><td colspan="3">💡 Both models agree here. Across the full dataset, 39.5% of decisions diverged when switching to RAROC analysis.</td></tr>`}
+        </tbody>
+      </table></div>
     </div>
 
-    <div class="matrix-card animate d5">
-      <div class="matrix-header">
-        <h3>📊 Risk × Profitability Segmentation Matrix</h3>
-        <p>Every customer falls into one of these four quadrants</p>
-      </div>
+    <div class="matrix-card a a5">
+      <div class="card-header"><div class="c-icon cyan">📊</div><div><h3>Risk × Profitability Segmentation</h3><p>Four-quadrant customer classification</p></div></div>
       <div class="matrix-body">
-        <div class="matrix-axis-labels">
-          <span>⬅ HIGH PROFIT</span>
-          <span>LOW PROFIT ➡</span>
-        </div>
+        <div class="matrix-axis"><span>⬅ HIGH PROFIT</span><span>LOW PROFIT ➡</span></div>
         <div class="matrix-grid">
-          <div class="matrix-cell lr-hp ${isLowRisk&&isHighProfit?'active':''}">
-            <div class="mc-icon">✅</div>
-            <div class="mc-tag">Low Risk · High Profit</div>
-            <div class="mc-title">APPROVE</div>
-            <div class="mc-action">Best customers — standard rates</div>
-          </div>
-          <div class="matrix-cell lr-lp ${isLowRisk&&!isHighProfit?'active':''}">
-            <div class="mc-icon">🔄</div>
-            <div class="mc-tag">Low Risk · Low Profit</div>
-            <div class="mc-title">REPRICE</div>
-            <div class="mc-action">Raise rate or add fees</div>
-          </div>
-          <div class="matrix-cell hr-hp ${!isLowRisk&&isHighProfit?'active':''}">
-            <div class="mc-icon">⚡</div>
-            <div class="mc-tag">High Risk · High Profit</div>
-            <div class="mc-title">PRICE PREMIUM</div>
-            <div class="mc-action">Approve at higher rate</div>
-          </div>
-          <div class="matrix-cell hr-lp ${!isLowRisk&&!isHighProfit?'active':''}">
-            <div class="mc-icon">❌</div>
-            <div class="mc-tag">High Risk · Low Profit</div>
-            <div class="mc-title">REJECT</div>
-            <div class="mc-action">Destroys capital — decline</div>
-          </div>
+          <div class="matrix-cell lr-hp ${isLowRisk&&isHighProfit?'active':''}"><div class="mc-icon">✅</div><div class="mc-tag">Low Risk · High Profit</div><div class="mc-title">APPROVE</div><div class="mc-action">Best customers — standard rates</div></div>
+          <div class="matrix-cell lr-lp ${isLowRisk&&!isHighProfit?'active':''}"><div class="mc-icon">🔄</div><div class="mc-tag">Low Risk · Low Profit</div><div class="mc-title">REPRICE</div><div class="mc-action">Raise rate or add fees</div></div>
+          <div class="matrix-cell hr-hp ${!isLowRisk&&isHighProfit?'active':''}"><div class="mc-icon">⚡</div><div class="mc-tag">High Risk · High Profit</div><div class="mc-title">PRICE PREMIUM</div><div class="mc-action">Approve at higher rate</div></div>
+          <div class="matrix-cell hr-lp ${!isLowRisk&&!isHighProfit?'active':''}"><div class="mc-icon">❌</div><div class="mc-tag">High Risk · Low Profit</div><div class="mc-title">REJECT</div><div class="mc-action">Destroys capital — decline</div></div>
         </div>
-        <div class="matrix-callout">
-          <strong>This customer falls in: </strong>${seg}
-        </div>
+        <div class="matrix-callout"><strong>This customer: </strong>${seg}</div>
       </div>
-    </div>
-
-  `;
-}
-
-function resetDefaults(){
-  document.getElementById('age').value=35;
-  document.getElementById('income').value=800000;
-  document.getElementById('loan_amount').value=500000;
-  document.getElementById('interest_rate').value=12.5;
-  document.getElementById('tenure').value=36;
-  document.getElementById('credit_score').value=680;
-  document.getElementById('existing_loans').value=1;
-  document.getElementById('emp_years').value=8;
-  document.getElementById('loan_purpose').value='personal';
-  document.getElementById('cof_rate').value=7;
-  document.getElementById('hurdle').value=15;
-  document.getElementById('results').innerHTML=`
-    <div class="placeholder">
-      <div class="ph-icon">🏦</div>
-      <h3>Awaiting Loan Analysis</h3>
-      <p>Fill in the borrower details and tap <strong>Analyze</strong> to see the full AI model output.</p>
     </div>`;
-  if(window.innerWidth < 900) switchTab('input');
+
+  // switch page
+  document.getElementById('page-input').classList.remove('active');
+  document.getElementById('page-results').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// On resize, reset hidden panels so desktop shows both
-window.addEventListener('resize', ()=>{
-  if(window.innerWidth >= 900){
-    document.getElementById('panel-inputs').classList.remove('hidden');
-    document.getElementById('panel-results').classList.remove('hidden');
-  }
-});
-
-// Initial state: show inputs panel on mobile
-if(window.innerWidth < 900){
-  document.getElementById('panel-results').classList.add('hidden');
+function goBack(){
+  document.getElementById('page-results').classList.remove('active');
+  document.getElementById('page-input').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.querySelectorAll('.error').forEach(el=>el.classList.remove('error'));
+  document.getElementById('validation-msg').classList.remove('show');
 }
-
-window.addEventListener('load', ()=> analyze());
 </script>
 </body>
 </html>
