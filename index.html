@@ -4,184 +4,294 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
 <title>AI-Driven RAROC Lending Analyzer | Vishal Anand | BITS Pilani</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#060a12;--surface:#0d1520;--card:#111e2e;--border:#1a2d45;
-  --accent:#00e5ff;--accent2:#ff6b35;--green:#00d68f;--red:#ff4757;
-  --yellow:#ffd32a;--purple:#a855f7;
-  --text:#e8f0fe;--muted:#5a7a9a;--soft:#8faabf;
-  --mono:'JetBrains Mono',monospace;--head:'Syne',sans-serif;--body:'Lato',sans-serif;
+  --bg:#f4f6f9;--surface:#ffffff;--card:#ffffff;--border:#dde3ec;
+  --navy:#0a1628;--navy2:#112240;--navy3:#1a3a6b;
+  --gold:#c9a84c;--gold2:#e8c96d;
+  --green:#0a7c59;--green-bg:rgba(10,124,89,0.08);
+  --red:#c0392b;--red-bg:rgba(192,57,43,0.08);
+  --yellow:#b8860b;--yellow-bg:rgba(184,134,11,0.08);
+  --purple:#5b3fa6;--purple-bg:rgba(91,63,166,0.08);
+  --blue:#1a5f9e;--blue-bg:rgba(26,95,158,0.08);
+  --text:#0a1628;--muted:#6b7a99;--soft:#4a5568;
+  --mono:'IBM Plex Mono',monospace;--head:'Playfair Display',serif;--body:'IBM Plex Sans',sans-serif;
+  --shadow-sm:0 1px 3px rgba(10,22,40,0.08),0 1px 2px rgba(10,22,40,0.06);
+  --shadow-md:0 4px 12px rgba(10,22,40,0.10),0 2px 4px rgba(10,22,40,0.07);
+  --shadow-lg:0 10px 30px rgba(10,22,40,0.12),0 4px 8px rgba(10,22,40,0.08);
 }
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden}
-body::before{
-  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 80% 50% at 20% 10%,rgba(0,229,255,0.04) 0%,transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 90%,rgba(255,107,53,0.04) 0%,transparent 60%),
-    repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(0,229,255,0.025) 39px,rgba(0,229,255,0.025) 40px),
-    repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(0,229,255,0.025) 39px,rgba(0,229,255,0.025) 40px);
-}
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:#060a12}
-::-webkit-scrollbar-thumb{background:#1a2d45;border-radius:3px}
+
+/* ══ TOP RIBBON ══ */
+.top-ribbon{background:var(--navy);height:3px;background:linear-gradient(90deg,var(--navy3),var(--gold),var(--navy3))}
 
 /* ══ HEADER ══ */
 header{
+  background:var(--navy);
+  padding:0 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
   position:sticky;top:0;z-index:100;
-  border-bottom:1px solid var(--border);
-  background:rgba(6,10,18,0.96);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  padding:11px 20px;
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.25);
+  min-height:60px;
 }
-.hlogo{display:flex;align-items:center;gap:11px;min-width:0}
-.hlogo-icon{width:36px;height:36px;min-width:36px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:700;font-size:13px;color:#000;box-shadow:0 0 16px rgba(0,229,255,0.3);flex-shrink:0}
-.hlogo-text h1{font-family:var(--head);font-size:13px;font-weight:800;color:var(--accent);letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
-.hlogo-text p{font-size:10px;color:var(--muted);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hlogo{display:flex;align-items:center;gap:14px;min-width:0}
+.hlogo-crest{
+  width:40px;height:40px;min-width:40px;
+  background:linear-gradient(135deg,var(--gold),#a07830);
+  border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--head);font-size:18px;font-weight:700;color:var(--navy);
+  box-shadow:0 2px 8px rgba(201,168,76,0.4);
+  letter-spacing:-1px;
+  flex-shrink:0;
+}
+.hlogo-text h1{font-family:var(--head);font-size:14px;font-weight:700;color:#fff;letter-spacing:0.3px;white-space:nowrap}
+.hlogo-text p{font-size:10px;color:rgba(255,255,255,0.5);font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
 .hbadges{display:flex;gap:6px;flex-shrink:0}
-.badge{padding:3px 9px;border-radius:20px;font-size:9px;font-family:var(--mono);font-weight:500;border:1px solid;letter-spacing:0.5px;text-transform:uppercase;white-space:nowrap}
-.badge-cyan{background:rgba(0,229,255,0.08);border-color:rgba(0,229,255,0.25);color:var(--accent)}
-.badge-orange{background:rgba(255,107,53,0.08);border-color:rgba(255,107,53,0.25);color:var(--accent2)}
-.badge-green{background:rgba(0,214,143,0.08);border-color:rgba(0,214,143,0.25);color:var(--green)}
-.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;margin-right:5px;animation:pulse 2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,214,143,0.4)}70%{box-shadow:0 0 0 7px rgba(0,214,143,0)}100%{box-shadow:0 0 0 0 rgba(0,214,143,0)}}
-@media(max-width:560px){.badge-orange{display:none}}
-@media(max-width:420px){.badge-cyan{display:none};header{padding:10px 14px}}
+.badge{
+  padding:3px 9px;border-radius:2px;font-size:9px;
+  font-family:var(--mono);font-weight:600;
+  letter-spacing:0.8px;text-transform:uppercase;white-space:nowrap;
+  border:1px solid;
+}
+.badge-gold{background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.35);color:var(--gold2)}
+.badge-blue{background:rgba(26,95,158,0.2);border-color:rgba(26,95,158,0.4);color:#7ab3e0}
+.badge-green{background:rgba(10,124,89,0.15);border-color:rgba(10,124,89,0.4);color:#4ecba0;display:flex;align-items:center;gap:5px}
+.live-dot{width:5px;height:5px;border-radius:50%;background:#4ecba0;animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(78,203,160,0.5)}70%{box-shadow:0 0 0 6px rgba(78,203,160,0)}100%{box-shadow:0 0 0 0 rgba(78,203,160,0)}}
+@media(max-width:540px){.badge-blue{display:none};header{padding:0 14px}}
+@media(max-width:400px){.badge-gold{display:none}}
+
+/* ══ DIVIDER LINE ══ */
+.gold-line{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.4}
 
 /* ══ PAGE SYSTEM ══ */
-.page{position:relative;z-index:1;display:none}
+.page{position:relative;display:none}
 .page.active{display:block}
 
 /* ══ PAGE 1 INPUT ══ */
-.input-wrap{max-width:800px;margin:0 auto;padding:32px 16px 80px}
+.input-wrap{max-width:820px;margin:0 auto;padding:32px 16px 80px}
 @media(min-width:600px){.input-wrap{padding:40px 24px 80px}}
 @media(min-width:900px){.input-wrap{padding:52px 32px 100px}}
 
-.inp-hero{text-align:center;margin-bottom:28px}
-.inp-eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:14px;background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.15);padding:5px 14px;border-radius:20px}
-.inp-hero h2{font-family:var(--head);font-size:clamp(22px,5vw,40px);font-weight:800;line-height:1.15;margin-bottom:10px}
-.inp-hero h2 span{color:var(--accent)}
-.inp-hero p{font-size:13px;color:var(--soft);max-width:560px;margin:0 auto;line-height:1.7}
-
-/* Dataset banner */
-.dataset-banner{
-  background:linear-gradient(135deg,rgba(0,229,255,0.05),rgba(168,85,247,0.05));
-  border:1px solid rgba(0,229,255,0.2);border-radius:14px;
-  padding:14px 18px;margin-bottom:24px;
-  display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;
+.inp-hero{text-align:center;margin-bottom:30px}
+.inp-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:10px;letter-spacing:2px;
+  color:var(--gold);text-transform:uppercase;margin-bottom:14px;
+  background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);
+  padding:5px 14px;border-radius:2px;
 }
-.ds-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
-.ds-value{font-size:12px;color:var(--text);line-height:1.6}
-.ds-link{font-family:var(--mono);font-size:10px;color:var(--accent);opacity:0.8;word-break:break-all}
-.ds-stat{background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.15);border-radius:8px;padding:8px 12px;min-width:100px;text-align:center}
-.ds-stat-val{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--accent)}
-.ds-stat-key{font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+.inp-hero h2{
+  font-family:var(--head);font-size:clamp(24px,5vw,42px);
+  font-weight:700;line-height:1.15;margin-bottom:10px;color:var(--navy);
+}
+.inp-hero h2 span{color:var(--blue)}
+.inp-hero p{font-size:13px;color:var(--soft);max-width:560px;margin:0 auto;line-height:1.75}
 
-.formula-strip{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-bottom:28px}
-.fstep{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:7px 12px}
-.fstep .fn{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
-.fstep .fe{font-family:var(--mono);font-size:11px;color:var(--text)}
-.fstep-arrow{color:var(--border);font-size:14px}
+/* Dataset Info Banner */
+.dataset-banner{
+  background:var(--navy);border-radius:6px;
+  padding:18px 20px;margin-bottom:28px;
+  display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;
+  box-shadow:var(--shadow-lg);
+}
+.ds-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.ds-value{font-size:12px;color:rgba(255,255,255,0.75);line-height:1.7}
+.ds-value strong{color:rgba(255,255,255,0.95)}
+.ds-stat{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  border-radius:4px;padding:9px 14px;min-width:80px;text-align:center;
+}
+.ds-stat-val{font-family:var(--mono);font-size:18px;font-weight:600;color:var(--gold2)}
+.ds-stat-key{font-size:9px;color:rgba(255,255,255,0.45);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+
+.formula-strip{
+  display:flex;flex-wrap:wrap;gap:0;justify-content:center;align-items:stretch;
+  margin-bottom:28px;background:var(--surface);
+  border:1px solid var(--border);border-radius:6px;overflow:hidden;
+  box-shadow:var(--shadow-sm);
+}
+.fstep{padding:11px 16px;border-right:1px solid var(--border);flex:1;min-width:120px}
+.fstep:last-child{border-right:none}
+.fstep .fn{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.fstep .fe{font-family:var(--mono);font-size:11px;color:var(--navy3);font-weight:500}
 @media(max-width:500px){.formula-strip{display:none}}
 
-.form-card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4)}
-.form-section{padding:22px 20px 18px;border-bottom:1px solid var(--border)}
-@media(min-width:600px){.form-section{padding:26px 26px 20px}}
+/* Form Card */
+.form-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;
+  box-shadow:var(--shadow-md);
+}
+.form-card-header{
+  background:var(--navy);padding:16px 22px;
+  display:flex;align-items:center;gap:12px;
+}
+.fch-icon{font-size:20px}
+.fch-text h3{font-family:var(--head);font-size:16px;font-weight:700;color:#fff}
+.fch-text p{font-size:11px;color:rgba(255,255,255,0.5);font-family:var(--mono);margin-top:1px}
+.form-section{padding:22px 22px 18px;border-bottom:1px solid var(--border)}
+@media(min-width:600px){.form-section{padding:24px 28px 20px}}
 .form-section:last-of-type{border-bottom:none}
+
 .section-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.section-icon{width:34px;height:34px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px}
-.section-icon.blue{background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2)}
-.section-icon.orange{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.2)}
-.section-icon.purple{background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2)}
-.section-title{font-family:var(--head);font-size:14px;font-weight:700;color:var(--text)}
+.section-num{
+  width:26px;height:26px;min-width:26px;border-radius:50%;
+  background:var(--navy);color:var(--gold2);
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+}
+.section-title{font-family:var(--body);font-size:13px;font-weight:600;color:var(--navy);letter-spacing:0.2px}
 .section-sub{font-size:11px;color:var(--muted);margin-top:1px}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.field{margin-bottom:13px}
+
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{margin-bottom:14px}
 .field:last-child{margin-bottom:0}
-.field label{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
-.field label .lbl{font-size:12px;color:var(--soft)}
+.field label{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.field label .lbl{font-size:12px;color:var(--soft);font-weight:500}
 .field label .hint{font-size:10px;color:var(--muted);font-family:var(--mono)}
 .field input,.field select{
-  width:100%;background:var(--surface);border:1px solid var(--border);
-  border-radius:9px;padding:12px 13px;color:var(--text);
+  width:100%;background:#fafbfc;border:1px solid var(--border);
+  border-radius:4px;padding:11px 13px;color:var(--text);
   font-family:var(--mono);font-size:13px;outline:none;
   transition:border-color 0.2s,box-shadow 0.2s,background 0.2s;
-  -webkit-appearance:none;appearance:none;min-height:46px;
+  -webkit-appearance:none;appearance:none;min-height:44px;
 }
 .field input::placeholder{color:var(--muted);font-style:italic}
-.field input:focus,.field select:focus{border-color:rgba(0,229,255,0.45);box-shadow:0 0 0 3px rgba(0,229,255,0.08);background:rgba(0,229,255,0.02)}
-.field input.error{border-color:rgba(255,71,87,0.5)!important;box-shadow:0 0 0 3px rgba(255,71,87,0.07)!important}
-.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%235a7a9a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px;cursor:pointer}
-.field select option{background:#0d1520}
+.field input:focus,.field select:focus{
+  border-color:var(--navy3);box-shadow:0 0 0 3px rgba(26,58,107,0.08);
+  background:#fff;
+}
+.field input.error{border-color:var(--red)!important;box-shadow:0 0 0 3px var(--red-bg)!important}
+.field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%236b7a99' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;padding-right:36px;cursor:pointer;
+}
+.field select option{background:#fff;color:var(--text)}
 
-/* model-info inline tags */
-.imp-tag{display:inline-block;font-size:9px;font-family:var(--mono);padding:2px 7px;border-radius:4px;background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.2);color:var(--accent);margin-left:6px;vertical-align:middle}
+.imp-tag{
+  display:inline-block;font-size:9px;font-family:var(--mono);
+  padding:1px 6px;border-radius:2px;
+  background:rgba(26,95,158,0.08);border:1px solid rgba(26,95,158,0.15);
+  color:var(--blue);margin-left:6px;vertical-align:middle;
+}
 
-.validation-msg{display:none;margin:0 20px 14px;padding:10px 14px;border-radius:9px;background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.25);font-size:12px;color:var(--red);line-height:1.5;font-family:var(--mono)}
-@media(min-width:600px){.validation-msg{margin:0 26px 14px}}
+.validation-msg{
+  display:none;margin:0 22px 14px;padding:10px 14px;
+  border-radius:4px;background:var(--red-bg);
+  border:1px solid rgba(192,57,43,0.2);
+  font-size:12px;color:var(--red);line-height:1.5;font-family:var(--mono);
+  border-left:3px solid var(--red);
+}
+@media(min-width:600px){.validation-msg{margin:0 28px 14px}}
 .validation-msg.show{display:block}
 
-.analyze-wrap{padding:16px 20px 24px}
-@media(min-width:600px){.analyze-wrap{padding:18px 26px 26px}}
+.analyze-wrap{padding:16px 22px 24px}
+@media(min-width:600px){.analyze-wrap{padding:18px 28px 28px}}
 .analyze-btn{
-  width:100%;padding:16px;border:none;border-radius:11px;cursor:pointer;
-  font-family:var(--head);font-size:15px;font-weight:700;letter-spacing:1px;
-  background:linear-gradient(135deg,var(--accent),#0099bb);color:#000;
+  width:100%;padding:15px;border:none;border-radius:4px;cursor:pointer;
+  font-family:var(--body);font-size:14px;font-weight:600;letter-spacing:0.5px;
+  background:var(--navy);color:#fff;
   position:relative;overflow:hidden;
-  transition:transform 0.15s,box-shadow 0.2s;
-  box-shadow:0 4px 24px rgba(0,229,255,0.25);min-height:52px;touch-action:manipulation;
+  transition:transform 0.15s,box-shadow 0.2s,background 0.2s;
+  box-shadow:0 4px 16px rgba(10,22,40,0.25);min-height:50px;touch-action:manipulation;
 }
-.analyze-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,229,255,0.4)}
-.analyze-btn:active{transform:scale(0.98)}
-.btn-shine{position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left 0.4s}
-.analyze-btn:hover .btn-shine{left:150%}
+.analyze-btn:hover{background:var(--navy3);transform:translateY(-1px);box-shadow:0 6px 24px rgba(10,22,40,0.3)}
+.analyze-btn:active{transform:scale(0.99)}
+.btn-inner{display:flex;align-items:center;justify-content:center;gap:10px}
+.btn-badge{
+  background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.35);
+  border-radius:2px;padding:2px 8px;font-family:var(--mono);font-size:9px;color:var(--gold2);
+  letter-spacing:1px;
+}
 
-.notes-strip{margin-top:28px;background:linear-gradient(135deg,rgba(0,229,255,0.04),rgba(168,85,247,0.04));border:1px solid var(--border);border-radius:14px;padding:20px}
-.notes-strip h4{font-family:var(--head);font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.note-list{display:flex;flex-direction:column;gap:9px}
-.note-item{display:flex;gap:10px;align-items:flex-start}
-.note-dot{width:20px;height:20px;min-width:20px;border-radius:50%;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2);display:flex;align-items:center;justify-content:center;font-size:10px;margin-top:1px}
-.note-item p{font-size:12px;color:var(--soft);line-height:1.65}
-.note-item p strong{color:var(--text)}
+.notes-strip{
+  margin-top:28px;background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:20px 22px;
+  box-shadow:var(--shadow-sm);
+}
+.notes-strip h4{
+  font-family:var(--body);font-size:13px;font-weight:600;
+  margin-bottom:14px;display:flex;align-items:center;gap:8px;
+  color:var(--navy);border-bottom:1px solid var(--border);padding-bottom:10px;
+}
+.note-list{display:flex;flex-direction:column;gap:12px}
+.note-item{display:flex;gap:12px;align-items:flex-start}
+.note-num{
+  width:22px;height:22px;min-width:22px;border-radius:2px;
+  background:var(--navy);color:var(--gold2);
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;margin-top:1px;
+}
+.note-item p{font-size:12px;color:var(--soft);line-height:1.7}
+.note-item p strong{color:var(--navy)}
 
 /* ══ PAGE 2 RESULTS ══ */
 .results-topbar{
-  background:rgba(11,21,32,0.98);border-bottom:1px solid var(--border);
+  background:var(--navy);
   padding:11px 16px;
   display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
 }
 @media(min-width:600px){.results-topbar{padding:12px 24px}}
 @media(min-width:900px){.results-topbar{padding:13px 32px}}
-.back-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--soft);cursor:pointer;font-family:var(--mono);font-size:11px;white-space:nowrap;transition:all 0.2s;min-height:36px;touch-action:manipulation}
-.back-btn:hover{border-color:var(--accent);color:var(--accent)}
+.back-btn{
+  display:flex;align-items:center;gap:6px;padding:7px 14px;
+  border:1px solid rgba(255,255,255,0.15);border-radius:3px;
+  background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);
+  cursor:pointer;font-family:var(--mono);font-size:11px;white-space:nowrap;
+  transition:all 0.2s;min-height:34px;touch-action:manipulation;
+}
+.back-btn:hover{border-color:var(--gold);color:var(--gold2)}
 .app-summary{display:flex;gap:6px;flex-wrap:wrap}
-.sum-chip{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;align-items:center;gap:4px;white-space:nowrap}
-.sum-chip span{color:var(--text);font-weight:500}
+.sum-chip{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);
+  border-radius:2px;padding:4px 10px;font-family:var(--mono);font-size:10px;
+  color:rgba(255,255,255,0.55);display:flex;align-items:center;gap:4px;white-space:nowrap;
+}
+.sum-chip span{color:rgba(255,255,255,0.9);font-weight:500}
 @media(max-width:599px){.app-summary{display:none}}
-.decision-pill{padding:5px 14px;border-radius:20px;font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;border:1px solid;white-space:nowrap}
-.decision-pill.approve{background:rgba(0,214,143,0.1);border-color:rgba(0,214,143,0.3);color:var(--green)}
-.decision-pill.reject{background:rgba(255,71,87,0.1);border-color:rgba(255,71,87,0.3);color:var(--red)}
-.decision-pill.reprice{background:rgba(255,211,42,0.1);border-color:rgba(255,211,42,0.3);color:var(--yellow)}
-.decision-pill.premium{background:rgba(168,85,247,0.1);border-color:rgba(168,85,247,0.3);color:var(--purple)}
+.decision-pill{
+  padding:5px 14px;border-radius:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:0.5px;text-transform:uppercase;border:1px solid;white-space:nowrap;
+}
+.decision-pill.approve{background:rgba(10,124,89,0.2);border-color:rgba(10,124,89,0.5);color:#4ecba0}
+.decision-pill.reject{background:rgba(192,57,43,0.2);border-color:rgba(192,57,43,0.5);color:#e88a7d}
+.decision-pill.reprice{background:rgba(184,134,11,0.2);border-color:rgba(184,134,11,0.5);color:#e8c96d}
+.decision-pill.premium{background:rgba(91,63,166,0.2);border-color:rgba(91,63,166,0.5);color:#a08ee8}
 
-.results-layout{display:grid;grid-template-columns:1fr;max-width:1300px;margin:0 auto}
-@media(min-width:900px){.results-layout{grid-template-columns:280px 1fr;min-height:calc(100vh - 116px)}}
-@media(min-width:1100px){.results-layout{grid-template-columns:304px 1fr}}
+.results-layout{display:grid;grid-template-columns:1fr;max-width:1360px;margin:0 auto}
+@media(min-width:900px){.results-layout{grid-template-columns:272px 1fr;min-height:calc(100vh - 118px)}}
+@media(min-width:1100px){.results-layout{grid-template-columns:296px 1fr}}
 
-.results-sidebar{background:var(--card);border-right:1px solid var(--border);padding:20px 18px}
+.results-sidebar{
+  background:var(--surface);border-right:1px solid var(--border);
+  padding:20px 18px;
+}
 @media(max-width:899px){.results-sidebar{display:none}}
-.sb-title{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
-.sb-group{margin-bottom:20px}
-.sb-group-lbl{font-size:9px;font-family:var(--mono);color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.sb-title{
+  font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);
+  text-transform:uppercase;margin-bottom:16px;
+  padding-bottom:8px;border-bottom:2px solid var(--navy);
+  color:var(--navy);font-size:10px;letter-spacing:1px;
+}
+.sb-group{margin-bottom:18px}
+.sb-group-lbl{
+  font-size:9px;font-family:var(--mono);color:var(--gold);
+  letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:8px;padding-bottom:5px;
+  border-bottom:1px solid var(--border);
+}
 .sb-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;gap:8px}
 .sb-key{font-size:11px;color:var(--muted);flex-shrink:0}
 .sb-val{font-family:var(--mono);font-size:11px;color:var(--text);text-align:right}
-.sb-imp-bar{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--purple));margin-top:4px;min-width:4px}
 
-.results-main{padding:20px 16px 60px}
+.results-main{padding:20px 16px 60px;background:var(--bg)}
 @media(min-width:600px){.results-main{padding:24px 24px 60px}}
 @media(min-width:900px){.results-main{padding:26px 28px 60px}}
 .results-stack{display:flex;flex-direction:column;gap:16px}
@@ -189,141 +299,216 @@ header{
 
 .mobile-summary{display:none;margin-bottom:14px}
 @media(max-width:899px){.mobile-summary{display:block}}
-.mobile-summary-inner{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.mobile-summary-inner{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 16px;box-shadow:var(--shadow-sm)}
 .mobile-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .ms-item{text-align:center}
 .ms-label{font-size:9px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
 .ms-val{font-family:var(--mono);font-size:12px;color:var(--text);font-weight:500}
 
-.decision-banner{border-radius:16px;padding:18px;border:2px solid;position:relative;overflow:hidden}
-@media(min-width:600px){.decision-banner{padding:22px 24px}}
-.decision-banner::before{content:'';position:absolute;inset:0;opacity:0.06;background:radial-gradient(ellipse 60% 80% at 50% 0%,currentColor,transparent)}
-.decision-banner.approve{border-color:var(--green);color:var(--green)}
-.decision-banner.reject{border-color:var(--red);color:var(--red)}
-.decision-banner.reprice{border-color:var(--yellow);color:var(--yellow)}
-.decision-banner.premium{border-color:var(--purple);color:var(--purple)}
-.decision-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.decision-icon{font-size:26px}
-@media(min-width:600px){.decision-icon{font-size:32px}}
-.decision-label{font-family:var(--head);font-size:16px;font-weight:800;letter-spacing:0.5px}
-@media(min-width:600px){.decision-label{font-size:20px}}
-.decision-sub{font-size:11px;opacity:0.8;margin-top:2px;font-family:var(--mono)}
+/* ── Decision Banner ── */
+.decision-banner{
+  border-radius:6px;padding:18px;border:1px solid;
+  position:relative;overflow:hidden;
+  box-shadow:var(--shadow-md);
+}
+@media(min-width:600px){.decision-banner{padding:22px 26px}}
+.decision-banner::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:currentColor;opacity:0.5;
+}
+.decision-banner.approve{background:var(--surface);border-color:#b8d8c8;color:var(--green)}
+.decision-banner.reject{background:var(--surface);border-color:#e0c4c2;color:var(--red)}
+.decision-banner.reprice{background:var(--surface);border-color:#e0d4a4;color:var(--yellow)}
+.decision-banner.premium{background:var(--surface);border-color:#c8c0e4;color:var(--purple)}
+.decision-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.decision-left{display:flex;align-items:flex-start;gap:14px}
+.decision-icon-wrap{
+  width:44px;height:44px;border-radius:4px;
+  background:currentColor;opacity:0.12;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;flex-shrink:0;
+}
+.decision-icon-wrap span{position:relative;font-size:20px;z-index:1;opacity:calc(1/0.12)}
+.decision-icon-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px}
+.decision-label{font-family:var(--head);font-size:18px;font-weight:700;letter-spacing:0.2px}
+@media(min-width:600px){.decision-label{font-size:22px}}
+.decision-sub{font-size:11px;opacity:0.7;margin-top:3px;font-family:var(--mono);font-weight:500}
 .raroc-badge{text-align:right;flex-shrink:0}
 .raroc-badge .rl{font-size:9px;font-family:var(--mono);opacity:0.6;margin-bottom:2px;letter-spacing:1px;text-transform:uppercase}
-.raroc-badge .rv{font-family:var(--mono);font-size:24px;font-weight:700;line-height:1}
-@media(min-width:600px){.raroc-badge .rv{font-size:28px}}
-.raroc-badge .rh{font-size:10px;opacity:0.65;margin-top:2px;font-family:var(--mono)}
-.decision-reason{margin-top:12px;padding:10px 13px;border-radius:8px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.05);font-size:12px;color:var(--soft);line-height:1.65}
+.raroc-badge .rv{font-family:var(--mono);font-size:28px;font-weight:600;line-height:1}
+@media(min-width:600px){.raroc-badge .rv{font-size:32px}}
+.raroc-badge .rh{font-size:10px;opacity:0.6;margin-top:3px;font-family:var(--mono)}
+.decision-reason{
+  margin-top:14px;padding:11px 14px;
+  border-radius:3px;background:rgba(0,0,0,0.04);
+  border-left:3px solid currentColor;
+  font-size:12px;color:var(--soft);line-height:1.7;
+}
 @media(min-width:600px){.decision-reason{font-size:13px}}
 
+/* ── KPI Grid ── */
 .kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 @media(min-width:560px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}
 @media(min-width:600px){.kpi-grid{gap:12px}}
-.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;position:relative;overflow:hidden}
-.kpi-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--kpi-color,var(--accent));box-shadow:0 0 10px var(--kpi-color,var(--accent))}
-.kpi-label{font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px}
-.kpi-value{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--kpi-color,var(--accent));line-height:1}
-@media(min-width:600px){.kpi-value{font-size:20px}}
-.kpi-desc{font-size:10px;color:var(--muted);margin-top:4px}
+.kpi-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;padding:14px;
+  position:relative;overflow:hidden;
+  box-shadow:var(--shadow-sm);
+}
+.kpi-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--kpi-color,var(--navy3));
+}
+.kpi-label{font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.kpi-value{font-family:var(--mono);font-size:18px;font-weight:600;color:var(--kpi-color,var(--navy3));line-height:1}
+@media(min-width:600px){.kpi-value{font-size:22px}}
+.kpi-desc{font-size:10px;color:var(--muted);margin-top:5px}
 
-.card-header{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-@media(min-width:600px){.card-header{padding:15px 22px}}
-.c-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.c-icon.purple{background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2)}
-.c-icon.cyan{background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.2)}
-.c-icon.orange{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.2)}
-.card-header h3{font-family:var(--head);font-size:13px;font-weight:700}
-.card-header p{font-size:10px;color:var(--muted);margin-top:1px}
+/* ── Section cards ── */
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.card-header{
+  padding:13px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy3) 100%);
+}
+@media(min-width:600px){.card-header{padding:14px 22px}}
+.c-icon{
+  width:28px;height:28px;border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;flex-shrink:0;
+  background:rgba(255,255,255,0.1);
+}
+.card-header h3{font-family:var(--body);font-size:13px;font-weight:600;color:#fff}
+.card-header p{font-size:10px;color:rgba(255,255,255,0.5);margin-top:1px}
 
-.steps-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.steps-body{padding:16px 18px;display:flex;flex-direction:column;gap:0}
-@media(min-width:600px){.steps-body{padding:20px 22px}}
-.step{display:flex;gap:13px;position:relative;padding-bottom:16px}
+/* ── Steps ── */
+.steps-body{padding:18px 18px;display:flex;flex-direction:column;gap:0}
+@media(min-width:600px){.steps-body{padding:20px 24px}}
+.step{display:flex;gap:14px;position:relative;padding-bottom:18px}
 .step:last-child{padding-bottom:0}
-.step::before{content:'';position:absolute;left:14px;top:28px;bottom:0;width:1px;background:var(--border);display:none}
+.step::before{content:'';position:absolute;left:13px;top:28px;bottom:0;width:1px;background:var(--border);display:none}
 .step:not(:last-child)::before{display:block}
-.step-num{width:28px;height:28px;min-width:28px;border-radius:50%;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);margin-top:1px;flex-shrink:0}
-.step-title{font-family:var(--head);font-size:12px;font-weight:700;margin-bottom:5px;color:var(--text)}
-.step-formula{font-family:var(--mono);font-size:11px;color:var(--accent);background:rgba(0,229,255,0.04);padding:5px 9px;border-radius:6px;border-left:2px solid rgba(0,229,255,0.3);margin:5px 0}
-.step-result{font-size:11px;color:var(--soft);line-height:1.65}
-.step-result strong{color:var(--text)}
+.step-num{
+  width:26px;height:26px;min-width:26px;border-radius:50%;
+  background:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--gold2);
+  margin-top:1px;flex-shrink:0;
+}
+.step-title{font-family:var(--body);font-size:12px;font-weight:600;margin-bottom:6px;color:var(--navy)}
+.step-formula{
+  font-family:var(--mono);font-size:11px;color:var(--navy3);
+  background:var(--blue-bg);padding:6px 10px;border-radius:3px;
+  border-left:3px solid var(--blue);margin:5px 0;
+}
+.step-result{font-size:11px;color:var(--soft);line-height:1.7}
+.step-result strong{color:var(--navy)}
 
-.compare-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+/* ── Feature importance bars ── */
+.feat-body{padding:18px 18px}
+@media(min-width:600px){.feat-body{padding:20px 24px}}
+.feat-row{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.feat-row:last-child{margin-bottom:0}
+.feat-name{font-family:var(--mono);font-size:10px;color:var(--soft);width:138px;flex-shrink:0}
+.feat-bar-wrap{flex:1;height:7px;background:rgba(10,22,40,0.06);border-radius:2px;overflow:hidden}
+.feat-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--navy3),var(--blue))}
+.feat-pct{font-family:var(--mono);font-size:10px;color:var(--muted);width:42px;text-align:right;flex-shrink:0}
+.feat-dir{font-size:11px;width:16px;flex-shrink:0;text-align:center}
+
+/* ── Comparison table ── */
 .table-hint{font-size:10px;color:var(--muted);padding:6px 18px;font-family:var(--mono)}
 @media(min-width:600px){.table-hint{display:none}}
 .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;font-size:12px;min-width:360px}
-thead{background:var(--surface)}
-th{padding:10px 14px;text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
-td{padding:9px 14px;border-bottom:1px solid rgba(26,45,69,0.5);color:var(--soft);font-size:12px}
+thead{background:#f8f9fb}
+th{
+  padding:10px 16px;text-align:left;
+  font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;
+  color:var(--muted);border-bottom:2px solid var(--border);
+}
+td{padding:10px 16px;border-bottom:1px solid var(--border);color:var(--soft);font-size:12px}
 tr:last-child td{border-bottom:none}
 .td-label{color:var(--soft)}
 .td-pd{font-family:var(--mono);color:var(--red)}
 .td-raroc{font-family:var(--mono)}.td-raroc.good{color:var(--green)}.td-raroc.bad{color:var(--red)}
-.td-dec{font-family:var(--mono);font-weight:700;font-size:11px;padding:3px 8px;border-radius:4px;display:inline-block}
-.td-dec.approve{background:rgba(0,214,143,0.1);color:var(--green)}
-.td-dec.reject{background:rgba(255,71,87,0.1);color:var(--red)}
-.insight-row td{background:rgba(0,229,255,0.03);font-size:11px;color:var(--soft);font-style:italic;line-height:1.55}
+.td-dec{
+  font-family:var(--mono);font-weight:600;font-size:11px;
+  padding:3px 8px;border-radius:2px;display:inline-block;letter-spacing:0.5px;
+}
+.td-dec.approve{background:var(--green-bg);color:var(--green)}
+.td-dec.reject{background:var(--red-bg);color:var(--red)}
+.insight-row td{
+  background:#fffdf0;font-size:11px;color:var(--soft);
+  font-style:italic;line-height:1.6;border-top:1px solid #f0e8c0;
+}
 
-/* feature importance bars */
-.feat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.feat-body{padding:16px 18px}
-@media(min-width:600px){.feat-body{padding:20px 22px}}
-.feat-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.feat-row:last-child{margin-bottom:0}
-.feat-name{font-family:var(--mono);font-size:10px;color:var(--soft);width:130px;flex-shrink:0}
-.feat-bar-wrap{flex:1;height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden}
-.feat-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--purple))}
-.feat-pct{font-family:var(--mono);font-size:10px;color:var(--muted);width:44px;text-align:right;flex-shrink:0}
-.feat-dir{font-size:10px;width:14px;flex-shrink:0}
+/* ── Matrix ── */
+.matrix-body{padding:18px 18px}
+@media(min-width:600px){.matrix-body{padding:20px 24px}}
+.matrix-axis{display:grid;grid-template-columns:1fr 1fr;margin-bottom:8px}
+.matrix-axis span{text-align:center;font-size:9px;color:var(--muted);font-family:var(--mono);letter-spacing:0.5px}
+.matrix-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.matrix-cell{
+  border-radius:4px;padding:13px;border:1px solid;
+  transition:box-shadow 0.2s;cursor:default;
+}
+@media(min-width:600px){.matrix-cell{padding:15px}}
+.matrix-cell.active{border-width:2px;box-shadow:0 0 0 3px var(--mc-outline)}
+.matrix-cell.lr-hp{--mc-outline:rgba(10,124,89,0.2);background:var(--green-bg);border-color:#b8d8c8;color:var(--green)}
+.matrix-cell.lr-lp{--mc-outline:rgba(184,134,11,0.2);background:var(--yellow-bg);border-color:#e0d4a4;color:var(--yellow)}
+.matrix-cell.hr-hp{--mc-outline:rgba(91,63,166,0.2);background:var(--purple-bg);border-color:#c8c0e4;color:var(--purple)}
+.matrix-cell.hr-lp{--mc-outline:rgba(192,57,43,0.2);background:var(--red-bg);border-color:#e0c4c2;color:var(--red)}
+.mc-tag{font-size:8px;font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;opacity:0.7;margin-bottom:5px}
+.mc-title{font-family:var(--head);font-size:13px;font-weight:700;margin-bottom:3px}
+.mc-action{font-size:10px;opacity:0.75;line-height:1.5}
+.mc-icon{font-size:16px;margin-bottom:5px}
+.matrix-callout{
+  margin-top:12px;padding:10px 14px;background:#f8f9fb;
+  border-radius:3px;border-left:3px solid var(--navy3);
+  font-size:11px;color:var(--soft);line-height:1.6;
+}
+.matrix-callout strong{color:var(--navy)}
 
-.matrix-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.matrix-body{padding:16px 18px}
-@media(min-width:600px){.matrix-body{padding:20px 22px}}
-.matrix-axis{display:grid;grid-template-columns:1fr 1fr;margin-bottom:6px}
-.matrix-axis span{text-align:center;font-size:9px;color:var(--muted);font-family:var(--mono)}
-.matrix-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-@media(min-width:600px){.matrix-grid{gap:10px}}
-.matrix-cell{border-radius:10px;padding:12px;border:1px solid;transition:box-shadow 0.2s}
-@media(min-width:600px){.matrix-cell{padding:13px 15px}}
-.matrix-cell.active{border-width:2px;box-shadow:0 0 18px var(--mc-color)}
-.matrix-cell.lr-hp{--mc-color:rgba(0,214,143,0.4);background:rgba(0,214,143,0.06);border-color:rgba(0,214,143,0.2);color:var(--green)}
-.matrix-cell.lr-lp{--mc-color:rgba(255,211,42,0.4);background:rgba(255,211,42,0.06);border-color:rgba(255,211,42,0.2);color:var(--yellow)}
-.matrix-cell.hr-hp{--mc-color:rgba(168,85,247,0.4);background:rgba(168,85,247,0.06);border-color:rgba(168,85,247,0.2);color:var(--purple)}
-.matrix-cell.hr-lp{--mc-color:rgba(255,71,87,0.4);background:rgba(255,71,87,0.06);border-color:rgba(255,71,87,0.2);color:var(--red)}
-.mc-tag{font-size:8px;font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;opacity:0.7;margin-bottom:4px}
-.mc-title{font-family:var(--head);font-size:12px;font-weight:700;margin-bottom:2px}
-.mc-action{font-size:10px;opacity:0.8;line-height:1.4}
-.mc-icon{font-size:18px;margin-bottom:4px}
-.matrix-callout{margin-top:10px;padding:9px 13px;background:rgba(0,229,255,0.04);border-radius:8px;border-left:3px solid var(--accent);font-size:11px;color:var(--soft);line-height:1.5}
-.matrix-callout strong{color:var(--accent)}
+/* ── Ref card ── */
+.ref-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:6px;
+  padding:14px 18px;font-size:11px;color:var(--soft);line-height:1.75;
+  box-shadow:var(--shadow-sm);
+}
+.ref-card strong{color:var(--navy);font-weight:600}
+.ref-card a{color:var(--blue);text-decoration:none}
+.ref-card-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:8px;display:block;
+}
 
-/* dataset ref card */
-.ref-card{background:rgba(0,229,255,0.03);border:1px solid rgba(0,229,255,0.15);border-radius:12px;padding:14px 16px;font-size:11px;color:var(--soft);line-height:1.7}
-.ref-card strong{color:var(--accent);font-family:var(--mono)}
-.ref-card a{color:var(--accent);text-decoration:none;opacity:0.8}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.a{animation:fadeUp 0.4s ease both}
-.a1{animation-delay:.04s}.a2{animation-delay:.1s}.a3{animation-delay:.17s}.a4{animation-delay:.23s}.a5{animation-delay:.30s}.a6{animation-delay:.37s}.a7{animation-delay:.44s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.a{animation:fadeUp 0.35s ease both}
+.a1{animation-delay:.04s}.a2{animation-delay:.10s}.a3{animation-delay:.17s}
+.a4{animation-delay:.23s}.a5{animation-delay:.30s}.a6{animation-delay:.37s}.a7{animation-delay:.44s}
 </style>
 </head>
 <body>
 
+<div class="top-ribbon"></div>
+
 <header>
   <div class="hlogo">
-    <div class="hlogo-icon">AI</div>
+    <div class="hlogo-crest">RA</div>
     <div class="hlogo-text">
       <h1>RAROC Lending Analyzer</h1>
       <p>Vishal Anand · 2024mb21181 · BITS Pilani MBA</p>
     </div>
   </div>
   <div class="hbadges">
-    <span class="badge badge-cyan">LR MODEL</span>
-    <span class="badge badge-orange">RAROC ENGINE</span>
+    <span class="badge badge-gold">LR MODEL</span>
+    <span class="badge badge-blue">RAROC ENGINE</span>
     <span class="badge badge-green"><span class="live-dot"></span>LIVE</span>
   </div>
 </header>
+<div class="gold-line"></div>
 
 
 <!-- ════════════ PAGE 1: INPUT ════════════ -->
@@ -333,42 +518,46 @@ tr:last-child td{border-bottom:none}
   <div class="inp-hero">
     <div class="inp-eyebrow">🏦 AI in Retail Lending · BITS Pilani MBA</div>
     <h2>Risk-Adjusted <span>Profitability</span><br/>Lending Decisions</h2>
-    <p>Model coefficients trained on the <strong style="color:var(--accent)">UCI "Give Me Some Credit"</strong> dataset (13,000 records). Enter borrower details — the Logistic Regression PD model computes Expected Loss, Net Profit, Economic Capital &amp; RAROC to generate a lending decision.</p>
+    <p>Model coefficients trained on a <strong>13,000-record synthetic credit dataset</strong> (RBI/Basel II aligned). Enter borrower details — the Logistic Regression PD model computes Expected Loss, Net Profit, Economic Capital &amp; RAROC to generate a lending decision.</p>
   </div>
 
   <!-- Dataset Info Banner -->
   <div class="dataset-banner">
     <div style="flex:1;min-width:200px">
-      <div class="ds-label">📊 Dataset Source</div>
-      <div class="ds-value"><strong>UCI / Kaggle — "Give Me Some Credit"</strong><br/>
-      Training replica: 13,000 records · Logistic Regression (L2 regularisation)<br/>
-      Features: DTI ratio, Loan/Income, Credit Score, EMI burden, Loan amount, Monthly EMI, Rate×Tenure, Interest rate, Existing loans, Age, Employment years</div>
-      <div class="ds-link" style="margin-top:4px">🔗 kaggle.com/c/GiveMeSomeCredit · AUC achieved on training: 0.9497</div>
+      <div class="ds-label">📊 Dataset &amp; Model Details</div>
+      <div class="ds-value"><strong>Credit Risk RAROC Dataset — RBI / Basel II Aligned</strong><br/>
+      13,000 synthetic Indian retail loan records · Logistic Regression (L2 regularisation)<br/>
+      Features: DTI ratio, Loan/Income, Credit Score, Monthly EMI, EMI/Income, Rate×Tenure, Loan Amount, Age, Interest Rate, Existing Loans, Employment Years<br/>
+      <span style="color:rgba(255,255,255,0.45);font-size:10px;font-family:var(--mono)">CoF rates: Home 7.5% · Auto 8.0% · Education 8.5% · Business 9.0% · Personal 9.5% | Hurdle Rate: 15%</span></div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
       <div class="ds-stat"><div class="ds-stat-val">13K</div><div class="ds-stat-key">Records</div></div>
-      <div class="ds-stat"><div class="ds-stat-val">0.950</div><div class="ds-stat-key">AUC-ROC</div></div>
-      <div class="ds-stat"><div class="ds-stat-val">24.3%</div><div class="ds-stat-key">Default Rate</div></div>
+      <div class="ds-stat"><div class="ds-stat-val">0.9519</div><div class="ds-stat-key">AUC-ROC</div></div>
+      <div class="ds-stat"><div class="ds-stat-val">23.8%</div><div class="ds-stat-key">Default Rate</div></div>
       <div class="ds-stat"><div class="ds-stat-val">11</div><div class="ds-stat-key">Features</div></div>
     </div>
   </div>
 
   <div class="formula-strip">
-    <div class="fstep"><div class="fn">Step 1</div><div class="fe">EL = PD × LGD × EAD</div></div>
-    <div class="fstep-arrow">→</div>
-    <div class="fstep"><div class="fn">Step 2</div><div class="fe">Profit = Income + Fees − CoF − EL</div></div>
-    <div class="fstep-arrow">→</div>
-    <div class="fstep"><div class="fn">Step 3</div><div class="fe">RAROC = Net Profit ÷ Econ. Capital</div></div>
-    <div class="fstep-arrow">→</div>
-    <div class="fstep"><div class="fn">Decision</div><div class="fe">RAROC ≥ Hurdle → APPROVE</div></div>
+    <div class="fstep"><div class="fn">Step 1 · PD</div><div class="fe">LR(DTI, Score, …)</div></div>
+    <div class="fstep"><div class="fn">Step 2 · EL</div><div class="fe">PD × LGD × EAD</div></div>
+    <div class="fstep"><div class="fn">Step 3 · Profit</div><div class="fe">Income + Fees − CoF − EL</div></div>
+    <div class="fstep"><div class="fn">Step 4 · Decision</div><div class="fe">RAROC ≥ 15% → APPROVE</div></div>
   </div>
 
   <div class="form-card">
+    <div class="form-card-header">
+      <span class="fch-icon">📋</span>
+      <div class="fch-text">
+        <h3>Loan Application Form</h3>
+        <p>Enter borrower &amp; loan details to run the AI credit decision engine</p>
+      </div>
+    </div>
 
     <!-- SECTION 1: BORROWER -->
     <div class="form-section">
       <div class="section-head">
-        <div class="section-icon blue">👤</div>
+        <div class="section-num">1</div>
         <div>
           <div class="section-title">Borrower Profile</div>
           <div class="section-sub">Personal &amp; financial information</div>
@@ -376,11 +565,11 @@ tr:last-child td{border-bottom:none}
       </div>
       <div class="field-row">
         <div class="field">
-          <label><span class="lbl">Age <span class="imp-tag">2.4% imp</span></span><span class="hint">years</span></label>
+          <label><span class="lbl">Age <span class="imp-tag">1.5%</span></span><span class="hint">years</span></label>
           <input type="number" id="age" placeholder="e.g. 35" min="21" max="75" inputmode="numeric"/>
         </div>
         <div class="field">
-          <label><span class="lbl">Credit Score <span class="imp-tag">8.1% imp</span></span><span class="hint">300–900</span></label>
+          <label><span class="lbl">Credit Score <span class="imp-tag">8.9%</span></span><span class="hint">300–900</span></label>
           <input type="number" id="credit_score" placeholder="e.g. 680" min="300" max="900" inputmode="numeric"/>
         </div>
       </div>
@@ -390,11 +579,11 @@ tr:last-child td{border-bottom:none}
       </div>
       <div class="field-row">
         <div class="field">
-          <label><span class="lbl">Employment Years <span class="imp-tag">0.9% imp</span></span></label>
+          <label><span class="lbl">Employment Years <span class="imp-tag">2.1%</span></span></label>
           <input type="number" id="emp_years" placeholder="e.g. 8" min="0" max="40" inputmode="numeric"/>
         </div>
         <div class="field">
-          <label><span class="lbl">Existing Loans <span class="imp-tag">1.2% imp</span></span></label>
+          <label><span class="lbl">Existing Loans <span class="imp-tag">0.7%</span></span></label>
           <input type="number" id="existing_loans" placeholder="e.g. 2" min="0" max="25" inputmode="numeric"/>
         </div>
       </div>
@@ -403,20 +592,20 @@ tr:last-child td{border-bottom:none}
     <!-- SECTION 2: LOAN -->
     <div class="form-section">
       <div class="section-head">
-        <div class="section-icon orange">📄</div>
+        <div class="section-num">2</div>
         <div>
           <div class="section-title">Loan Details</div>
           <div class="section-sub">Amount, pricing &amp; collateral type</div>
         </div>
       </div>
       <div class="field">
-        <label><span class="lbl">Loan Amount <span class="imp-tag">3.7% imp</span></span><span class="hint">₹</span></label>
+        <label><span class="lbl">Loan Amount <span class="imp-tag">4.9%</span></span><span class="hint">₹</span></label>
         <input type="number" id="loan_amount" placeholder="e.g. 500000" min="10000" inputmode="numeric"/>
       </div>
       <div class="field-row">
         <div class="field">
           <label><span class="lbl">Interest Rate</span><span class="hint">% p.a.</span></label>
-          <input type="number" id="interest_rate" placeholder="e.g. 12.5" step="0.5" min="5" max="30" inputmode="decimal"/>
+          <input type="number" id="interest_rate" placeholder="e.g. 12.5" step="0.01" min="5" max="30" inputmode="decimal"/>
         </div>
         <div class="field">
           <label><span class="lbl">Tenure</span><span class="hint">months</span></label>
@@ -434,11 +623,11 @@ tr:last-child td{border-bottom:none}
         <label><span class="lbl">Loan Purpose / Collateral Type</span></label>
         <select id="loan_purpose">
           <option value="">Select purpose</option>
-          <option value="home">Home Loan (LGD = 25%)</option>
-          <option value="auto">Auto Loan (LGD = 35%)</option>
-          <option value="personal">Personal Loan (LGD = 55%)</option>
-          <option value="education">Education Loan (LGD = 45%)</option>
-          <option value="business">Business Loan (LGD = 50%)</option>
+          <option value="home">Home Loan — LGD 25%, CoF ~7.5%</option>
+          <option value="auto">Auto Loan — LGD 35%, CoF ~8.0%</option>
+          <option value="education">Education Loan — LGD 45%, CoF ~8.5%</option>
+          <option value="business">Business Loan — LGD 50%, CoF ~9.0%</option>
+          <option value="personal">Personal Loan — LGD 55%, CoF ~9.5%</option>
         </select>
       </div>
     </div>
@@ -446,16 +635,16 @@ tr:last-child td{border-bottom:none}
     <!-- SECTION 3: BANK PARAMS -->
     <div class="form-section">
       <div class="section-head">
-        <div class="section-icon purple">🏛️</div>
+        <div class="section-num">3</div>
         <div>
           <div class="section-title">Bank Parameters</div>
-          <div class="section-sub">Cost of funds &amp; capital hurdle rate</div>
+          <div class="section-sub">RAROC hurdle rate (default 15% per portfolio calibration)</div>
         </div>
       </div>
       <div class="field-row">
         <div class="field">
-          <label><span class="lbl">Cost of Funds</span><span class="hint">% p.a.</span></label>
-          <input type="number" id="cof_rate" value="8" step="0.5" min="4" max="15" inputmode="decimal"/>
+          <label><span class="lbl">Custom CoF Override</span><span class="hint">% p.a. (0 = auto)</span></label>
+          <input type="number" id="cof_override" value="0" step="0.1" min="0" max="15" inputmode="decimal" placeholder="0 = purpose-based"/>
         </div>
         <div class="field">
           <label><span class="lbl">RAROC Hurdle Rate</span><span class="hint">%</span></label>
@@ -464,24 +653,26 @@ tr:last-child td{border-bottom:none}
       </div>
     </div>
 
-    <div class="validation-msg" id="validation-msg">⚠ Please fill in all required fields above before analyzing.</div>
+    <div class="validation-msg" id="validation-msg">⚠ Please fill in all required fields before running the analysis.</div>
 
     <div class="analyze-wrap">
       <button class="analyze-btn" onclick="analyze()">
-        <span class="btn-shine"></span>
-        ⚡ RUN AI MODEL · COMPUTE RAROC
+        <div class="btn-inner">
+          <span>⚡ RUN CREDIT ANALYSIS</span>
+          <span class="btn-badge">LR · RAROC · BASEL II</span>
+        </div>
       </button>
     </div>
 
   </div><!-- /form-card -->
 
   <div class="notes-strip">
-    <h4>🎓 About This Model &amp; Dataset</h4>
+    <h4>📐 About This Model &amp; Methodology</h4>
     <div class="note-list">
-      <div class="note-item"><div class="note-dot">📊</div><p><strong>Dataset:</strong> UCI "Give Me Some Credit" (Kaggle). 13,000-record training replica with 11 engineered features. Logistic Regression trained with L2 regularisation achieves <strong>AUC = 0.9497</strong>. All coefficients embedded in this tool are the actual fitted values from that model.</p></div>
-      <div class="note-item"><div class="note-dot">🔑</div><p><strong>Top predictor — DTI Ratio (48.9% importance):</strong> Debt-to-Income ratio dominates exactly as in published Give Me Some Credit analyses and the project report's Gradient Boosting finding (40.5%). This confirms ML rediscovers classical underwriting first principles.</p></div>
-      <div class="note-item"><div class="note-dot">⚖️</div><p><strong>PD → RAROC:</strong> The Logistic Regression outputs PD. Then EL = PD × LGD × EAD (Basel II). Net Profit = Interest Income + Fees − Cost of Funds − Op.Cost − EL. RAROC = Net Profit ÷ Economic Capital. Decision: RAROC ≥ Hurdle Rate.</p></div>
-      <div class="note-item"><div class="note-dot">🚀</div><p><strong>Key insight:</strong> The traditional PD-only model (threshold 10%) approved only 7.6% of applicants. The RAROC framework approved 47% — a <strong>519% increase</strong> — while controlling risk via economic capital.</p></div>
+      <div class="note-item"><div class="note-num">1</div><p><strong>Dataset:</strong> 13,000-record synthetic Indian retail credit dataset, RBI-aligned. Logistic Regression trained with L2 regularisation achieves <strong>AUC = 0.9519</strong> and predicts the default flag from 11 engineered features. All coefficients in this tool are the actual fitted values from that model.</p></div>
+      <div class="note-item"><div class="note-num">2</div><p><strong>Top predictor — DTI Ratio (45.9% importance):</strong> Debt-to-Income ratio dominates as expected in classical underwriting. This confirms the ML model rediscovers banking first principles — the higher the EMI burden relative to income, the greater the default risk.</p></div>
+      <div class="note-item"><div class="note-num">3</div><p><strong>PD → RAROC pipeline:</strong> Logistic Regression outputs PD. Then EL = PD × LGD × EAD (Basel II). Net Profit = Interest Income + Fees − Cost of Funds − Op.Cost − EL. EC = Loan × (√PD × 0.12 + 0.04). RAROC = Net Profit ÷ EC. Final segment: PD &lt; 20% &amp; RAROC ≥ 15% → APPROVE.</p></div>
+      <div class="note-item"><div class="note-num">4</div><p><strong>Key insight:</strong> The traditional PD-only model (threshold 10%) rejected many profitable customers. The RAROC framework extends decision-making to incorporate profitability and capital efficiency, approving <strong>59% of the portfolio</strong> vs. only a PD-driven subset — while identifying 2,380 decisions (18.3%) that PD alone would get wrong.</p></div>
     </div>
   </div>
 
@@ -499,6 +690,7 @@ tr:last-child td{border-bottom:none}
     </div>
     <div id="decision-pill" class="decision-pill">—</div>
   </div>
+  <div class="gold-line"></div>
 
   <div class="results-layout">
     <div class="results-sidebar" id="sidebar-content"></div>
@@ -513,73 +705,99 @@ tr:last-child td{border-bottom:none}
 
 <script>
 /* ═══════════════════════════════════════════════════════════════════════
-   REAL LOGISTIC REGRESSION MODEL COEFFICIENTS
-   Trained on UCI "Give Me Some Credit" dataset replica (13,000 records)
+   TRAINED LOGISTIC REGRESSION MODEL COEFFICIENTS
+   Fitted on 13,000-record Credit Risk RAROC Dataset (RBI / Basel II)
    StandardScaler applied before LR; coefficients are in scaled space
-   AUC-ROC on training set: 0.9497
-   Dataset: kaggle.com/c/GiveMeSomeCredit
+   AUC-ROC on training set: 0.9519
    ═══════════════════════════════════════════════════════════════════════ */
 const MODEL = {
-  intercept: -2.361865,
+  intercept: -2.46268744,
   coef: {
-    dti_ratio:          2.027750,   // 48.9% importance — DOMINANT (confirms project report)
-    loan_per_income:    0.779167,   // 18.8% importance
-    credit_score:      -0.337259,   //  8.1% importance (negative: higher score → lower PD)
-    monthly_emi:        0.286541,   //  6.9% importance
-    emi_to_income:     -0.163327,   //  3.9% importance
-    rate_x_tenure:      0.158682,   //  3.8% importance
-    loan_amount:        0.155123,   //  3.7% importance
-    age:               -0.097978,   //  2.4% importance (negative: older → lower PD)
-    interest_rate:      0.051752,   //  1.2% importance
-    num_existing_loans: 0.049855,   //  1.2% importance
-    employment_years:  -0.035567,   //  0.9% importance (negative: more experience → lower PD)
+    dti_ratio:           1.99469134,   // 45.9% importance — DOMINANT
+    loan_per_income:     0.85089367,   // 19.6% importance
+    credit_score:       -0.38656904,   //  8.9% importance (negative: higher score → lower PD)
+    monthly_emi:         0.33034282,   //  7.6% importance
+    emi_to_income:      -0.21908277,   //  5.0% importance
+    loan_amount:         0.21335610,   //  4.9% importance
+    employment_years:   -0.09205420,   //  2.1% importance (negative: more exp → lower PD)
+    rate_x_tenure:       0.08761634,   //  2.0% importance
+    interest_rate:       0.07763203,   //  1.8% importance
+    age:                -0.06581048,   //  1.5% importance (negative: older → lower PD)
+    num_existing_loans:  0.03234941,   //  0.7% importance
   },
-  // StandardScaler parameters (fitted on training data)
+  // StandardScaler parameters (fitted on 13,000-record training data)
   means: {
-    dti_ratio: 1.296945, loan_per_income: 2.757314, credit_score: 650.503642,
-    emi_to_income: 1.409509, loan_amount: 163485.997, monthly_emi: 7211.638543,
-    rate_x_tenure: 492.138927, interest_rate: 13.569797,
-    num_existing_loans: 8.498692, age: 51.491692, employment_years: 8.144132
+    dti_ratio:           1.29708168,
+    loan_per_income:     2.75731445,
+    credit_score:      650.00915385,
+    monthly_emi:      7211.63484615,
+    emi_to_income:       1.40950921,
+    rate_x_tenure:     492.13889231,
+    loan_amount:    163485.99669231,
+    age:                51.49169231,
+    interest_rate:      13.56980615,
+    num_existing_loans:  8.49869231,
+    employment_years:    8.14354615
   },
   stds: {
-    dti_ratio: 0.892443, loan_per_income: 1.544306, credit_score: 99.237487,
-    emi_to_income: 0.960375, loan_amount: 119483.304, monthly_emi: 7192.917798,
-    rate_x_tenure: 267.354453, interest_rate: 3.411785,
-    num_existing_loans: 2.923459, age: 13.663571, employment_years: 4.767556
+    dti_ratio:           0.89289526,
+    loan_per_income:     1.54430612,
+    credit_score:       99.25281702,
+    monthly_emi:      7192.91890366,
+    emi_to_income:       0.96037556,
+    rate_x_tenure:     267.35443492,
+    loan_amount:    119483.30941180,
+    age:                13.66357061,
+    interest_rate:       3.41178133,
+    num_existing_loans:  2.92345920,
+    employment_years:    4.76757896
   },
-  auc: 0.9497,
-  default_rate: 0.2428,
-  n_samples: 13000,
-  dataset: "UCI Give Me Some Credit (Kaggle)",
-  dataset_url: "https://www.kaggle.com/c/GiveMeSomeCredit"
+  auc: 0.9519,
+  default_rate: 0.2384,
+  n_samples: 13000
 };
 
-/* Feature importances (|coef| / sum|coef|) for display */
-const FEAT_IMP = {
-  dti_ratio: 0.4894, loan_per_income: 0.1881, credit_score: 0.0814,
-  monthly_emi: 0.0692, emi_to_income: 0.0394, rate_x_tenure: 0.0383,
-  loan_amount: 0.0374, age: 0.0236, interest_rate: 0.0125,
-  num_existing_loans: 0.0120, employment_years: 0.0086
-};
+/* Feature importances (|coef| / sum|coef|) */
+const FEAT_IMP = [
+  ['dti_ratio',          'DTI Ratio',        0.4585, '+'],
+  ['loan_per_income',    'Loan / Income',     0.1956, '+'],
+  ['credit_score',       'Credit Score',      0.0889, '−'],
+  ['monthly_emi',        'Monthly EMI',       0.0759, '+'],
+  ['emi_to_income',      'EMI / Income',      0.0504, '−'],
+  ['loan_amount',        'Loan Amount',       0.0490, '+'],
+  ['employment_years',   'Employment Yrs',    0.0212, '−'],
+  ['rate_x_tenure',      'Rate × Tenure',     0.0201, '+'],
+  ['interest_rate',      'Interest Rate',     0.0178, '+'],
+  ['age',                'Age',               0.0151, '−'],
+  ['num_existing_loans', 'Existing Loans',    0.0074, '+'],
+];
 
-const LGD_MAP    = {home:0.25, auto:0.35, personal:0.55, education:0.45, business:0.50};
-const PURP_LABEL = {home:'Home Loan', auto:'Auto Loan', personal:'Personal Loan', education:'Education Loan', business:'Business Loan'};
+/* Loan purpose → LGD and baseline CoF */
+const PURPOSE_DATA = {
+  home:      {lgd:0.25, cof:7.50, label:'Home Loan'},
+  auto:      {lgd:0.35, cof:8.00, label:'Auto Loan'},
+  education: {lgd:0.45, cof:8.50, label:'Education Loan'},
+  business:  {lgd:0.50, cof:9.00, label:'Business Loan'},
+  personal:  {lgd:0.55, cof:9.50, label:'Personal Loan'},
+};
 
 function sigmoid(x){ return 1/(1+Math.exp(-x)); }
-function fmt(n){ return '₹'+Math.round(n).toLocaleString('en-IN'); }
-function pct(n,d=1){ return (n*100).toFixed(d)+'%'; }
-function scale(feature, value){ return (value - MODEL.means[feature]) / MODEL.stds[feature]; }
+function fmtINR(n){ return '₹'+Math.round(n).toLocaleString('en-IN'); }
+function pct(n,d=2){ return (n*100).toFixed(d)+'%'; }
+function scale(feat, val){ return (val - MODEL.means[feat]) / MODEL.stds[feat]; }
 
-/* ── REAL LR PD PREDICTION ─────────────────────────────────────────── */
+/* ── CORE PD PREDICTION ─────────────────────────────────────────────── */
 function computePD(age, income, loanAmt, rate, tenure, creditScore, existingLoans, empYears){
-  const monthly_inc = income / 12;
-  const emi = loanAmt * (rate/1200) / (1 - Math.pow(1 + rate/1200, -tenure));
-  const dti_ratio       = Math.min(emi / monthly_inc + 0.15, 3.0);   // includes fixed debt approximation
+  const monthly_inc  = income / 12;
+  const monthly_rate = rate / 1200;
+  // Standard EMI formula (matches Excel)
+  const emi          = loanAmt * monthly_rate / (1 - Math.pow(1 + monthly_rate, -tenure));
+  // Features (matching Excel column definitions exactly)
+  const dti_ratio       = Math.min(emi / monthly_inc, 3.0);
   const loan_per_income = Math.min(loanAmt / income, 5.0);
-  const emi_to_income   = Math.min(emi / monthly_inc, 5.0);
+  const emi_to_income   = Math.min(emi / monthly_inc, 3.0);
   const rate_x_tenure   = rate * tenure;
 
-  // Compute scaled features then apply LR weights
   const logit = MODEL.intercept
     + MODEL.coef.dti_ratio          * scale('dti_ratio',          dti_ratio)
     + MODEL.coef.loan_per_income    * scale('loan_per_income',     loan_per_income)
@@ -593,7 +811,7 @@ function computePD(age, income, loanAmt, rate, tenure, creditScore, existingLoan
     + MODEL.coef.num_existing_loans * scale('num_existing_loans',  existingLoans)
     + MODEL.coef.employment_years   * scale('employment_years',    empYears);
 
-  return Math.max(0.005, Math.min(0.98, sigmoid(logit)));
+  return Math.max(0.001, Math.min(0.999, sigmoid(logit)));
 }
 
 function validate(){
@@ -607,164 +825,158 @@ function validate(){
 }
 
 function analyze(){
-  if(!validate())return;
+  if(!validate()) return;
 
-  const age          = +document.getElementById('age').value;
-  const income       = +document.getElementById('income').value;
-  const loanAmt      = +document.getElementById('loan_amount').value;
-  const rate         = +document.getElementById('interest_rate').value;
-  const tenure       = +document.getElementById('tenure').value;
-  const creditScore  = +document.getElementById('credit_score').value;
-  const existingLoans= +document.getElementById('existing_loans').value;
-  const empYears     = +document.getElementById('emp_years').value;
-  const purpose      = document.getElementById('loan_purpose').value;
-  const cofRate      = +document.getElementById('cof_rate').value;
-  const hurdle       = +document.getElementById('hurdle').value;
+  const age           = +document.getElementById('age').value;
+  const income        = +document.getElementById('income').value;
+  const loanAmt       = +document.getElementById('loan_amount').value;
+  const rate          = +document.getElementById('interest_rate').value;
+  const tenure        = +document.getElementById('tenure').value;
+  const creditScore   = +document.getElementById('credit_score').value;
+  const existingLoans = +document.getElementById('existing_loans').value;
+  const empYears      = +document.getElementById('emp_years').value;
+  const purpose       = document.getElementById('loan_purpose').value;
+  const cofOverride   = +document.getElementById('cof_override').value;
+  const hurdle        = +document.getElementById('hurdle').value;
 
-  // ── Core computations ─────────────────────────────────
-  const monthly_inc   = income / 12;
-  const emi           = loanAmt * (rate/1200) / (1 - Math.pow(1+rate/1200, -tenure));
-  const dti           = Math.min(emi/monthly_inc + 0.15, 3.0);
-  const loan_per_inc  = Math.min(loanAmt/income, 5.0);
-  const emi_to_inc    = Math.min(emi/monthly_inc, 5.0);
-  const rate_x_ten    = rate * tenure;
+  const pdata = PURPOSE_DATA[purpose];
+
+  // ── Core computations ──────────────────────────────────────────
+  const monthly_inc  = income / 12;
+  const monthly_rate = rate / 1200;
+  const emi          = loanAmt * monthly_rate / (1 - Math.pow(1+monthly_rate, -tenure));
+  const dti          = Math.min(emi/monthly_inc, 3.0);
+  const loan_per_inc = Math.min(loanAmt/income, 5.0);
+  const emi_to_inc   = Math.min(emi/monthly_inc, 3.0);
+  const rate_x_ten   = rate * tenure;
 
   const pd  = computePD(age, income, loanAmt, rate, tenure, creditScore, existingLoans, empYears);
-  const lgd = LGD_MAP[purpose];
+  const lgd = pdata.lgd;
   const ead = loanAmt;
   const el  = pd * lgd * ead;
 
-  // ── Profitability ──────────────────────────────────────
-  const interestIncome = loanAmt * (rate/100) * (tenure/12);
-  const fees           = loanAmt * 0.01;
-  const cof            = loanAmt * (cofRate/100) * (tenure/12);
-  const opCost         = loanAmt * 0.005;
+  // ── Profitability (matching Excel formulas exactly) ─────────────
+  const cofRate        = (cofOverride > 0) ? cofOverride : pdata.cof;
+  const interestIncome = loanAmt * (rate/100) * (tenure/12);     // simple interest on principal
+  const fees           = loanAmt * 0.01;                          // 1% processing fee
+  const cof            = loanAmt * (cofRate/100) * (tenure/12);  // cost of funds
+  const opCost         = loanAmt * 0.005;                         // 0.5% operating cost
   const netProfit      = interestIncome + fees - cof - opCost - el;
 
-  // ── Economic Capital & RAROC ───────────────────────────
-  // Basel-inspired EC: scales with sqrt(PD) to reflect non-linear capital requirement
+  // ── Economic Capital (Basel-inspired: EC = Loan × (√PD × 0.12 + 0.04)) ──
   const ec    = loanAmt * (Math.sqrt(pd) * 0.12 + 0.04);
   const raroc = (netProfit / ec) * 100;
 
-  // ── Segmentation ──────────────────────────────────────
+  // ── Segmentation (exact logic from Excel: PD threshold = 0.20) ──
   const isLowRisk    = pd < 0.20;
   const isHighProfit = raroc >= hurdle;
 
   let seg, segClass, segIcon, segAction, segReason;
   if(isLowRisk && isHighProfit){
-    seg='APPROVE — Prime Customer'; segClass='approve'; segIcon='✅'; segAction='Standard Approval';
-    segReason=`Low default risk (LR model: PD = ${pct(pd)}) with strong RAROC (${raroc.toFixed(1)}% vs ${hurdle}% hurdle). Net profit of ${fmt(netProfit)} is highly positive. Approve at stated terms.`;
+    seg='APPROVE'; segClass='approve'; segIcon='✅'; segAction='Standard Approval — Prime Customer';
+    segReason=`Low default risk (PD = ${pct(pd)}, below 20% threshold) with strong RAROC of ${raroc.toFixed(1)}%, exceeding the ${hurdle}% hurdle rate. Net profit of ${fmtINR(netProfit)} is positive. Approve at stated terms.`;
   } else if(isLowRisk && !isHighProfit){
-    seg='REPRICE — Optimise Terms'; segClass='reprice'; segIcon='🔄'; segAction='Raise interest rate by 1–2% or add processing fee';
-    segReason=`Default risk is acceptable (PD = ${pct(pd)}) but RAROC (${raroc.toFixed(1)}%) falls below the ${hurdle}% hurdle. Increase rate by ~1.5% to improve net margin. Customer is borderline profitable.`;
+    seg='REPRICE'; segClass='reprice'; segIcon='🔄'; segAction='Reprice — Raise rate or add fee to meet hurdle';
+    segReason=`Default risk is acceptable (PD = ${pct(pd)}, below 20%) but RAROC of ${raroc.toFixed(1)}% falls below the ${hurdle}% hurdle. Loan is under-priced. Recommend increasing interest rate by ~1–2% to improve profitability.`;
   } else if(!isLowRisk && isHighProfit){
-    seg='PRICE PREMIUM — Monitor'; segClass='premium'; segIcon='⚡'; segAction='Approve with premium pricing & quarterly monitoring';
-    segReason=`Higher default risk (PD = ${pct(pd)}) but RAROC of ${raroc.toFixed(1)}% exceeds the ${hurdle}% hurdle — risk is fully compensated by pricing. Approve with closer monitoring. Net profit: ${fmt(netProfit)}.`;
+    seg='PRICE PREMIUM'; segClass='premium'; segIcon='⚡'; segAction='Approve at Premium — Closer monitoring required';
+    segReason=`Higher default risk (PD = ${pct(pd)}, above 20%) but RAROC of ${raroc.toFixed(1)}% exceeds the ${hurdle}% hurdle — risk is fully compensated by premium pricing. Approve with quarterly monitoring. Net profit: ${fmtINR(netProfit)}.`;
   } else {
-    seg='REJECT — High Risk / Low Return'; segClass='reject'; segIcon='❌'; segAction='Decline application';
-    segReason=`High default probability (PD = ${pct(pd)}) AND RAROC (${raroc.toFixed(1)}%) below the ${hurdle}% hurdle. Expected Loss of ${fmt(el)} makes this loan value-destroying. Decline.`;
+    seg='REJECT'; segClass='reject'; segIcon='❌'; segAction='Decline — High Risk, Insufficient Return';
+    segReason=`High default probability (PD = ${pct(pd)}, above 20%) AND RAROC of ${raroc.toFixed(1)}% below the ${hurdle}% hurdle. Expected Loss of ${fmtINR(el)} makes this loan value-destructive. No feasible rate adjustment can compensate the credit risk.`;
   }
 
   const pdDecision    = pd < 0.10 ? 'APPROVE' : 'REJECT';
   const rarocDecision = raroc >= hurdle ? 'APPROVE' : 'REJECT';
 
-  // ── Top bar ───────────────────────────────────────────
+  // ── Top bar ────────────────────────────────────────────────────
   document.getElementById('app-summary').innerHTML=`
-    <div class="sum-chip">Loan <span>${fmt(loanAmt)}</span></div>
+    <div class="sum-chip">Loan <span>${fmtINR(loanAmt)}</span></div>
     <div class="sum-chip">Rate <span>${rate}%</span></div>
     <div class="sum-chip">Tenure <span>${tenure}m</span></div>
     <div class="sum-chip">Score <span>${creditScore}</span></div>`;
   const pill=document.getElementById('decision-pill');
-  pill.textContent=rarocDecision==='APPROVE'?'✓ APPROVED':'✗ REJECTED';
+  pill.textContent=seg;
   pill.className='decision-pill '+segClass;
 
-  // ── Sidebar ───────────────────────────────────────────
+  // ── Sidebar ────────────────────────────────────────────────────
   document.getElementById('sidebar-content').innerHTML=`
     <div class="sb-title">Application Summary</div>
     <div class="sb-group">
       <div class="sb-group-lbl">Borrower</div>
       <div class="sb-row"><span class="sb-key">Age</span><span class="sb-val">${age} yrs</span></div>
-      <div class="sb-row"><span class="sb-key">Annual Income</span><span class="sb-val">${fmt(income)}</span></div>
+      <div class="sb-row"><span class="sb-key">Annual Income</span><span class="sb-val">${fmtINR(income)}</span></div>
       <div class="sb-row"><span class="sb-key">Credit Score</span><span class="sb-val">${creditScore}</span></div>
       <div class="sb-row"><span class="sb-key">Employment</span><span class="sb-val">${empYears} yrs</span></div>
       <div class="sb-row"><span class="sb-key">Existing Loans</span><span class="sb-val">${existingLoans}</span></div>
     </div>
     <div class="sb-group">
       <div class="sb-group-lbl">Loan</div>
-      <div class="sb-row"><span class="sb-key">Amount</span><span class="sb-val">${fmt(loanAmt)}</span></div>
+      <div class="sb-row"><span class="sb-key">Amount</span><span class="sb-val">${fmtINR(loanAmt)}</span></div>
       <div class="sb-row"><span class="sb-key">Rate</span><span class="sb-val">${rate}% p.a.</span></div>
       <div class="sb-row"><span class="sb-key">Tenure</span><span class="sb-val">${tenure} months</span></div>
-      <div class="sb-row"><span class="sb-key">Purpose</span><span class="sb-val">${PURP_LABEL[purpose]}</span></div>
-      <div class="sb-row"><span class="sb-key">Monthly EMI</span><span class="sb-val">${fmt(emi)}</span></div>
+      <div class="sb-row"><span class="sb-key">Purpose</span><span class="sb-val">${pdata.label}</span></div>
+      <div class="sb-row"><span class="sb-key">Monthly EMI</span><span class="sb-val">${fmtINR(emi)}</span></div>
+      <div class="sb-row"><span class="sb-key">CoF Rate</span><span class="sb-val">${cofRate.toFixed(2)}%</span></div>
     </div>
     <div class="sb-group">
       <div class="sb-group-lbl">Engineered Features</div>
-      <div class="sb-row"><span class="sb-key">DTI Ratio</span><span class="sb-val">${dti.toFixed(3)}</span></div>
-      <div class="sb-row"><span class="sb-key">Loan/Income</span><span class="sb-val">${loan_per_inc.toFixed(3)}</span></div>
-      <div class="sb-row"><span class="sb-key">EMI/Income</span><span class="sb-val">${emi_to_inc.toFixed(3)}</span></div>
-      <div class="sb-row"><span class="sb-key">Rate×Tenure</span><span class="sb-val">${rate_x_ten.toFixed(1)}</span></div>
+      <div class="sb-row"><span class="sb-key">DTI Ratio</span><span class="sb-val">${dti.toFixed(4)}</span></div>
+      <div class="sb-row"><span class="sb-key">Loan/Income</span><span class="sb-val">${loan_per_inc.toFixed(4)}</span></div>
+      <div class="sb-row"><span class="sb-key">EMI/Income</span><span class="sb-val">${emi_to_inc.toFixed(4)}</span></div>
+      <div class="sb-row"><span class="sb-key">Rate×Tenure</span><span class="sb-val">${rate_x_ten.toFixed(2)}</span></div>
     </div>
     <div class="sb-group">
       <div class="sb-group-lbl">Model Outputs</div>
-      <div class="sb-row"><span class="sb-key">PD (LR Model)</span><span class="sb-val" style="color:var(--red)">${pct(pd)}</span></div>
-      <div class="sb-row"><span class="sb-key">Expected Loss</span><span class="sb-val">${fmt(el)}</span></div>
-      <div class="sb-row"><span class="sb-key">Net Profit</span><span class="sb-val" style="color:${netProfit>=0?'var(--green)':'var(--red)'}">${fmt(netProfit)}</span></div>
-      <div class="sb-row"><span class="sb-key">Econ. Capital</span><span class="sb-val">${fmt(ec)}</span></div>
-      <div class="sb-row"><span class="sb-key">RAROC</span><span class="sb-val" style="color:${raroc>=hurdle?'var(--green)':'var(--red)'}">${raroc.toFixed(1)}%</span></div>
+      <div class="sb-row"><span class="sb-key">PD (LR)</span><span class="sb-val" style="color:var(--red)">${pct(pd)}</span></div>
+      <div class="sb-row"><span class="sb-key">LGD</span><span class="sb-val">${pct(lgd,0)}</span></div>
+      <div class="sb-row"><span class="sb-key">Expected Loss</span><span class="sb-val">${fmtINR(el)}</span></div>
+      <div class="sb-row"><span class="sb-key">Net Profit</span><span class="sb-val" style="color:${netProfit>=0?'var(--green)':'var(--red)'}">${fmtINR(netProfit)}</span></div>
+      <div class="sb-row"><span class="sb-key">Econ. Capital</span><span class="sb-val">${fmtINR(ec)}</span></div>
+      <div class="sb-row"><span class="sb-key">RAROC</span><span class="sb-val" style="color:${raroc>=hurdle?'var(--green)':'var(--red)'}">${raroc.toFixed(2)}%</span></div>
     </div>
-    <div class="ref-card" style="margin-top:12px">
-      <strong>Model Source</strong><br/>
-      UCI "Give Me Some Credit"<br/>
-      AUC: ${MODEL.auc} | N=${MODEL.n_samples.toLocaleString()}
+    <div style="background:#f8f9fb;border:1px solid var(--border);border-radius:4px;padding:10px 12px;margin-top:4px;font-size:10px;color:var(--muted)">
+      <strong style="color:var(--navy);display:block;margin-bottom:3px">Model</strong>
+      AUC: ${MODEL.auc} · N=${MODEL.n_samples.toLocaleString()}<br/>
+      Default Rate: ${pct(MODEL.default_rate,1)}<br/>
+      Hurdle: ${hurdle}%
     </div>`;
 
-  // ── Mobile summary ────────────────────────────────────
+  // ── Mobile summary ─────────────────────────────────────────────
   document.getElementById('mobile-summary').innerHTML=`
     <div class="mobile-summary-inner">
       <div class="mobile-summary-grid">
-        <div class="ms-item"><div class="ms-label">Loan</div><div class="ms-val">${fmt(loanAmt)}</div></div>
+        <div class="ms-item"><div class="ms-label">Loan</div><div class="ms-val">${fmtINR(loanAmt)}</div></div>
         <div class="ms-item"><div class="ms-label">Credit Score</div><div class="ms-val">${creditScore}</div></div>
-        <div class="ms-item"><div class="ms-label">Monthly EMI</div><div class="ms-val">${fmt(emi)}</div></div>
+        <div class="ms-item"><div class="ms-label">Monthly EMI</div><div class="ms-val">${fmtINR(emi)}</div></div>
       </div>
     </div>`;
 
-  // ── Feature importance bars ───────────────────────────
-  const featRows = [
-    ['dti_ratio', 'DTI Ratio', FEAT_IMP.dti_ratio, '+'],
-    ['loan_per_income', 'Loan / Income', FEAT_IMP.loan_per_income, '+'],
-    ['credit_score', 'Credit Score', FEAT_IMP.credit_score, '−'],
-    ['monthly_emi', 'Monthly EMI', FEAT_IMP.monthly_emi, '+'],
-    ['emi_to_income', 'EMI / Income', FEAT_IMP.emi_to_income, '+'],
-    ['rate_x_tenure', 'Rate × Tenure', FEAT_IMP.rate_x_tenure, '+'],
-    ['loan_amount', 'Loan Amount', FEAT_IMP.loan_amount, '+'],
-    ['age', 'Age', FEAT_IMP.age, '−'],
-    ['interest_rate', 'Interest Rate', FEAT_IMP.interest_rate, '+'],
-    ['num_existing_loans','Existing Loans', FEAT_IMP.num_existing_loans, '+'],
-    ['employment_years', 'Employment Yrs', FEAT_IMP.employment_years, '−'],
-  ];
-  const featHTML = featRows.map(([k,name,imp,dir])=>`
+  // ── Feature importance bars ────────────────────────────────────
+  const maxImp = FEAT_IMP[0][2];
+  const featHTML = FEAT_IMP.map(([k,name,imp,dir])=>`
     <div class="feat-row">
       <div class="feat-name">${name}</div>
-      <div class="feat-bar-wrap"><div class="feat-bar" style="width:${(imp*100/FEAT_IMP.dti_ratio).toFixed(1)}%"></div></div>
+      <div class="feat-bar-wrap"><div class="feat-bar" style="width:${(imp/maxImp*100).toFixed(1)}%"></div></div>
       <div class="feat-pct">${(imp*100).toFixed(1)}%</div>
       <div class="feat-dir" style="color:${dir==='+'?'var(--red)':'var(--green)'}">${dir}</div>
     </div>`).join('');
 
-  // ── Results stack ─────────────────────────────────────
+  // ── Results stack ──────────────────────────────────────────────
   document.getElementById('results-stack').innerHTML=`
 
     <div class="decision-banner ${segClass} a a1">
       <div class="decision-top">
-        <div style="display:flex;align-items:flex-start;gap:10px">
-          <span class="decision-icon">${segIcon}</span>
+        <div class="decision-left">
+          <div style="font-size:28px;margin-top:2px">${segIcon}</div>
           <div>
-            <div style="font-size:9px;font-family:var(--mono);opacity:0.6;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">AI Model Decision (LR · Give Me Some Credit)</div>
+            <div style="font-size:9px;font-family:var(--mono);opacity:0.6;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">Credit Decision · LR Model · Basel II</div>
             <div class="decision-label">${seg}</div>
             <div class="decision-sub">${segAction}</div>
           </div>
         </div>
         <div class="raroc-badge">
-          <div class="rl">RAROC vs Hurdle</div>
+          <div class="rl">RAROC</div>
           <div class="rv">${raroc.toFixed(1)}%</div>
           <div class="rh">Hurdle: ${hurdle}%</div>
         </div>
@@ -773,107 +985,136 @@ function analyze(){
     </div>
 
     <div class="kpi-grid a a2">
-      <div class="kpi-card" style="--kpi-color:#ff4757"><div class="kpi-label">Prob. of Default</div><div class="kpi-value">${pct(pd)}</div><div class="kpi-desc">LR model output (AUC 0.95)</div></div>
-      <div class="kpi-card" style="--kpi-color:#ffd32a"><div class="kpi-label">Expected Loss</div><div class="kpi-value">${fmt(el)}</div><div class="kpi-desc">PD × LGD(${pct(lgd)}) × EAD</div></div>
-      <div class="kpi-card" style="--kpi-color:${netProfit>=0?'#00d68f':'#ff4757'}"><div class="kpi-label">Net Profit</div><div class="kpi-value">${fmt(netProfit)}</div><div class="kpi-desc">After all costs &amp; EL</div></div>
-      <div class="kpi-card" style="--kpi-color:${raroc>=hurdle?'#00d68f':'#ff4757'}"><div class="kpi-label">RAROC</div><div class="kpi-value">${raroc.toFixed(1)}%</div><div class="kpi-desc">vs ${hurdle}% hurdle rate</div></div>
+      <div class="kpi-card" style="--kpi-color:var(--red)"><div class="kpi-label">Prob. of Default</div><div class="kpi-value">${pct(pd)}</div><div class="kpi-desc">LR model · AUC ${MODEL.auc}</div></div>
+      <div class="kpi-card" style="--kpi-color:var(--yellow)"><div class="kpi-label">Expected Loss</div><div class="kpi-value">${fmtINR(el)}</div><div class="kpi-desc">PD × LGD(${pct(lgd,0)}) × EAD</div></div>
+      <div class="kpi-card" style="--kpi-color:${netProfit>=0?'var(--green)':'var(--red)'}"><div class="kpi-label">Net Profit</div><div class="kpi-value">${fmtINR(netProfit)}</div><div class="kpi-desc">After all costs &amp; EL</div></div>
+      <div class="kpi-card" style="--kpi-color:${raroc>=hurdle?'var(--green)':'var(--red)'}"><div class="kpi-label">RAROC</div><div class="kpi-value">${raroc.toFixed(1)}%</div><div class="kpi-desc">vs ${hurdle}% hurdle rate</div></div>
     </div>
 
-    <div class="steps-card a a3">
-      <div class="card-header"><div class="c-icon purple">🧮</div><div><h3>Step-by-Step Calculation</h3><p>Full walkthrough — real LR coefficients from Give Me Some Credit dataset</p></div></div>
+    <div class="section-card a a3">
+      <div class="card-header"><div class="c-icon">🧮</div><div><h3>Step-by-Step Calculation</h3><p>Full Basel II RAROC walkthrough — trained model coefficients</p></div></div>
       <div class="steps-body">
-        <div class="step"><div class="step-num">1</div><div class="step-content">
-          <div class="step-title">Feature Engineering</div>
+        <div class="step"><div class="step-num">1</div><div>
+          <div class="step-title">EMI &amp; Feature Engineering</div>
+          <div class="step-formula">EMI = Loan × (r/12) / [1 − (1+r/12)^−n]</div>
           <div class="step-result">
-            DTI Ratio = <strong>${dti.toFixed(4)}</strong> &nbsp;|&nbsp;
-            Loan/Income = <strong>${loan_per_inc.toFixed(4)}</strong> &nbsp;|&nbsp;
-            EMI/Income = <strong>${emi_to_inc.toFixed(4)}</strong><br/>
-            Rate×Tenure = <strong>${rate_x_ten.toFixed(1)}</strong> &nbsp;|&nbsp;
-            Monthly EMI = <strong>${fmt(emi)}</strong>
+            Monthly EMI = <strong>${fmtINR(emi)}</strong> &nbsp;|&nbsp;
+            DTI Ratio = <strong>${dti.toFixed(4)}</strong> (EMI ÷ monthly income, cap 3.0)<br/>
+            Loan/Income = <strong>${loan_per_inc.toFixed(4)}</strong> (cap 5.0) &nbsp;|&nbsp;
+            EMI/Income = <strong>${emi_to_inc.toFixed(4)}</strong> (cap 3.0) &nbsp;|&nbsp;
+            Rate×Tenure = <strong>${rate_x_ten.toFixed(2)}</strong>
           </div>
         </div></div>
-        <div class="step"><div class="step-num">2</div><div class="step-content">
-          <div class="step-title">Logistic Regression PD Prediction (UCI Give Me Some Credit model)</div>
-          <div class="step-formula">logit = β₀ + Σ βᵢ · (xᵢ − μᵢ)/σᵢ &nbsp;|&nbsp; PD = σ(logit)</div>
+        <div class="step"><div class="step-num">2</div><div>
+          <div class="step-title">Logistic Regression PD Prediction</div>
+          <div class="step-formula">logit = β₀ + Σ βᵢ · (xᵢ − μᵢ) / σᵢ &nbsp;·&nbsp; PD = sigmoid(logit)</div>
           <div class="step-result">
             Intercept = ${MODEL.intercept} &nbsp;|&nbsp;
-            DTI coef = ${MODEL.coef.dti_ratio} (48.9% importance) &nbsp;|&nbsp;
-            LoanInc coef = ${MODEL.coef.loan_per_income} (18.8%)<br/>
-            Credit Score coef = ${MODEL.coef.credit_score} (8.1%, negative sign = higher score → lower PD)<br/>
-            → <strong>logit = ${((Math.log(pd/(1-pd)))).toFixed(4)}</strong> → <strong>PD = ${pct(pd)}</strong>
+            DTI coef = ${MODEL.coef.dti_ratio} (45.9%) &nbsp;|&nbsp;
+            Loan/Inc coef = ${MODEL.coef.loan_per_income} (19.6%)<br/>
+            Credit Score coef = ${MODEL.coef.credit_score} (8.9%, negative → higher score lowers PD)<br/>
+            → logit = <strong>${(Math.log(pd/(1-pd))).toFixed(4)}</strong> → <strong>PD = ${pct(pd)}</strong>
           </div>
         </div></div>
-        <div class="step"><div class="step-num">3</div><div class="step-content">
+        <div class="step"><div class="step-num">3</div><div>
           <div class="step-title">Expected Loss (Basel II)</div>
           <div class="step-formula">EL = PD × LGD × EAD</div>
-          <div class="step-result">= ${pct(pd)} × ${pct(lgd,0)} × ${fmt(ead)} &nbsp;&nbsp;<span style="font-size:10px;color:var(--muted)">(LGD = ${pct(lgd,0)} for ${PURP_LABEL[purpose]})</span><br/>→ <strong>EL = ${fmt(el)}</strong></div>
-        </div></div>
-        <div class="step"><div class="step-num">4</div><div class="step-content">
-          <div class="step-title">Profitability Model</div>
-          <div class="step-formula">Net Profit = Interest Income + Fees − Cost of Funds − Op.Cost − EL</div>
           <div class="step-result">
-            Interest Income = <strong>${fmt(interestIncome)}</strong> (${rate}% × ${(tenure/12).toFixed(1)} yrs)<br/>
-            Fees (1%) = <strong>${fmt(fees)}</strong> &nbsp;·&nbsp; CoF (${cofRate}%) = <strong>−${fmt(cof)}</strong> &nbsp;·&nbsp; Op.Cost (0.5%) = <strong>−${fmt(opCost)}</strong><br/>
-            EL = <strong>−${fmt(el)}</strong><br/>
-            → <strong>Net Profit = ${fmt(netProfit)}</strong>
+            = ${pct(pd)} × ${pct(lgd,0)} × ${fmtINR(ead)} &nbsp;
+            <span style="font-size:10px;color:var(--muted)">(LGD = ${pct(lgd,0)} for ${pdata.label})</span><br/>
+            → <strong>EL = ${fmtINR(el)}</strong>
           </div>
         </div></div>
-        <div class="step"><div class="step-num">5</div><div class="step-content">
-          <div class="step-title">Economic Capital &amp; RAROC</div>
-          <div class="step-formula">EC = Loan × (√PD × 0.12 + 0.04) &nbsp;|&nbsp; RAROC = Net Profit ÷ EC</div>
+        <div class="step"><div class="step-num">4</div><div>
+          <div class="step-title">Profitability Model</div>
+          <div class="step-formula">Net Profit = Interest Income + Fees(1%) − CoF(${cofRate}%) − Op.Cost(0.5%) − EL</div>
           <div class="step-result">
-            EC = ${fmt(loanAmt)} × (√${pct(pd)} × 0.12 + 0.04) = <strong>${fmt(ec)}</strong><br/>
-            RAROC = ${fmt(netProfit)} ÷ ${fmt(ec)} = <strong>${raroc.toFixed(1)}%</strong><br/>
-            Hurdle = ${hurdle}% → <strong style="color:${raroc>=hurdle?'var(--green)':'var(--red)'}">${raroc>=hurdle?'ABOVE HURDLE ✓ APPROVE':'BELOW HURDLE ✗ REJECT/REPRICE'}</strong>
+            Interest Income = <strong>${fmtINR(interestIncome)}</strong> (${rate}% × ${(tenure/12).toFixed(1)} yrs on principal)<br/>
+            Fees = <strong>${fmtINR(fees)}</strong> &nbsp;·&nbsp;
+            CoF = <strong>−${fmtINR(cof)}</strong> &nbsp;·&nbsp;
+            Op.Cost = <strong>−${fmtINR(opCost)}</strong> &nbsp;·&nbsp;
+            EL = <strong>−${fmtINR(el)}</strong><br/>
+            → <strong>Net Profit = ${fmtINR(netProfit)}</strong>
+          </div>
+        </div></div>
+        <div class="step"><div class="step-num">5</div><div>
+          <div class="step-title">Economic Capital &amp; RAROC</div>
+          <div class="step-formula">EC = Loan × (√PD × 0.12 + 0.04) &nbsp;·&nbsp; RAROC = Net Profit ÷ EC</div>
+          <div class="step-result">
+            EC = ${fmtINR(loanAmt)} × (√${pct(pd)} × 0.12 + 0.04) = <strong>${fmtINR(ec)}</strong><br/>
+            RAROC = ${fmtINR(netProfit)} ÷ ${fmtINR(ec)} = <strong>${raroc.toFixed(2)}%</strong><br/>
+            Segment rule: PD ${pd<0.20?'<':'≥'} 20% AND RAROC ${raroc>=hurdle?'≥':'<'} ${hurdle}%
+            → <strong style="color:${segClass==='approve'?'var(--green)':segClass==='reject'?'var(--red)':segClass==='reprice'?'var(--yellow)':'var(--purple)'}">${seg}</strong>
           </div>
         </div></div>
       </div>
     </div>
 
-    <div class="feat-card a a4">
-      <div class="card-header"><div class="c-icon orange">📊</div><div><h3>LR Feature Importances (|coefficient| / Σ|coef|)</h3><p>From trained Give Me Some Credit model · ± indicates effect direction on PD</p></div></div>
+    <div class="section-card a a4">
+      <div class="card-header"><div class="c-icon">📊</div><div><h3>Feature Importances (|coefficient| / Σ|coef|)</h3><p>From trained LR model · ± indicates effect direction on PD</p></div></div>
       <div class="feat-body">${featHTML}</div>
     </div>
 
-    <div class="compare-card a a5">
-      <div class="card-header"><div class="c-icon cyan">⚖️</div><div><h3>Traditional PD-Only vs AI RAROC Model</h3><p>Core argument of the project — why RAROC captures what PD misses</p></div></div>
+    <div class="section-card a a5">
+      <div class="card-header"><div class="c-icon">⚖️</div><div><h3>Traditional PD-Only vs AI RAROC Decision Framework</h3><p>Core thesis: RAROC captures profitability that PD alone misses</p></div></div>
       <div class="table-hint">← Swipe to see full table</div>
       <div class="table-scroll"><table>
         <thead><tr><th>Criteria</th><th>Traditional PD Model</th><th>AI RAROC Framework</th></tr></thead>
         <tbody>
-          <tr><td class="td-label">Measures</td><td>Default probability only</td><td>Risk + Profit + Capital</td></tr>
+          <tr><td class="td-label">Measures</td><td>Default probability only</td><td>Risk + Profitability + Capital</td></tr>
           <tr><td class="td-label">PD (LR Model)</td><td class="td-pd">${pct(pd)}</td><td class="td-pd">${pct(pd)}</td></tr>
-          <tr><td class="td-label">Threshold</td><td>PD &lt; 10%</td><td>RAROC ≥ ${hurdle}%</td></tr>
-          <tr><td class="td-label">RAROC</td><td style="color:var(--red)">❌ Not computed</td><td class="td-raroc ${raroc>=hurdle?'good':'bad'}">${raroc.toFixed(1)}%</td></tr>
-          <tr><td class="td-label">Net Profit</td><td style="color:var(--red)">❌ Ignored</td><td style="color:${netProfit>=0?'var(--green)':'var(--red)'};font-family:var(--mono)">${fmt(netProfit)}</td></tr>
+          <tr><td class="td-label">Threshold</td><td>PD &lt; 10%</td><td>RAROC ≥ ${hurdle}% &amp; PD &lt; 20%</td></tr>
+          <tr><td class="td-label">RAROC</td><td style="color:var(--red)">— Not computed</td><td class="td-raroc ${raroc>=hurdle?'good':'bad'}">${raroc.toFixed(2)}%</td></tr>
+          <tr><td class="td-label">Net Profit</td><td style="color:var(--red)">— Ignored</td><td style="color:${netProfit>=0?'var(--green)':'var(--red)'};font-family:var(--mono)">${fmtINR(netProfit)}</td></tr>
+          <tr><td class="td-label">Econ. Capital</td><td style="color:var(--red)">— Ignored</td><td style="font-family:var(--mono);color:var(--navy)">${fmtINR(ec)}</td></tr>
           <tr><td class="td-label">Decision</td><td><span class="td-dec ${pdDecision.toLowerCase()}">${pdDecision}</span></td><td><span class="td-dec ${rarocDecision.toLowerCase()}">${rarocDecision}</span></td></tr>
-          ${pdDecision!==rarocDecision?`<tr class="insight-row"><td colspan="3">💡 <strong>Key Insight:</strong> ${pdDecision==='REJECT'&&rarocDecision==='APPROVE'?`PD model rejects this customer — but RAROC of ${raroc.toFixed(1)}% proves it is economically viable. The bank foregoes ${fmt(netProfit)} by using PD alone.`:`PD model approves, but RAROC (${raroc.toFixed(1)}%) is below the ${hurdle}% hurdle. RAROC correctly flags under-pricing.`}</td></tr>`:`<tr class="insight-row"><td colspan="3">💡 Both models agree on this customer. Across the portfolio, the RAROC framework shifted 39.4% of decisions — unlocking 519% more approvals.</td></tr>`}
+          ${pdDecision!==rarocDecision?`<tr class="insight-row"><td colspan="3">💡 <strong>Key Insight:</strong> ${pdDecision==='REJECT'&&rarocDecision==='APPROVE'?`PD model rejects this borrower, but RAROC of ${raroc.toFixed(1)}% proves the loan is economically profitable. The bank would forego ${fmtINR(netProfit)} in net profit by using PD alone.`:`PD model approves, but RAROC (${raroc.toFixed(1)}%) is below the ${hurdle}% hurdle. RAROC correctly flags this loan as under-priced relative to its risk.`}</td></tr>`:`<tr class="insight-row"><td colspan="3">💡 Both models agree for this borrower. Across the 13,000-record portfolio, 18.3% of decisions (2,380 cases) were changed by the RAROC framework — capturing profitability that PD alone would have mispriced.</td></tr>`}
         </tbody>
       </table></div>
     </div>
 
-    <div class="matrix-card a a6">
-      <div class="card-header"><div class="c-icon cyan">📐</div><div><h3>Risk × Profitability Segmentation Matrix</h3><p>Four-quadrant classification — your customer is highlighted</p></div></div>
+    <div class="section-card a a6">
+      <div class="card-header"><div class="c-icon">📐</div><div><h3>Risk × Profitability Segmentation Matrix</h3><p>Four-quadrant framework — your borrower's quadrant is highlighted</p></div></div>
       <div class="matrix-body">
-        <div class="matrix-axis"><span>⬅ RAROC ABOVE HURDLE</span><span>RAROC BELOW HURDLE ➡</span></div>
+        <div class="matrix-axis"><span>← RAROC ≥ ${hurdle}%</span><span>RAROC &lt; ${hurdle}% →</span></div>
         <div class="matrix-grid">
-          <div class="matrix-cell lr-hp ${pd<0.20&&raroc>=hurdle?'active':''}"><div class="mc-icon">✅</div><div class="mc-tag">Low Risk · High RAROC</div><div class="mc-title">APPROVE</div><div class="mc-action">Prime customers — standard terms. Portfolio backbone (35.1%).</div></div>
-          <div class="matrix-cell lr-lp ${pd<0.20&&raroc<hurdle?'active':''}"><div class="mc-icon">🔄</div><div class="mc-tag">Low Risk · Low RAROC</div><div class="mc-title">REPRICE</div><div class="mc-action">Raise rate 1–2% to exceed hurdle. Risk acceptable, pricing needs work (14.9%).</div></div>
-          <div class="matrix-cell hr-hp ${pd>=0.20&&raroc>=hurdle?'active':''}"><div class="mc-icon">⚡</div><div class="mc-tag">High Risk · High RAROC</div><div class="mc-title">PRICE PREMIUM</div><div class="mc-action">Approve with premium rate &amp; monitoring. Risk compensated (14.9%).</div></div>
-          <div class="matrix-cell hr-lp ${pd>=0.20&&raroc<hurdle?'active':''}"><div class="mc-icon">❌</div><div class="mc-tag">High Risk · Low RAROC</div><div class="mc-title">REJECT</div><div class="mc-action">Destroys capital — no feasible pricing compensates (35.1%).</div></div>
+          <div class="matrix-cell lr-hp ${pd<0.20&&raroc>=hurdle?'active':''}">
+            <div class="mc-icon">✅</div><div class="mc-tag">PD &lt; 20% · RAROC ≥ ${hurdle}%</div>
+            <div class="mc-title">APPROVE</div>
+            <div class="mc-action">Prime borrowers — standard terms. Portfolio backbone (59.0%).</div>
+          </div>
+          <div class="matrix-cell lr-lp ${pd<0.20&&raroc<hurdle?'active':''}">
+            <div class="mc-icon">🔄</div><div class="mc-tag">PD &lt; 20% · RAROC &lt; ${hurdle}%</div>
+            <div class="mc-title">REPRICE</div>
+            <div class="mc-action">Under-priced. Raise rate 1–2% to meet hurdle (9.2%).</div>
+          </div>
+          <div class="matrix-cell hr-hp ${pd>=0.20&&raroc>=hurdle?'active':''}">
+            <div class="mc-icon">⚡</div><div class="mc-tag">PD ≥ 20% · RAROC ≥ ${hurdle}%</div>
+            <div class="mc-title">PRICE PREMIUM</div>
+            <div class="mc-action">Higher risk fully compensated by premium pricing (6.4%).</div>
+          </div>
+          <div class="matrix-cell hr-lp ${pd>=0.20&&raroc<hurdle?'active':''}">
+            <div class="mc-icon">❌</div><div class="mc-tag">PD ≥ 20% · RAROC &lt; ${hurdle}%</div>
+            <div class="mc-title">REJECT</div>
+            <div class="mc-action">Value-destructive. No feasible pricing compensates (25.4%).</div>
+          </div>
         </div>
-        <div class="matrix-callout"><strong>This customer: </strong>${seg} &nbsp;|&nbsp; PD = ${pct(pd)} · RAROC = ${raroc.toFixed(1)}%</div>
+        <div class="matrix-callout">
+          <strong>This borrower:</strong> ${seg} &nbsp;·&nbsp; PD = ${pct(pd)} · RAROC = ${raroc.toFixed(2)}% · Net Profit = ${fmtINR(netProfit)}
+        </div>
       </div>
     </div>
 
-    <div class="ref-card a a7" style="border-radius:12px;padding:14px 18px">
-      <strong>📋 Model Transparency Note</strong><br/>
-      The PD is computed using a Logistic Regression model trained on a 13,000-record replica of the UCI "Give Me Some Credit" dataset 
-      (Kaggle competition data). Features are StandardScaler-normalised before applying the fitted coefficients (intercept = ${MODEL.intercept}, 
-      top coefficient: dti_ratio = ${MODEL.coef.dti_ratio}). AUC-ROC on training set: <strong>${MODEL.auc}</strong>. 
-      LGD values follow standard Basel II retail lending assumptions (home 25%, auto 35%, personal 55%). 
-      Economic Capital uses a Basel-inspired formula: EC = Loan × (√PD × 0.12 + 0.04).<br/>
-      <span style="opacity:0.7;font-size:10px">Dataset: ${MODEL.dataset} · kaggle.com/c/GiveMeSomeCredit</span>
+    <div class="ref-card a a7">
+      <span class="ref-card-label">📋 Model Transparency Note</span>
+      The PD is computed using a Logistic Regression model (C=1.0, L2 regularisation) trained on a 13,000-record
+      Credit Risk RAROC dataset aligned to RBI lending norms and Basel II standards.
+      Features are StandardScaler-normalised before applying the fitted coefficients
+      (intercept = ${MODEL.intercept}, top coefficient: dti_ratio = ${MODEL.coef.dti_ratio}, importance 45.9%).
+      <strong>AUC-ROC on training set: ${MODEL.auc}</strong>. Training default rate: ${pct(MODEL.default_rate,1)}.
+      LGD values follow RBI retail lending standards (home 25%, auto 35%, education 45%, business 50%, personal 55%).
+      Economic Capital uses a Basel-inspired formula: EC = Loan × (√PD × 0.12 + 0.04).
+      Segment cutoffs calibrated on portfolio: PD &lt; 20% (low risk), RAROC ≥ 15% (profitable).
     </div>`;
 
   document.getElementById('page-input').classList.remove('active');
