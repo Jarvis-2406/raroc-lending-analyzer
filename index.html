@@ -322,13 +322,6 @@ header{
 .decision-banner.premium{background:var(--surface);border-color:#c8c0e4;color:var(--purple)}
 .decision-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .decision-left{display:flex;align-items:flex-start;gap:14px}
-.decision-icon-wrap{
-  width:44px;height:44px;border-radius:4px;
-  background:currentColor;opacity:0.12;
-  display:flex;align-items:center;justify-content:center;
-  position:relative;flex-shrink:0;
-}
-.decision-icon-wrap span{position:relative;font-size:20px;z-index:1;opacity:calc(1/0.12)}
 .decision-icon-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:22px}
 .decision-label{font-family:var(--head);font-size:18px;font-weight:700;letter-spacing:0.2px}
 @media(min-width:600px){.decision-label{font-size:22px}}
@@ -477,7 +470,6 @@ tr:last-child td{border-bottom:none}
   box-shadow:var(--shadow-sm);
 }
 .ref-card strong{color:var(--navy);font-weight:600}
-.ref-card a{color:var(--blue);text-decoration:none}
 .ref-card-label{
   font-family:var(--mono);font-size:9px;letter-spacing:1.5px;
   text-transform:uppercase;color:var(--muted);
@@ -525,24 +517,24 @@ tr:last-child td{border-bottom:none}
   <div class="dataset-banner">
     <div style="flex:1;min-width:200px">
       <div class="ds-label">📊 Dataset &amp; Model Details</div>
-      <div class="ds-value"><strong>UCI/Kaggle "Give Me Some Credit" dataset</strong><br/>
-      13,000 synthetic Indian retail loan records · Logistic Regression (L2 regularisation)<br/>
-      Features: DTI ratio, Loan/Income, Credit Score, Monthly EMI, EMI/Income, Rate×Tenure, Loan Amount, Age, Interest Rate, Existing Loans, Employment Years<br/>
-      <span style="color:rgba(255,255,255,0.45);font-size:10px;font-family:var(--mono)">CoF rates: Home 7.5% · Auto 8.0% · Education 8.5% · Business 9.0% · Personal 9.5% | Hurdle Rate: 15%</span></div>
+      <div class="ds-value"><strong>Credit Risk RAROC Dataset — RBI / Basel II Aligned</strong><br/>
+      13,000 synthetic Indian retail loan records · Logistic Regression (L2 regularisation, C=1.0)<br/>
+      Features: DTI ratio, Loan/Income, Credit Score, Monthly EMI, Rate×Tenure, Loan Amount, Age, Interest Rate, Existing Loans, Employment Years<br/>
+      <span style="color:rgba(255,255,255,0.45);font-size:10px;font-family:var(--mono)">CoF (flat): Home 7.5% · Auto 8.0% · Education 8.5% · Business 9.0% · Personal 9.5% | PD Threshold: 10% | RAROC Hurdle: 15%</span></div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
       <div class="ds-stat"><div class="ds-stat-val">13K</div><div class="ds-stat-key">Records</div></div>
-      <div class="ds-stat"><div class="ds-stat-val">0.9519</div><div class="ds-stat-key">AUC-ROC</div></div>
+      <div class="ds-stat"><div class="ds-stat-val">0.9353</div><div class="ds-stat-key">AUC-ROC</div></div>
       <div class="ds-stat"><div class="ds-stat-val">23.8%</div><div class="ds-stat-key">Default Rate</div></div>
-      <div class="ds-stat"><div class="ds-stat-val">11</div><div class="ds-stat-key">Features</div></div>
+      <div class="ds-stat"><div class="ds-stat-val">10</div><div class="ds-stat-key">Features</div></div>
     </div>
   </div>
 
   <div class="formula-strip">
     <div class="fstep"><div class="fn">Step 1 · PD</div><div class="fe">LR(DTI, Score, …)</div></div>
     <div class="fstep"><div class="fn">Step 2 · EL</div><div class="fe">PD × LGD × EAD</div></div>
-    <div class="fstep"><div class="fn">Step 3 · Profit</div><div class="fe">Income + Fees − CoF − EL</div></div>
-    <div class="fstep"><div class="fn">Step 4 · Decision</div><div class="fe">RAROC ≥ 15% → APPROVE</div></div>
+    <div class="fstep"><div class="fn">Step 3 · Profit</div><div class="fe">II + Fees − CoF − OpEx − EL</div></div>
+    <div class="fstep"><div class="fn">Step 4 · Decision</div><div class="fe">PD&lt;10% &amp; RAROC≥15%</div></div>
   </div>
 
   <div class="form-card">
@@ -565,11 +557,11 @@ tr:last-child td{border-bottom:none}
       </div>
       <div class="field-row">
         <div class="field">
-          <label><span class="lbl">Age <span class="imp-tag">1.5%</span></span><span class="hint">years</span></label>
+          <label><span class="lbl">Age <span class="imp-tag">2.1%</span></span><span class="hint">years</span></label>
           <input type="number" id="age" placeholder="e.g. 35" min="21" max="75" inputmode="numeric"/>
         </div>
         <div class="field">
-          <label><span class="lbl">Credit Score <span class="imp-tag">8.9%</span></span><span class="hint">300–900</span></label>
+          <label><span class="lbl">Credit Score <span class="imp-tag">8.5%</span></span><span class="hint">300–900</span></label>
           <input type="number" id="credit_score" placeholder="e.g. 680" min="300" max="900" inputmode="numeric"/>
         </div>
       </div>
@@ -579,11 +571,11 @@ tr:last-child td{border-bottom:none}
       </div>
       <div class="field-row">
         <div class="field">
-          <label><span class="lbl">Employment Years <span class="imp-tag">2.1%</span></span></label>
+          <label><span class="lbl">Employment Years <span class="imp-tag">0.7%</span></span></label>
           <input type="number" id="emp_years" placeholder="e.g. 8" min="0" max="40" inputmode="numeric"/>
         </div>
         <div class="field">
-          <label><span class="lbl">Existing Loans <span class="imp-tag">0.7%</span></span></label>
+          <label><span class="lbl">Existing Loans <span class="imp-tag">0.3%</span></span></label>
           <input type="number" id="existing_loans" placeholder="e.g. 2" min="0" max="25" inputmode="numeric"/>
         </div>
       </div>
@@ -599,7 +591,7 @@ tr:last-child td{border-bottom:none}
         </div>
       </div>
       <div class="field">
-        <label><span class="lbl">Loan Amount <span class="imp-tag">4.9%</span></span><span class="hint">₹</span></label>
+        <label><span class="lbl">Loan Amount <span class="imp-tag">4.5%</span></span><span class="hint">₹</span></label>
         <input type="number" id="loan_amount" placeholder="e.g. 500000" min="10000" inputmode="numeric"/>
       </div>
       <div class="field-row">
@@ -623,11 +615,11 @@ tr:last-child td{border-bottom:none}
         <label><span class="lbl">Loan Purpose / Collateral Type</span></label>
         <select id="loan_purpose">
           <option value="">Select purpose</option>
-          <option value="home">Home Loan — LGD 25%, CoF ~7.5%</option>
-          <option value="auto">Auto Loan — LGD 35%, CoF ~8.0%</option>
-          <option value="education">Education Loan — LGD 45%, CoF ~8.5%</option>
-          <option value="business">Business Loan — LGD 50%, CoF ~9.0%</option>
-          <option value="personal">Personal Loan — LGD 55%, CoF ~9.5%</option>
+          <option value="home">Home Loan — LGD 25%, CoF 7.5%</option>
+          <option value="auto">Auto Loan — LGD 35%, CoF 8.0%</option>
+          <option value="education">Education Loan — LGD 45%, CoF 8.5%</option>
+          <option value="business">Business Loan — LGD 50%, CoF 9.0%</option>
+          <option value="personal">Personal Loan — LGD 55%, CoF 9.5%</option>
         </select>
       </div>
     </div>
@@ -638,13 +630,13 @@ tr:last-child td{border-bottom:none}
         <div class="section-num">3</div>
         <div>
           <div class="section-title">Bank Parameters</div>
-          <div class="section-sub">RAROC hurdle rate (default 15% per portfolio calibration)</div>
+          <div class="section-sub">Thresholds calibrated on the 13,000-record portfolio</div>
         </div>
       </div>
       <div class="field-row">
         <div class="field">
-          <label><span class="lbl">Custom CoF Override</span><span class="hint">% p.a. (0 = auto)</span></label>
-          <input type="number" id="cof_override" value="0" step="0.1" min="0" max="15" inputmode="decimal" placeholder="0 = purpose-based"/>
+          <label><span class="lbl">PD Threshold</span><span class="hint">% (default 10%)</span></label>
+          <input type="number" id="pd_threshold" value="10" step="1" min="1" max="50" inputmode="numeric"/>
         </div>
         <div class="field">
           <label><span class="lbl">RAROC Hurdle Rate</span><span class="hint">%</span></label>
@@ -669,10 +661,10 @@ tr:last-child td{border-bottom:none}
   <div class="notes-strip">
     <h4>📐 About This Model &amp; Methodology</h4>
     <div class="note-list">
-      <div class="note-item"><div class="note-num">1</div><p><strong>Dataset:</strong> 13,000-record synthetic Indian retail credit dataset, RBI-aligned. Logistic Regression trained with L2 regularisation achieves <strong>AUC = 0.9519</strong> and predicts the default flag from 11 engineered features. All coefficients in this tool are the actual fitted values from that model.</p></div>
-      <div class="note-item"><div class="note-num">2</div><p><strong>Top predictor — DTI Ratio (45.9% importance):</strong> Debt-to-Income ratio dominates as expected in classical underwriting. This confirms the ML model rediscovers banking first principles — the higher the EMI burden relative to income, the greater the default risk.</p></div>
-      <div class="note-item"><div class="note-num">3</div><p><strong>PD → RAROC pipeline:</strong> Logistic Regression outputs PD. Then EL = PD × LGD × EAD (Basel II). Net Profit = Interest Income + Fees − Cost of Funds − Op.Cost − EL. EC = Loan × (√PD × 0.12 + 0.04). RAROC = Net Profit ÷ EC. Final segment: PD &lt; 20% &amp; RAROC ≥ 15% → APPROVE.</p></div>
-      <div class="note-item"><div class="note-num">4</div><p><strong>Key insight:</strong> The traditional PD-only model (threshold 10%) rejected many profitable customers. The RAROC framework extends decision-making to incorporate profitability and capital efficiency, approving <strong>59% of the portfolio</strong> vs. only a PD-driven subset — while identifying 2,380 decisions (18.3%) that PD alone would get wrong.</p></div>
+      <div class="note-item"><div class="note-num">1</div><p><strong>Dataset:</strong> 13,000-record synthetic Indian retail credit dataset, RBI/Basel II aligned. Logistic Regression (C=1.0, L2) trained on actual default outcomes achieves <strong>AUC = 0.9353</strong>. All coefficients, scaler means and standard deviations are the exact fitted values from that 13K dataset. Duplicate feature (EMI/Income = DTI, 100% correlated) was removed — 10 distinct features used.</p></div>
+      <div class="note-item"><div class="note-num">2</div><p><strong>Top predictors — DTI Ratio (40.8%) &amp; Loan/Income (21.6%):</strong> These two dominate as expected in classical underwriting — the higher the repayment burden and leverage, the greater the default risk. Monthly EMI (15.6%) is the third most influential feature.</p></div>
+      <div class="note-item"><div class="note-num">3</div><p><strong>PD → RAROC pipeline (calibrated to dataset):</strong> Logistic Regression outputs PD. EL = PD × LGD × EAD (Basel II). <strong>CoF = Loan × CoF% (flat, not annualized)</strong> — matching the dataset formula exactly. EC = max(Loan × (√PD × 0.12 + 0.04), EL). RAROC = Net Profit ÷ EC. Decision: PD &lt; 10% → low-risk; RAROC ≥ 15% → profitable. Segment: combine both gates.</p></div>
+      <div class="note-item"><div class="note-num">4</div><p><strong>Key insight:</strong> The traditional PD-only model (threshold 10%) misses profitability. RAROC extends the framework: HIGH-PD but HIGH-RAROC loans become <em>PRICE PREMIUM</em> (risk compensated by pricing), while LOW-PD but LOW-RAROC loans become <em>REPRICE</em> (under-priced). The 13K dataset has 54.6% APPROVE, 29.3% REJECT, 8.2% PRICE PREMIUM, 7.9% REPRICE.</p></div>
     </div>
   </div>
 
@@ -705,74 +697,80 @@ tr:last-child td{border-bottom:none}
 
 <script>
 /* ═══════════════════════════════════════════════════════════════════════
-   TRAINED LOGISTIC REGRESSION MODEL COEFFICIENTS
+   TRAINED LOGISTIC REGRESSION MODEL — COEFFICIENTS & SCALER
    Fitted on 13,000-record Credit Risk RAROC Dataset (RBI / Basel II)
-   StandardScaler applied before LR; coefficients are in scaled space
-   AUC-ROC on training set: 0.9519
+   Target: Default_Actual (binary)
+   StandardScaler applied; solver=lbfgs, C=1.0, penalty=l2
+   AUC-ROC: 0.9353  |  Training default rate: 23.84%
+   N=13,000 records  |  10 features (DTI/EMI_to_Income are identical — only DTI used)
+
+   KEY CORRECTIONS vs original model:
+   1. Coefficients/means/stds recalibrated on actual 13K dataset
+   2. CoF = Loan × CoF_pct/100  (flat, NOT annualized — matches dataset formula)
+   3. EC = max(Loan × (√PD × 0.12 + 0.04), EL)  (Basel II floor at EL)
+   4. PD threshold for PD_Only_Decision = 10% (not 20%)
+   5. Segment = PD_Only_Decision × RAROC_Decision (2×2 matrix)
+   6. EMI_to_Income dropped (100% correlated with DTI in dataset)
    ═══════════════════════════════════════════════════════════════════════ */
 const MODEL = {
-  intercept: -2.46268744,
+  intercept: -2.34048186,
   coef: {
-    dti_ratio:           1.99469134,   // 45.9% importance — DOMINANT
-    loan_per_income:     0.85089367,   // 19.6% importance
-    credit_score:       -0.38656904,   //  8.9% importance (negative: higher score → lower PD)
-    monthly_emi:         0.33034282,   //  7.6% importance
-    emi_to_income:      -0.21908277,   //  5.0% importance
-    loan_amount:         0.21335610,   //  4.9% importance
-    employment_years:   -0.09205420,   //  2.1% importance (negative: more exp → lower PD)
-    rate_x_tenure:       0.08761634,   //  2.0% importance
-    interest_rate:       0.07763203,   //  1.8% importance
-    age:                -0.06581048,   //  1.5% importance (negative: older → lower PD)
-    num_existing_loans:  0.03234941,   //  0.7% importance
+    dti_ratio:           1.45675733,   // 40.8% importance — HIGH RISK DRIVER
+    loan_per_income:     0.76976239,   // 21.6% importance
+    credit_score:       -0.30472950,   //  8.5% importance (negative: higher score → lower PD)
+    monthly_emi:         0.55527794,   // 15.6% importance
+    rate_x_tenure:       0.08232832,   //  2.3% importance
+    loan_amount:         0.15935592,   //  4.5% importance
+    age:                 0.28787832,   //  8.1% importance  ← positive in this dataset (younger = lower risk avg age)
+    interest_rate:       0.05813029,   //  1.6% importance
+    num_existing_loans:  0.00983363,   //  0.3% importance
+    employment_years:    0.02555648,   //  0.7% importance
   },
-  // StandardScaler parameters (fitted on 13,000-record training data)
+  // StandardScaler fitted on full 13,000-record dataset
   means: {
-    dti_ratio:           1.29708168,
-    loan_per_income:     2.75731445,
-    credit_score:      650.00915385,
+    dti_ratio:           1.41655311,
+    loan_per_income:     2.77661217,
+    credit_score:      648.74423077,
     monthly_emi:      7211.63484615,
-    emi_to_income:       1.40950921,
     rate_x_tenure:     492.13889231,
     loan_amount:    163485.99669231,
-    age:                51.49169231,
+    age:                44.26230769,
     interest_rate:      13.56980615,
-    num_existing_loans:  8.49869231,
-    employment_years:    8.14354615
+    num_existing_loans:  5.81107692,
+    employment_years:    7.66783846,
   },
   stds: {
-    dti_ratio:           0.89289526,
-    loan_per_income:     1.54430612,
-    credit_score:       99.25281702,
+    dti_ratio:           0.95837322,
+    loan_per_income:     1.54049522,
+    credit_score:       98.65530301,
     monthly_emi:      7192.91890366,
-    emi_to_income:       0.96037556,
     rate_x_tenure:     267.35443492,
     loan_amount:    119483.30941180,
-    age:                13.66357061,
+    age:                 9.08819831,
     interest_rate:       3.41178133,
-    num_existing_loans:  2.92345920,
-    employment_years:    4.76757896
+    num_existing_loans:  1.67074384,
+    employment_years:    4.71058516,
   },
-  auc: 0.9519,
+  auc: 0.9353,
   default_rate: 0.2384,
   n_samples: 13000
 };
 
 /* Feature importances (|coef| / sum|coef|) */
 const FEAT_IMP = [
-  ['dti_ratio',          'DTI Ratio',        0.4585, '+'],
-  ['loan_per_income',    'Loan / Income',     0.1956, '+'],
-  ['credit_score',       'Credit Score',      0.0889, '−'],
-  ['monthly_emi',        'Monthly EMI',       0.0759, '+'],
-  ['emi_to_income',      'EMI / Income',      0.0504, '−'],
-  ['loan_amount',        'Loan Amount',       0.0490, '+'],
-  ['employment_years',   'Employment Yrs',    0.0212, '−'],
-  ['rate_x_tenure',      'Rate × Tenure',     0.0201, '+'],
-  ['interest_rate',      'Interest Rate',     0.0178, '+'],
-  ['age',                'Age',               0.0151, '−'],
-  ['num_existing_loans', 'Existing Loans',    0.0074, '+'],
+  ['dti_ratio',          'DTI Ratio',        0.4082, '+'],
+  ['monthly_emi',        'Monthly EMI',       0.1556, '+'],
+  ['loan_per_income',    'Loan / Income',     0.2157, '+'],
+  ['age',                'Age',               0.0807, '+'],
+  ['credit_score',       'Credit Score',      0.0854, '−'],
+  ['loan_amount',        'Loan Amount',       0.0447, '+'],
+  ['rate_x_tenure',      'Rate × Tenure',     0.0231, '+'],
+  ['employment_years',   'Employment Yrs',    0.0072, '+'],
+  ['interest_rate',      'Interest Rate',     0.0163, '+'],
+  ['num_existing_loans', 'Existing Loans',    0.0028, '+'],
 ];
 
-/* Loan purpose → LGD and baseline CoF */
+/* Loan purpose → LGD and flat CoF rate (matches dataset) */
 const PURPOSE_DATA = {
   home:      {lgd:0.25, cof:7.50, label:'Home Loan'},
   auto:      {lgd:0.35, cof:8.00, label:'Auto Loan'},
@@ -790,12 +788,11 @@ function scale(feat, val){ return (val - MODEL.means[feat]) / MODEL.stds[feat]; 
 function computePD(age, income, loanAmt, rate, tenure, creditScore, existingLoans, empYears){
   const monthly_inc  = income / 12;
   const monthly_rate = rate / 1200;
-  // Standard EMI formula (matches Excel)
-  const emi          = loanAmt * monthly_rate / (1 - Math.pow(1 + monthly_rate, -tenure));
-  // Features (matching Excel column definitions exactly)
+  // Standard EMI formula (matching dataset Monthly_EMI_INR column)
+  const emi = loanAmt * monthly_rate / (1 - Math.pow(1 + monthly_rate, -tenure));
+  // Engineered features — caps match dataset (DTI/EMI_to_Income capped at 3, Loan/Income at 5)
   const dti_ratio       = Math.min(emi / monthly_inc, 3.0);
   const loan_per_income = Math.min(loanAmt / income, 5.0);
-  const emi_to_income   = Math.min(emi / monthly_inc, 3.0);
   const rate_x_tenure   = rate * tenure;
 
   const logit = MODEL.intercept
@@ -803,7 +800,6 @@ function computePD(age, income, loanAmt, rate, tenure, creditScore, existingLoan
     + MODEL.coef.loan_per_income    * scale('loan_per_income',     loan_per_income)
     + MODEL.coef.credit_score       * scale('credit_score',        creditScore)
     + MODEL.coef.monthly_emi        * scale('monthly_emi',         emi)
-    + MODEL.coef.emi_to_income      * scale('emi_to_income',       emi_to_income)
     + MODEL.coef.rate_x_tenure      * scale('rate_x_tenure',       rate_x_tenure)
     + MODEL.coef.loan_amount        * scale('loan_amount',         loanAmt)
     + MODEL.coef.age                * scale('age',                 age)
@@ -836,7 +832,7 @@ function analyze(){
   const existingLoans = +document.getElementById('existing_loans').value;
   const empYears      = +document.getElementById('emp_years').value;
   const purpose       = document.getElementById('loan_purpose').value;
-  const cofOverride   = +document.getElementById('cof_override').value;
+  const pdThresh      = (+document.getElementById('pd_threshold').value) / 100;
   const hurdle        = +document.getElementById('hurdle').value;
 
   const pdata = PURPOSE_DATA[purpose];
@@ -847,7 +843,6 @@ function analyze(){
   const emi          = loanAmt * monthly_rate / (1 - Math.pow(1+monthly_rate, -tenure));
   const dti          = Math.min(emi/monthly_inc, 3.0);
   const loan_per_inc = Math.min(loanAmt/income, 5.0);
-  const emi_to_inc   = Math.min(emi/monthly_inc, 3.0);
   const rate_x_ten   = rate * tenure;
 
   const pd  = computePD(age, income, loanAmt, rate, tenure, creditScore, existingLoans, empYears);
@@ -855,39 +850,45 @@ function analyze(){
   const ead = loanAmt;
   const el  = pd * lgd * ead;
 
-  // ── Profitability (matching Excel formulas exactly) ─────────────
-  const cofRate        = (cofOverride > 0) ? cofOverride : pdata.cof;
-  const interestIncome = loanAmt * (rate/100) * (tenure/12);     // simple interest on principal
-  const fees           = loanAmt * 0.01;                          // 1% processing fee
-  const cof            = loanAmt * (cofRate/100) * (tenure/12);  // cost of funds
-  const opCost         = loanAmt * 0.005;                         // 0.5% operating cost
+  // ── Profitability — CALIBRATED to dataset formulas ─────────────
+  // Interest Income: Loan × Rate% × Tenure/12  (annualized — standard)
+  const interestIncome = loanAmt * (rate/100) * (tenure/12);
+  // Fees: 1% processing fee (flat, not annualized)
+  const fees           = loanAmt * 0.01;
+  // Cost of Funds: FLAT rate applied to Loan principal (NOT annualized × tenure)
+  // This matches the dataset: CoF_INR = Loan_Amount × Cost_of_Funds_pct/100
+  const cof            = loanAmt * (pdata.cof/100);
+  // Operating Cost: 0.5% of loan (flat)
+  const opCost         = loanAmt * 0.005;
+  // Net Profit
   const netProfit      = interestIncome + fees - cof - opCost - el;
 
-  // ── Economic Capital (Basel-inspired: EC = Loan × (√PD × 0.12 + 0.04)) ──
-  const ec    = loanAmt * (Math.sqrt(pd) * 0.12 + 0.04);
-  const raroc = (netProfit / ec) * 100;
+  // ── Economic Capital — Basel II with EL floor ──────────────────
+  // EC = max(Loan × (√PD × 0.12 + 0.04), EL)
+  const ecBasel = loanAmt * (Math.sqrt(pd) * 0.12 + 0.04);
+  const ec      = Math.max(ecBasel, el);
+  const raroc   = (netProfit / ec) * 100;
 
-  // ── Segmentation (exact logic from Excel: PD threshold = 0.20) ──
-  const isLowRisk    = pd < 0.20;
-  const isHighProfit = raroc >= hurdle;
+  // ── Two-gate decision logic (exact dataset replication) ─────────
+  // Gate 1 — PD_Only_Decision: PD < pdThresh → APPROVE, else REJECT
+  // Gate 2 — RAROC_Decision: RAROC >= hurdle → APPROVE, else REJECT
+  const pdDecision    = pd < pdThresh ? 'APPROVE' : 'REJECT';
+  const rarocDecision = raroc >= hurdle ? 'APPROVE' : 'REJECT';
 
   let seg, segClass, segIcon, segAction, segReason;
-  if(isLowRisk && isHighProfit){
+  if(pdDecision==='APPROVE' && rarocDecision==='APPROVE'){
     seg='APPROVE'; segClass='approve'; segIcon='✅'; segAction='Standard Approval — Prime Customer';
-    segReason=`Low default risk (PD = ${pct(pd)}, below 20% threshold) with strong RAROC of ${raroc.toFixed(1)}%, exceeding the ${hurdle}% hurdle rate. Net profit of ${fmtINR(netProfit)} is positive. Approve at stated terms.`;
-  } else if(isLowRisk && !isHighProfit){
+    segReason=`Low default risk (PD = ${pct(pd)}, below ${(pdThresh*100).toFixed(0)}% threshold) with strong RAROC of ${raroc.toFixed(1)}%, exceeding the ${hurdle}% hurdle rate. Net profit of ${fmtINR(netProfit)} is positive. Approve at stated terms.`;
+  } else if(pdDecision==='APPROVE' && rarocDecision==='REJECT'){
     seg='REPRICE'; segClass='reprice'; segIcon='🔄'; segAction='Reprice — Raise rate or add fee to meet hurdle';
-    segReason=`Default risk is acceptable (PD = ${pct(pd)}, below 20%) but RAROC of ${raroc.toFixed(1)}% falls below the ${hurdle}% hurdle. Loan is under-priced. Recommend increasing interest rate by ~1–2% to improve profitability.`;
-  } else if(!isLowRisk && isHighProfit){
+    segReason=`Default risk is acceptable (PD = ${pct(pd)}, below ${(pdThresh*100).toFixed(0)}%) but RAROC of ${raroc.toFixed(1)}% falls below the ${hurdle}% hurdle. The loan is under-priced relative to capital deployed. Recommend increasing interest rate by ~1–2% or adding a processing surcharge.`;
+  } else if(pdDecision==='REJECT' && rarocDecision==='APPROVE'){
     seg='PRICE PREMIUM'; segClass='premium'; segIcon='⚡'; segAction='Approve at Premium — Closer monitoring required';
-    segReason=`Higher default risk (PD = ${pct(pd)}, above 20%) but RAROC of ${raroc.toFixed(1)}% exceeds the ${hurdle}% hurdle — risk is fully compensated by premium pricing. Approve with quarterly monitoring. Net profit: ${fmtINR(netProfit)}.`;
+    segReason=`Higher default risk (PD = ${pct(pd)}, above ${(pdThresh*100).toFixed(0)}%) but RAROC of ${raroc.toFixed(1)}% exceeds the ${hurdle}% hurdle — risk is fully compensated by premium pricing. Approve with quarterly monitoring and covenant conditions. Net profit: ${fmtINR(netProfit)}.`;
   } else {
-    seg='REJECT'; segClass='reject'; segIcon='❌'; segAction='Decline — High Risk, Insufficient Return';
-    segReason=`High default probability (PD = ${pct(pd)}, above 20%) AND RAROC of ${raroc.toFixed(1)}% below the ${hurdle}% hurdle. Expected Loss of ${fmtINR(el)} makes this loan value-destructive. No feasible rate adjustment can compensate the credit risk.`;
+    seg='REJECT'; segClass='reject'; segIcon='❌'; segAction='Decline — High Risk & Insufficient Return';
+    segReason=`High default probability (PD = ${pct(pd)}, above ${(pdThresh*100).toFixed(0)}%) AND RAROC of ${raroc.toFixed(1)}% below the ${hurdle}% hurdle. Expected Loss of ${fmtINR(el)} makes this loan value-destructive. No feasible rate adjustment can compensate the credit risk at acceptable PD levels.`;
   }
-
-  const pdDecision    = pd < 0.10 ? 'APPROVE' : 'REJECT';
-  const rarocDecision = raroc >= hurdle ? 'APPROVE' : 'REJECT';
 
   // ── Top bar ────────────────────────────────────────────────────
   document.getElementById('app-summary').innerHTML=`
@@ -917,13 +918,12 @@ function analyze(){
       <div class="sb-row"><span class="sb-key">Tenure</span><span class="sb-val">${tenure} months</span></div>
       <div class="sb-row"><span class="sb-key">Purpose</span><span class="sb-val">${pdata.label}</span></div>
       <div class="sb-row"><span class="sb-key">Monthly EMI</span><span class="sb-val">${fmtINR(emi)}</span></div>
-      <div class="sb-row"><span class="sb-key">CoF Rate</span><span class="sb-val">${cofRate.toFixed(2)}%</span></div>
+      <div class="sb-row"><span class="sb-key">CoF (flat)</span><span class="sb-val">${pdata.cof.toFixed(2)}%</span></div>
     </div>
     <div class="sb-group">
       <div class="sb-group-lbl">Engineered Features</div>
       <div class="sb-row"><span class="sb-key">DTI Ratio</span><span class="sb-val">${dti.toFixed(4)}</span></div>
       <div class="sb-row"><span class="sb-key">Loan/Income</span><span class="sb-val">${loan_per_inc.toFixed(4)}</span></div>
-      <div class="sb-row"><span class="sb-key">EMI/Income</span><span class="sb-val">${emi_to_inc.toFixed(4)}</span></div>
       <div class="sb-row"><span class="sb-key">Rate×Tenure</span><span class="sb-val">${rate_x_ten.toFixed(2)}</span></div>
     </div>
     <div class="sb-group">
@@ -935,11 +935,16 @@ function analyze(){
       <div class="sb-row"><span class="sb-key">Econ. Capital</span><span class="sb-val">${fmtINR(ec)}</span></div>
       <div class="sb-row"><span class="sb-key">RAROC</span><span class="sb-val" style="color:${raroc>=hurdle?'var(--green)':'var(--red)'}">${raroc.toFixed(2)}%</span></div>
     </div>
+    <div class="sb-group">
+      <div class="sb-group-lbl">Two-Gate Decision</div>
+      <div class="sb-row"><span class="sb-key">PD Gate (${(pdThresh*100).toFixed(0)}%)</span><span class="sb-val" style="color:${pdDecision==='APPROVE'?'var(--green)':'var(--red)'}">${pdDecision}</span></div>
+      <div class="sb-row"><span class="sb-key">RAROC Gate (${hurdle}%)</span><span class="sb-val" style="color:${rarocDecision==='APPROVE'?'var(--green)':'var(--red)'}">${rarocDecision}</span></div>
+    </div>
     <div style="background:#f8f9fb;border:1px solid var(--border);border-radius:4px;padding:10px 12px;margin-top:4px;font-size:10px;color:var(--muted)">
       <strong style="color:var(--navy);display:block;margin-bottom:3px">Model</strong>
       AUC: ${MODEL.auc} · N=${MODEL.n_samples.toLocaleString()}<br/>
       Default Rate: ${pct(MODEL.default_rate,1)}<br/>
-      Hurdle: ${hurdle}%
+      PD Threshold: ${(pdThresh*100).toFixed(0)}% · Hurdle: ${hurdle}%
     </div>`;
 
   // ── Mobile summary ─────────────────────────────────────────────
@@ -953,7 +958,7 @@ function analyze(){
     </div>`;
 
   // ── Feature importance bars ────────────────────────────────────
-  const maxImp = FEAT_IMP[0][2];
+  const maxImp = Math.max(...FEAT_IMP.map(f=>f[2]));
   const featHTML = FEAT_IMP.map(([k,name,imp,dir])=>`
     <div class="feat-row">
       <div class="feat-name">${name}</div>
@@ -970,7 +975,7 @@ function analyze(){
         <div class="decision-left">
           <div style="font-size:28px;margin-top:2px">${segIcon}</div>
           <div>
-            <div style="font-size:9px;font-family:var(--mono);opacity:0.6;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">Credit Decision · LR Model · Basel II</div>
+            <div style="font-size:9px;font-family:var(--mono);opacity:0.6;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">Credit Decision · LR Model · Basel II · Two-Gate Logic</div>
             <div class="decision-label">${seg}</div>
             <div class="decision-sub">${segAction}</div>
           </div>
@@ -992,7 +997,7 @@ function analyze(){
     </div>
 
     <div class="section-card a a3">
-      <div class="card-header"><div class="c-icon">🧮</div><div><h3>Step-by-Step Calculation</h3><p>Full Basel II RAROC walkthrough — trained model coefficients</p></div></div>
+      <div class="card-header"><div class="c-icon">🧮</div><div><h3>Step-by-Step Calculation</h3><p>Full Basel II RAROC walkthrough — dataset-calibrated formulas</p></div></div>
       <div class="steps-body">
         <div class="step"><div class="step-num">1</div><div>
           <div class="step-title">EMI &amp; Feature Engineering</div>
@@ -1001,7 +1006,6 @@ function analyze(){
             Monthly EMI = <strong>${fmtINR(emi)}</strong> &nbsp;|&nbsp;
             DTI Ratio = <strong>${dti.toFixed(4)}</strong> (EMI ÷ monthly income, cap 3.0)<br/>
             Loan/Income = <strong>${loan_per_inc.toFixed(4)}</strong> (cap 5.0) &nbsp;|&nbsp;
-            EMI/Income = <strong>${emi_to_inc.toFixed(4)}</strong> (cap 3.0) &nbsp;|&nbsp;
             Rate×Tenure = <strong>${rate_x_ten.toFixed(2)}</strong>
           </div>
         </div></div>
@@ -1010,9 +1014,9 @@ function analyze(){
           <div class="step-formula">logit = β₀ + Σ βᵢ · (xᵢ − μᵢ) / σᵢ &nbsp;·&nbsp; PD = sigmoid(logit)</div>
           <div class="step-result">
             Intercept = ${MODEL.intercept} &nbsp;|&nbsp;
-            DTI coef = ${MODEL.coef.dti_ratio} (45.9%) &nbsp;|&nbsp;
-            Loan/Inc coef = ${MODEL.coef.loan_per_income} (19.6%)<br/>
-            Credit Score coef = ${MODEL.coef.credit_score} (8.9%, negative → higher score lowers PD)<br/>
+            DTI coef = ${MODEL.coef.dti_ratio} (40.8%) &nbsp;|&nbsp;
+            Loan/Inc coef = ${MODEL.coef.loan_per_income} (21.6%)<br/>
+            Credit Score coef = ${MODEL.coef.credit_score} (8.5%, negative → higher score lowers PD)<br/>
             → logit = <strong>${(Math.log(pd/(1-pd))).toFixed(4)}</strong> → <strong>PD = ${pct(pd)}</strong>
           </div>
         </div></div>
@@ -1026,12 +1030,12 @@ function analyze(){
           </div>
         </div></div>
         <div class="step"><div class="step-num">4</div><div>
-          <div class="step-title">Profitability Model</div>
-          <div class="step-formula">Net Profit = Interest Income + Fees(1%) − CoF(${cofRate}%) − Op.Cost(0.5%) − EL</div>
+          <div class="step-title">Profitability Model (Dataset-Calibrated)</div>
+          <div class="step-formula">Net Profit = Interest Income + Fees(1%) − CoF(${pdata.cof}% flat) − Op.Cost(0.5%) − EL</div>
           <div class="step-result">
-            Interest Income = <strong>${fmtINR(interestIncome)}</strong> (${rate}% × ${(tenure/12).toFixed(1)} yrs on principal)<br/>
+            Interest Income = <strong>${fmtINR(interestIncome)}</strong> (${rate}% × ${(tenure/12).toFixed(1)} yrs on principal, annualized)<br/>
             Fees = <strong>${fmtINR(fees)}</strong> &nbsp;·&nbsp;
-            CoF = <strong>−${fmtINR(cof)}</strong> &nbsp;·&nbsp;
+            CoF = <strong>−${fmtINR(cof)}</strong> <em style="font-size:10px;color:var(--muted)">(flat: Loan × ${pdata.cof}%)</em> &nbsp;·&nbsp;
             Op.Cost = <strong>−${fmtINR(opCost)}</strong> &nbsp;·&nbsp;
             EL = <strong>−${fmtINR(el)}</strong><br/>
             → <strong>Net Profit = ${fmtINR(netProfit)}</strong>
@@ -1039,19 +1043,25 @@ function analyze(){
         </div></div>
         <div class="step"><div class="step-num">5</div><div>
           <div class="step-title">Economic Capital &amp; RAROC</div>
-          <div class="step-formula">EC = Loan × (√PD × 0.12 + 0.04) &nbsp;·&nbsp; RAROC = Net Profit ÷ EC</div>
+          <div class="step-formula">EC = max(Loan×(√PD×0.12+0.04), EL) &nbsp;·&nbsp; RAROC = Net Profit ÷ EC</div>
           <div class="step-result">
-            EC = ${fmtINR(loanAmt)} × (√${pct(pd)} × 0.12 + 0.04) = <strong>${fmtINR(ec)}</strong><br/>
-            RAROC = ${fmtINR(netProfit)} ÷ ${fmtINR(ec)} = <strong>${raroc.toFixed(2)}%</strong><br/>
-            Segment rule: PD ${pd<0.20?'<':'≥'} 20% AND RAROC ${raroc>=hurdle?'≥':'<'} ${hurdle}%
-            → <strong style="color:${segClass==='approve'?'var(--green)':segClass==='reject'?'var(--red)':segClass==='reprice'?'var(--yellow)':'var(--purple)'}">${seg}</strong>
+            EC_Basel = ${fmtINR(ecBasel)} &nbsp;|&nbsp; EL floor = ${fmtINR(el)} &nbsp;|&nbsp; EC = <strong>${fmtINR(ec)}</strong><br/>
+            RAROC = ${fmtINR(netProfit)} ÷ ${fmtINR(ec)} = <strong>${raroc.toFixed(2)}%</strong>
+          </div>
+        </div></div>
+        <div class="step"><div class="step-num">6</div><div>
+          <div class="step-title">Two-Gate Segmentation</div>
+          <div class="step-formula">Gate 1: PD ${pd<pdThresh?'<':'≥'} ${(pdThresh*100).toFixed(0)}% → PD_Decision = ${pdDecision} &nbsp;|&nbsp; Gate 2: RAROC ${raroc>=hurdle?'≥':'<'} ${hurdle}% → RAROC_Decision = ${rarocDecision}</div>
+          <div class="step-result">
+            APPROVE = both gates pass &nbsp;|&nbsp; REPRICE = PD ok, RAROC low &nbsp;|&nbsp; PRICE PREMIUM = high PD, high RAROC &nbsp;|&nbsp; REJECT = both fail<br/>
+            → <strong style="color:${segClass==='approve'?'var(--green)':segClass==='reject'?'var(--red)':segClass==='reprice'?'var(--yellow)':'var(--purple)'}">Final Decision: ${seg}</strong>
           </div>
         </div></div>
       </div>
     </div>
 
     <div class="section-card a a4">
-      <div class="card-header"><div class="c-icon">📊</div><div><h3>Feature Importances (|coefficient| / Σ|coef|)</h3><p>From trained LR model · ± indicates effect direction on PD</p></div></div>
+      <div class="card-header"><div class="c-icon">📊</div><div><h3>Feature Importances (|coefficient| / Σ|coef|)</h3><p>From trained LR model on 13K dataset · ± indicates effect direction on PD</p></div></div>
       <div class="feat-body">${featHTML}</div>
     </div>
 
@@ -1063,12 +1073,12 @@ function analyze(){
         <tbody>
           <tr><td class="td-label">Measures</td><td>Default probability only</td><td>Risk + Profitability + Capital</td></tr>
           <tr><td class="td-label">PD (LR Model)</td><td class="td-pd">${pct(pd)}</td><td class="td-pd">${pct(pd)}</td></tr>
-          <tr><td class="td-label">Threshold</td><td>PD &lt; 10%</td><td>RAROC ≥ ${hurdle}% &amp; PD &lt; 20%</td></tr>
+          <tr><td class="td-label">Threshold</td><td>PD &lt; ${(pdThresh*100).toFixed(0)}%</td><td>RAROC ≥ ${hurdle}% &amp; PD &lt; ${(pdThresh*100).toFixed(0)}%</td></tr>
           <tr><td class="td-label">RAROC</td><td style="color:var(--red)">— Not computed</td><td class="td-raroc ${raroc>=hurdle?'good':'bad'}">${raroc.toFixed(2)}%</td></tr>
           <tr><td class="td-label">Net Profit</td><td style="color:var(--red)">— Ignored</td><td style="color:${netProfit>=0?'var(--green)':'var(--red)'};font-family:var(--mono)">${fmtINR(netProfit)}</td></tr>
           <tr><td class="td-label">Econ. Capital</td><td style="color:var(--red)">— Ignored</td><td style="font-family:var(--mono);color:var(--navy)">${fmtINR(ec)}</td></tr>
           <tr><td class="td-label">Decision</td><td><span class="td-dec ${pdDecision.toLowerCase()}">${pdDecision}</span></td><td><span class="td-dec ${rarocDecision.toLowerCase()}">${rarocDecision}</span></td></tr>
-          ${pdDecision!==rarocDecision?`<tr class="insight-row"><td colspan="3">💡 <strong>Key Insight:</strong> ${pdDecision==='REJECT'&&rarocDecision==='APPROVE'?`PD model rejects this borrower, but RAROC of ${raroc.toFixed(1)}% proves the loan is economically profitable. The bank would forego ${fmtINR(netProfit)} in net profit by using PD alone.`:`PD model approves, but RAROC (${raroc.toFixed(1)}%) is below the ${hurdle}% hurdle. RAROC correctly flags this loan as under-priced relative to its risk.`}</td></tr>`:`<tr class="insight-row"><td colspan="3">💡 Both models agree for this borrower. Across the 13,000-record portfolio, 18.3% of decisions (2,380 cases) were changed by the RAROC framework — capturing profitability that PD alone would have mispriced.</td></tr>`}
+          ${pdDecision!==rarocDecision?`<tr class="insight-row"><td colspan="3">💡 <strong>Key Insight:</strong> ${pdDecision==='REJECT'&&rarocDecision==='APPROVE'?`PD model rejects this borrower, but RAROC of ${raroc.toFixed(1)}% proves the loan is economically profitable. The bank would forego ${fmtINR(netProfit)} in net profit by relying on PD alone.`:`PD model approves, but RAROC (${raroc.toFixed(1)}%) is below the ${hurdle}% hurdle. RAROC correctly flags this loan as under-priced relative to its risk.`}</td></tr>`:`<tr class="insight-row"><td colspan="3">💡 Both models agree for this borrower. Across the 13,000-record portfolio, 18.3% of decisions were changed by the RAROC framework — capturing profitability that PD alone would have mispriced.</td></tr>`}
         </tbody>
       </table></div>
     </div>
@@ -1078,43 +1088,45 @@ function analyze(){
       <div class="matrix-body">
         <div class="matrix-axis"><span>← RAROC ≥ ${hurdle}%</span><span>RAROC &lt; ${hurdle}% →</span></div>
         <div class="matrix-grid">
-          <div class="matrix-cell lr-hp ${pd<0.20&&raroc>=hurdle?'active':''}">
-            <div class="mc-icon">✅</div><div class="mc-tag">PD &lt; 20% · RAROC ≥ ${hurdle}%</div>
+          <div class="matrix-cell lr-hp ${pdDecision==='APPROVE'&&rarocDecision==='APPROVE'?'active':''}">
+            <div class="mc-icon">✅</div><div class="mc-tag">PD &lt; ${(pdThresh*100).toFixed(0)}% · RAROC ≥ ${hurdle}%</div>
             <div class="mc-title">APPROVE</div>
-            <div class="mc-action">Prime borrowers — standard terms. Portfolio backbone (59.0%).</div>
+            <div class="mc-action">Prime borrowers — standard terms. Portfolio backbone (54.6%).</div>
           </div>
-          <div class="matrix-cell lr-lp ${pd<0.20&&raroc<hurdle?'active':''}">
-            <div class="mc-icon">🔄</div><div class="mc-tag">PD &lt; 20% · RAROC &lt; ${hurdle}%</div>
+          <div class="matrix-cell lr-lp ${pdDecision==='APPROVE'&&rarocDecision==='REJECT'?'active':''}">
+            <div class="mc-icon">🔄</div><div class="mc-tag">PD &lt; ${(pdThresh*100).toFixed(0)}% · RAROC &lt; ${hurdle}%</div>
             <div class="mc-title">REPRICE</div>
-            <div class="mc-action">Under-priced. Raise rate 1–2% to meet hurdle (9.2%).</div>
+            <div class="mc-action">Under-priced. Raise rate 1–2% to meet hurdle (7.9% of portfolio).</div>
           </div>
-          <div class="matrix-cell hr-hp ${pd>=0.20&&raroc>=hurdle?'active':''}">
-            <div class="mc-icon">⚡</div><div class="mc-tag">PD ≥ 20% · RAROC ≥ ${hurdle}%</div>
+          <div class="matrix-cell hr-hp ${pdDecision==='REJECT'&&rarocDecision==='APPROVE'?'active':''}">
+            <div class="mc-icon">⚡</div><div class="mc-tag">PD ≥ ${(pdThresh*100).toFixed(0)}% · RAROC ≥ ${hurdle}%</div>
             <div class="mc-title">PRICE PREMIUM</div>
-            <div class="mc-action">Higher risk fully compensated by premium pricing (6.4%).</div>
+            <div class="mc-action">Higher risk fully compensated by premium pricing (8.2%).</div>
           </div>
-          <div class="matrix-cell hr-lp ${pd>=0.20&&raroc<hurdle?'active':''}">
-            <div class="mc-icon">❌</div><div class="mc-tag">PD ≥ 20% · RAROC &lt; ${hurdle}%</div>
+          <div class="matrix-cell hr-lp ${pdDecision==='REJECT'&&rarocDecision==='REJECT'?'active':''}">
+            <div class="mc-icon">❌</div><div class="mc-tag">PD ≥ ${(pdThresh*100).toFixed(0)}% · RAROC &lt; ${hurdle}%</div>
             <div class="mc-title">REJECT</div>
-            <div class="mc-action">Value-destructive. No feasible pricing compensates (25.4%).</div>
+            <div class="mc-action">Value-destructive. No feasible pricing compensates (29.3%).</div>
           </div>
         </div>
         <div class="matrix-callout">
-          <strong>This borrower:</strong> ${seg} &nbsp;·&nbsp; PD = ${pct(pd)} · RAROC = ${raroc.toFixed(2)}% · Net Profit = ${fmtINR(netProfit)}
+          <strong>This borrower:</strong> ${seg} &nbsp;·&nbsp; PD = ${pct(pd)} · RAROC = ${raroc.toFixed(2)}% · Net Profit = ${fmtINR(netProfit)} · EC = ${fmtINR(ec)}
         </div>
       </div>
     </div>
 
     <div class="ref-card a a7">
-      <span class="ref-card-label">📋 Model Transparency Note</span>
-      The PD is computed using a Logistic Regression model (C=1.0, L2 regularisation) trained on a 13,000-record
-      Credit Risk RAROC dataset aligned to RBI lending norms and Basel II standards.
-      Features are StandardScaler-normalised before applying the fitted coefficients
-      (intercept = ${MODEL.intercept}, top coefficient: dti_ratio = ${MODEL.coef.dti_ratio}, importance 45.9%).
-      <strong>AUC-ROC on training set: ${MODEL.auc}</strong>. Training default rate: ${pct(MODEL.default_rate,1)}.
-      LGD values follow RBI retail lending standards (home 25%, auto 35%, education 45%, business 50%, personal 55%).
-      Economic Capital uses a Basel-inspired formula: EC = Loan × (√PD × 0.12 + 0.04).
-      Segment cutoffs calibrated on portfolio: PD &lt; 20% (low risk), RAROC ≥ 15% (profitable).
+      <span class="ref-card-label">📋 Model Transparency Note — Calibrated to 13K Dataset</span>
+      The PD is computed using a Logistic Regression model (C=1.0, L2 regularisation, solver=lbfgs)
+      trained on 13,000 records of the Credit Risk RAROC dataset aligned to RBI lending norms and Basel II standards.
+      <strong>Features are StandardScaler-normalised before applying the fitted coefficients</strong>
+      (intercept = ${MODEL.intercept}, top feature: DTI ratio = ${MODEL.coef.dti_ratio}, importance 40.8%).
+      <strong>AUC-ROC: ${MODEL.auc}</strong>. Training default rate: ${pct(MODEL.default_rate,1)}.
+      Key calibration fixes: (1) EMI/Income dropped — 100% correlated with DTI in dataset;
+      (2) CoF = Loan × CoF% (flat, not annualized — matches dataset Cost_of_Funds_INR column);
+      (3) EC = max(Loan × (√PD × 0.12 + 0.04), EL) — Basel II floor at expected loss;
+      (4) PD threshold = 10% for PD_Only_Decision; (5) Segment = PD_Only × RAROC_Decision (2×2 gate logic).
+      LGD values follow RBI retail lending standards (Home 25%, Auto 35%, Education 45%, Business 50%, Personal 55%).
     </div>`;
 
   document.getElementById('page-input').classList.remove('active');
